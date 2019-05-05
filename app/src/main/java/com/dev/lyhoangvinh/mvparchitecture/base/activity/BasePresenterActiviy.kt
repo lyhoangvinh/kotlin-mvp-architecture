@@ -1,9 +1,8 @@
 package com.dev.lyhoangvinh.mvparchitecture.base.activity
 
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import com.dev.lyhoangvinh.mvparchitecture.base.BasePresenter
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.BaseView
+import com.dev.lyhoangvinh.mvparchitecture.base.presenter.BasePresenter
 import javax.inject.Inject
 
 abstract class BasePresenterActivity<V : BaseView, P : BasePresenter<V>> : BaseActivity() {
@@ -11,10 +10,12 @@ abstract class BasePresenterActivity<V : BaseView, P : BasePresenter<V>> : BaseA
     @Inject
     protected lateinit var presenter: P
 
-    @CallSuper
-    protected fun initialize() {
-        presenter.bindView(getViewLayer())
-        presenter.onCreate()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (presenter != null){
+            presenter.bindView(getViewLayer())
+            presenter.onCreate()
+        }
+        super.onCreate(savedInstanceState)
     }
 
     override fun onStart() {

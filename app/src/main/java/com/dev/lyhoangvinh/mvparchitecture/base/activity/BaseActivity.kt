@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.BaseView
+import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.UiRefreshable
 import com.dev.lyhoangvinh.mvparchitecture.di.component.ActivityComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.component.DaggerActivityComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.getAppComponent
@@ -57,17 +58,20 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     /**
      * @return true if this activity should postpone transition (in case of destination view is in viewpager)
      */
-    protected fun shouldPostponeTransition(): Boolean {
+    protected open fun shouldPostponeTransition(): Boolean {
         return false
     }
 
-    protected fun shouldRegisterEventBus(): Boolean {
+    protected open fun shouldRegisterEventBus(): Boolean {
         return false
     }
 
     abstract fun getLayoutResource(): Int
 
     override fun hideProgress() {
+        if (this is UiRefreshable) {
+            (this as UiRefreshable).doneRefresh()
+        }
 //        dialog?.let { if (it.isShowing) it.dismiss() }
         if (dialog != null && dialog!!.isShowing)
             dialog?.dismiss()

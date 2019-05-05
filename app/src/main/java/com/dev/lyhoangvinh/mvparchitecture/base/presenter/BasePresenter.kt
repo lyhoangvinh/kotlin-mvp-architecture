@@ -1,4 +1,4 @@
-package com.dev.lyhoangvinh.mvparchitecture.base
+package com.dev.lyhoangvinh.mvparchitecture.base.presenter
 
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context

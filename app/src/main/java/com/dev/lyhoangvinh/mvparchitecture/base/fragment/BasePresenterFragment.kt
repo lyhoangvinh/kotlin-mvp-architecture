@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.view.View
-import com.dev.lyhoangvinh.mvparchitecture.base.BasePresenter
+import com.dev.lyhoangvinh.mvparchitecture.base.presenter.BasePresenter
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.BaseView
 import javax.inject.Inject
 

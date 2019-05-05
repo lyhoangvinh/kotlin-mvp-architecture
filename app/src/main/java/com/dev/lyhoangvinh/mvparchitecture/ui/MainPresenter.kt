@@ -1,9 +1,9 @@
-package com.dev.lyhoangvinh.mvparchitecture
+package com.dev.lyhoangvinh.mvparchitecture.ui
 
 import android.arch.lifecycle.Observer
 import android.content.Context
-import com.dev.lyhoangvinh.mvparchitecture.base.BasePresenter
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.PlainConsumer
+import com.dev.lyhoangvinh.mvparchitecture.base.presenter.BaseListPresenter
 import com.dev.lyhoangvinh.mvparchitecture.database.DatabaseManager
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Comics
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
@@ -13,7 +13,27 @@ import javax.inject.Inject
 
 @PerActivity
 class MainPresenter @Inject constructor(@ActivityContext context: Context, private val databaseManager: DatabaseManager) :
-    BasePresenter<MainView>(context) {
+    BaseListPresenter<MainView>(context) {
+
+    override fun canLoadMore(): Boolean = false
+
+    override fun fetchData() {
+        if (mainAdapter == null) {
+            mainAdapter = MainAdapter(ArrayList())
+        }
+        databaseManager.comicsDao().liveData().observe(getLifeCircleOwner()!!, Observer {
+            getView()?.getDataSuccess(it!!)
+            mainAdapter?.updateNotes(it!!)
+        })
+    }
+
+    private var mainAdapter: MainAdapter? = null
+
+    fun getMainAdapter(): MainAdapter? {
+        if (mainAdapter == null)
+            mainAdapter = MainAdapter(ArrayList())
+        return mainAdapter
+    }
 
     fun insert() {
 //        getView()?.showProgress()
@@ -23,9 +43,7 @@ class MainPresenter @Inject constructor(@ActivityContext context: Context, priva
             databaseManager.comicsDao().insert(comics)
         }
 
-        databaseManager.comicsDao().liveData().observe(getLifeCircleOwner()!!, Observer {
-            getView()?.getDataSuccess(it!!)
-        })
+
 
         getView()?.getDataSuccess(emptyList())
 

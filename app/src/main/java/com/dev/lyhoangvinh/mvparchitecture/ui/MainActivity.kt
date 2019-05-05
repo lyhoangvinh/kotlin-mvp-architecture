@@ -1,25 +1,24 @@
-package com.dev.lyhoangvinh.mvparchitecture
+package com.dev.lyhoangvinh.mvparchitecture.ui
 
 import android.os.Bundle
 import android.widget.Toast
-import com.dev.lyhoangvinh.mvparchitecture.base.activity.BasePresenterActivity
+import com.dev.lyhoangvinh.mvparchitecture.R
+import com.dev.lyhoangvinh.mvparchitecture.base.activity.BaseSwipeRecyclerViewActivity
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Comics
-import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 
-class MainActivity : BasePresenterActivity<MainView, MainPresenter>(), MainView {
+class MainActivity : BaseSwipeRecyclerViewActivity<MainAdapter, MainView, MainPresenter>(),
+    MainView {
 
-    @Inject
-    lateinit var navigatorHelper: NavigatorHelper
+    override fun createAdapter(): MainAdapter = presenter.getMainAdapter()!!
 
     override fun getLayoutResource() = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         activityComponent()?.inject(this)
-        initialize()
-        tvHL.setOnClickListener { presenter.insert() }
+        super.onCreate(savedInstanceState)
+        refreshWithUi(300L)
+        btnInsert.setOnClickListener { presenter.insert() }
     }
 
     override fun getDataSuccess(list: List<Comics>) {
