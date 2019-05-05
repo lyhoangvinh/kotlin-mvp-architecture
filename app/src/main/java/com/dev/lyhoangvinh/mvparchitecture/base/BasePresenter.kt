@@ -7,7 +7,6 @@ import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.Lifecycle
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.Refreshable
-import com.dev.lyhoangvinh.mvparchitecture.database.DatabaseManager
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,8 +14,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 abstract class BasePresenter<V : BaseView> internal constructor(
-    @ActivityContext var context: Context,
-    val databaseManager: DatabaseManager
+    @ActivityContext var context: Context
 ) : Lifecycle, Refreshable {
     private var view: V? = null
 

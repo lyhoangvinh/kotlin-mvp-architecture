@@ -12,8 +12,8 @@ import lyhoangvinh.com.myutil.thread.BackgroundThreadExecutor
 import javax.inject.Inject
 
 @PerActivity
-class MainPresenter @Inject constructor(@ActivityContext context: Context, databaseManager: DatabaseManager) :
-    BasePresenter<MainView>(context, databaseManager) {
+class MainPresenter @Inject constructor(@ActivityContext context: Context, private val databaseManager: DatabaseManager) :
+    BasePresenter<MainView>(context) {
 
     fun insert() {
 //        getView()?.showProgress()
@@ -23,16 +23,9 @@ class MainPresenter @Inject constructor(@ActivityContext context: Context, datab
             databaseManager.comicsDao().insert(comics)
         }
 
-
-        getLifeCircleOwner()?.let {
-            databaseManager.comicsDao().liveData().observe(it, Observer {
-                it?.let { it1 ->
-                    getView()?.getDataSuccess(it1)
-//                                getView()?.hideProgress()
-
-                }
-            })
-        }
+        databaseManager.comicsDao().liveData().observe(getLifeCircleOwner()!!, Observer {
+            getView()?.getDataSuccess(it!!)
+        })
 
         getView()?.getDataSuccess(emptyList())
 
