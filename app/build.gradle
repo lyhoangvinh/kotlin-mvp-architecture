@@ -17,12 +17,24 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
+        debug {
+            buildConfigField("String", "ENDPOINT", "\"http://api.comicvine.com\"")
+            buildConfigField("String", "HEADER_AUTH", "\"Authorization\"")
+            buildConfigField "boolean", "ENABLE_LOGCAT", "true"
+            buildConfigField("String", "API_KEY", "\"8c7bd28c573cebf75e30f9ecc109845810cf5024\"")
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "ENDPOINT", "\"http://api.comicvine.com\"")
+            buildConfigField "boolean", "ENABLE_LOGCAT", "false"
+            buildConfigField("String", "HEADER_AUTH", "\"Authorization\"")
+            buildConfigField("String", "API_KEY", "\"8c7bd28c573cebf75e30f9ecc109845810cf5024\"")
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

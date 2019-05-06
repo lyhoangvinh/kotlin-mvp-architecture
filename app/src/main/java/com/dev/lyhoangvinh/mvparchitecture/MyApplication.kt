@@ -6,6 +6,7 @@ import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.component.DaggerAppComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.module.AppModule
 import com.dev.lyhoangvinh.mvparchitecture.di.module.DataModule
+import com.dev.lyhoangvinh.mvparchitecture.di.module.NetworkModule
 
 class MyApplication : Application() {
 
@@ -27,6 +28,7 @@ class MyApplication : Application() {
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .dataModule(DataModule(this))
+            .networkModule(NetworkModule(this))
             .build()
         appComponent?.inject(this)
     }

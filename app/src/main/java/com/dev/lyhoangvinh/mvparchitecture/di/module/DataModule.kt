@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.persistence.room.Room
 import com.dev.lyhoangvinh.mvparchitecture.database.DatabaseManager
 import com.dev.lyhoangvinh.mvparchitecture.database.dao.ComicsDao
+import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -26,4 +27,9 @@ class DataModule(private var context: Application) {
         return databaseManager.comicsDao()
     }
 
+    @Provides
+    @Singleton
+    fun provideIssuesDao(databaseManager: DatabaseManager): IssuesDao {
+        return databaseManager.issuesDao()
+    }
 }

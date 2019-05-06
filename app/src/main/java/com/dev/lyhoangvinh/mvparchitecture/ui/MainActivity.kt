@@ -9,6 +9,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseSwipeRecyclerViewActivity<MainAdapter, MainView, MainPresenter>(),
     MainView {
+    override fun size(size: Int) {
+        Toast.makeText(this, "SIZE : " + size, Toast.LENGTH_LONG).show()
+    }
 
     override fun createAdapter(): MainAdapter = presenter.getMainAdapter()!!
 
@@ -20,13 +23,14 @@ class MainActivity : BaseSwipeRecyclerViewActivity<MainAdapter, MainView, MainPr
         refreshWithUi(300L)
         btnInsert.setOnClickListener { presenter.insert() }
     }
-
-    override fun getDataSuccess(list: List<Comics>) {
-        var size = 0
-        if (list != null) {
-            size = list.size
-        }
-        Toast.makeText(this, "SIZE : " + size, Toast.LENGTH_LONG).show()
-    }
+//
+//    override fun getDataSuccess(list: List<Comics>) {
+//        var size = 0
+//        if (list != null) {
+//            size = list.size
+//        }
+//        Toast.makeText(this, "SIZE : " + size, Toast.LENGTH_LONG).show()
+//        hideProgress()
+//    }
 
 }

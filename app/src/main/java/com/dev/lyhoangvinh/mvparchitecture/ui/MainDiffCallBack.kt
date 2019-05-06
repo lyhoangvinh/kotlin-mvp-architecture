@@ -2,8 +2,9 @@ package com.dev.lyhoangvinh.mvparchitecture.ui
 
 import android.support.v7.util.DiffUtil
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Comics
+import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Issues
 
-class MainDiffCallBack(private val current: List<Comics>, private val next: List<Comics>) : DiffUtil.Callback() {
+class MainDiffCallBack(private val current: List<Issues>, private val next: List<Issues>) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
         return current.size

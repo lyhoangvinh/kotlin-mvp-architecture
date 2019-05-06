@@ -3,15 +3,23 @@ package com.dev.lyhoangvinh.mvparchitecture.base.presenter
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.Lifecycle
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.Refreshable
+import com.dev.lyhoangvinh.mvparchitecture.di.makeRequestSingle
+import com.dev.lyhoangvinh.mvparchitecture.di.makeService
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Response
+import javax.annotation.Resource
 
 abstract class BasePresenter<V : BaseView> internal constructor(
     @ActivityContext var context: Context
@@ -20,46 +28,11 @@ abstract class BasePresenter<V : BaseView> internal constructor(
 
     private var mCompositeDisposable: CompositeDisposable? = null
 
-    private fun <T> addRequestSingle(
-        request: Single<T>, showProgress: Boolean,
-        forceResponseWithoutCheckNullView: Boolean,
+    protected fun <T> execute(
+        showProgress: Boolean, request: Single<Response<T>>,
         responseConsumer: PlainConsumer<T>?
     ) {
-        val shouldUpdateUI = showProgress || responseConsumer != null
-
-        if (showProgress) {
-            getView()?.showProgress()
-        }
-
-        var single = request.subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
-        if (shouldUpdateUI) {
-            single = single.observeOn(AndroidSchedulers.mainThread())
-        }
-
-        val disposable = single.subscribe({ t ->
-            if (responseConsumer != null && (forceResponseWithoutCheckNullView && getView() != null)) {
-                responseConsumer.accept(t)
-            }
-            if (showProgress) {
-                getView()?.hideProgress()
-            }
-        }, {
-            if (showProgress) {
-                getView()?.hideProgress()
-            }
-        })
-
-        if (mCompositeDisposable == null) {
-            mCompositeDisposable = CompositeDisposable()
-        }
-        mCompositeDisposable?.add(disposable)
-    }
-
-    protected fun <T> addRequestSingle(
-        showProgress: Boolean, request: Single<T>,
-        responseConsumer: PlainConsumer<T>?
-    ) {
-        addRequestSingle(request, showProgress, showProgress, responseConsumer)
+        execute(request, showProgress, true, responseConsumer)
     }
 
 
@@ -99,5 +72,57 @@ abstract class BasePresenter<V : BaseView> internal constructor(
 
     override fun refresh() {
 
+    }
+
+    private fun <T> execute(
+        request: Single<Response<T>>, showProgress: Boolean,
+        forceResponseWithoutCheckNullView: Boolean,
+        responseConsumer: PlainConsumer<T>?
+    ) {
+        val shouldUpdateUI = showProgress || responseConsumer != null
+
+        if (showProgress) {
+            getView()?.showProgress()
+        }
+
+        val disposable = makeRequestSingle(request, shouldUpdateUI, responseConsumer = object
+            : PlainConsumer<T> {
+            override fun accept(t: T) {
+                if ((forceResponseWithoutCheckNullView || view != null) && responseConsumer != null) {
+                    responseConsumer.accept(t)
+                }
+            }
+
+        }, onComplete = Action {
+            getView()?.hideProgress()
+        })
+
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = CompositeDisposable()
+        }
+        mCompositeDisposable?.add(disposable)
+    }
+
+    /**
+     * add a request with [Resource] flowable created by
+     * [com.duyp.architecture.mvp.base.data.BaseRepo.createResource]
+     * @param showProgress
+     * @param resourceFlowable
+     * @param response
+     * @param <T>
+    </T> */
+    fun <T> execute(resourceFlowable: Flowable<Response<T>>, response: PlainConsumer<T>?) {
+        val disposable = resourceFlowable.observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.newThread())
+            .subscribe { resource ->
+                if (resource.isSuccessful && getView() != null) {
+                    Log.d("source", "addRequest: resource changed: " + resource.toString())
+                    resource.body()?.let { response?.accept(it) }
+                }
+            }
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = CompositeDisposable()
+        }
+        mCompositeDisposable?.add(disposable)
     }
 }
