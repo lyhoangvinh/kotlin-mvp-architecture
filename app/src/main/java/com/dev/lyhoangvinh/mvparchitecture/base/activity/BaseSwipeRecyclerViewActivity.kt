@@ -45,7 +45,7 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
      * @return true if our adapter has no data
      */
     fun isDataEmpty(): Boolean {
-        return adapter != null && adapter is ListData && (adapter as ListData).isDataEmpty
+        return adapter != null && adapter is ListData && (adapter as ListData).isDataEmpty()
     }
 
     // footer for load more state
