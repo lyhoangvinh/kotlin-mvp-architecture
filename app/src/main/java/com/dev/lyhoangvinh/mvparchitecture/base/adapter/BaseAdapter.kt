@@ -4,8 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.ListData
 
-abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val data: ArrayList<T>) : RecyclerView.Adapter<VH>() {
+abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val data: ArrayList<T>) :
+    RecyclerView.Adapter<VH>(), ListData {
 
     abstract val itemLayoutResource: Int
 
@@ -40,4 +42,6 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val data: Ar
     fun getData(): ArrayList<T> {
         return data
     }
+
+    override fun isDataEmpty(): Boolean = data.size == 0
 }

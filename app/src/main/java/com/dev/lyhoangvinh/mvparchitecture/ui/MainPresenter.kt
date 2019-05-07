@@ -6,7 +6,7 @@ import com.dev.lyhoangvinh.mvparchitecture.BuildConfig
 import com.dev.lyhoangvinh.mvparchitecture.base.api.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.base.presenter.BaseListPresenter
-import com.dev.lyhoangvinh.mvparchitecture.database.DatabaseManager
+import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Issues
 import com.dev.lyhoangvinh.mvparchitecture.database.response.BaseResponse
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @PerActivity
 class MainPresenter @Inject constructor(
     @ActivityContext context: Context,
-    private val comicVineService: ComicVineService, private val databaseManager: DatabaseManager
+    private val comicVineService: ComicVineService, private val issuesDao: IssuesDao
 ) :
     BaseListPresenter<MainView>(context) {
 
@@ -27,7 +27,7 @@ class MainPresenter @Inject constructor(
         if (mainAdapter == null) {
             mainAdapter = MainAdapter(ArrayList())
         }
-        databaseManager.issuesDao().liveData().observe(getLifeCircleOwner()!!, Observer {
+        issuesDao.liveData().observe(getLifeCircleOwner()!!, Observer {
             mainAdapter?.updateNotes(it!!)
             getView()?.size(it!!.size)
             getView()?.hideProgress()
@@ -57,7 +57,7 @@ class MainPresenter @Inject constructor(
     }
 
     fun upsert(entities: List<Issues>) {
-        databaseManager.issuesDao().insert2(entities)
-        databaseManager.issuesDao().update2(entities)
+        issuesDao.insert2(entities)
+        issuesDao.update2(entities)
     }
 }

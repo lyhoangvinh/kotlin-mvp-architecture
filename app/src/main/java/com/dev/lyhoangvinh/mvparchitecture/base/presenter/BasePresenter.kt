@@ -9,13 +9,11 @@ import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.Lifecycle
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.Refreshable
 import com.dev.lyhoangvinh.mvparchitecture.di.makeRequestSingle
-import com.dev.lyhoangvinh.mvparchitecture.di.makeService
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -105,7 +103,6 @@ abstract class BasePresenter<V : BaseView> internal constructor(
 
     /**
      * add a request with [Resource] flowable created by
-     * [com.duyp.architecture.mvp.base.data.BaseRepo.createResource]
      * @param showProgress
      * @param resourceFlowable
      * @param response
