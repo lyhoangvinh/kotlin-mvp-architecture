@@ -1,4 +1,4 @@
-package com.dev.lyhoangvinh.mvparchitecture.ui
+package com.dev.lyhoangvinh.mvparchitecture.ui.main
 
 import android.arch.lifecycle.Observer
 import android.content.Context

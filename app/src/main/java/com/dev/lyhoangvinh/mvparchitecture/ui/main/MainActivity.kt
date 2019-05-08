@@ -1,10 +1,9 @@
-package com.dev.lyhoangvinh.mvparchitecture.ui
+package com.dev.lyhoangvinh.mvparchitecture.ui.main
 
 import android.os.Bundle
 import android.widget.Toast
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.base.activity.BaseSwipeRecyclerViewActivity
-import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Comics
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseSwipeRecyclerViewActivity<MainAdapter, MainView, MainPresenter>(),

@@ -1,6 +1,6 @@
 package com.dev.lyhoangvinh.mvparchitecture.utils
 
-import com.dev.lyhoangvinh.mvparchitecture.ui.MainActivity
+import com.dev.lyhoangvinh.mvparchitecture.ui.main.MainActivity
 import lyhoangvinh.com.myutil.navigation.ActivityNavigator
 import lyhoangvinh.com.myutil.navigation.FragmentNavigator
 import lyhoangvinh.com.myutil.navigation.Navigator

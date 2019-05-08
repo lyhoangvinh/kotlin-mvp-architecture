@@ -1,4 +1,4 @@
-package com.dev.lyhoangvinh.mvparchitecture.ui
+package com.dev.lyhoangvinh.mvparchitecture.ui.main
 
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Comics

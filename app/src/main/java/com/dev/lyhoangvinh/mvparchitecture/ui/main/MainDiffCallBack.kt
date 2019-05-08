@@ -1,4 +1,4 @@
-package com.dev.lyhoangvinh.mvparchitecture.ui
+package com.dev.lyhoangvinh.mvparchitecture.ui.main
 
 import android.support.v7.util.DiffUtil
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Comics
