@@ -17,7 +17,7 @@ class FeatureAdapter : BaseItemAdapter() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        var item = getItemAt(position)
+        val item = getItemAt(position)
 
         if (item is TextItem)
             return ITEM_TEXT
