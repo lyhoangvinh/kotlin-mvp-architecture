@@ -7,7 +7,7 @@ import android.arch.persistence.room.Query
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Issues
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Update
-
+import retrofit2.http.DELETE
 
 
 @Dao
@@ -24,4 +24,6 @@ interface IssuesDao : BaseDao<Issues> {
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateIgnore(entities: List<Issues>)
 
+    @Query("DELETE FROM Issues")
+    fun removeAll()
 }

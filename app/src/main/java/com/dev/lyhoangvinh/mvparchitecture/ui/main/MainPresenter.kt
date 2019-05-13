@@ -52,7 +52,7 @@ class MainPresenter @Inject constructor(
 
     fun insert(page: Int) {
         execute(true, comicVineService.getIssues2(
-            100, page, BuildConfig.API_KEY,
+            50, page, BuildConfig.API_KEY,
             "json",
             "cover_date: desc"
         ), object : PlainConsumer<BaseResponse<Issues>> {

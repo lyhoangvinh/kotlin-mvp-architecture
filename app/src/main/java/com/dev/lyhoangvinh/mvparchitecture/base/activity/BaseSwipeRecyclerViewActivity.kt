@@ -3,9 +3,7 @@ package com.dev.lyhoangvinh.mvparchitecture.base.activity
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.*
 import android.view.View
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.BaseView
@@ -26,6 +24,8 @@ import com.dev.lyhoangvinh.mvparchitecture.base.presenter.BasePresenter
 
 abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : BaseView, P : BasePresenter<V>> :
     BaseSwipeToRefreshActivity<V, P>(), SwipeRefreshLayout.OnRefreshListener, LoadMoreable {
+
+    private var mVisibleThreshold: Int = 5
 
     var recyclerView: RecyclerView? = null
 
@@ -88,7 +88,7 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
 
     @CallSuper
     protected fun initRecyclerView() {
-        if(recyclerView == null){
+        if (recyclerView == null) {
             recyclerView = findViewById(R.id.rcv)
         }
         layoutManager = createLayoutManager()
@@ -104,14 +104,28 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val visibleItemCount = layoutManager!!.childCount
+                // dy < 0 mean scrolling up
+                if (dy < 0) return
+
                 val totalItemCount = layoutManager!!.itemCount
-                if (layoutManager is LinearLayoutManager) {
+
+                var lastVisibleItemPosition = 0
+                if (layoutManager is StaggeredGridLayoutManager) {
+                    val lastVisibleItemPositions =
+                        (layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
+                    lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
+                    mVisibleThreshold *= (layoutManager as StaggeredGridLayoutManager).spanCount
+                } else if (layoutManager is GridLayoutManager) {
+                    mVisibleThreshold *= (layoutManager as GridLayoutManager).spanCount
+                    lastVisibleItemPosition = (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+                } else if (layoutManager is LinearLayoutManager) {
+                    lastVisibleItemPosition = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val visibleItemCount = layoutManager!!.childCount
                     val pastVisibleItems = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
                     updateScrollTop(visibleItemCount, pastVisibleItems)
                 }
 
-                if (!isRefresh && visibleItemCount + getPastVisibleItems() >= totalItemCount) {
+                if (lastVisibleItemPosition + mVisibleThreshold > totalItemCount) {
                     loadMore()
                 }
             }
@@ -119,6 +133,18 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
         adapter = createAdapter()
         //        recyclerView.getRecycledViewPool().clear();
         recyclerView?.adapter = adapter
+    }
+
+    private fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
+        var maxSize = 0
+        for (i in lastVisibleItemPositions.indices) {
+            if (i == 0) {
+                maxSize = lastVisibleItemPositions[i]
+            } else if (lastVisibleItemPositions[i] > maxSize) {
+                maxSize = lastVisibleItemPositions[i]
+            }
+        }
+        return maxSize
     }
 
     private fun createLayoutManager(): RecyclerView.LayoutManager {
