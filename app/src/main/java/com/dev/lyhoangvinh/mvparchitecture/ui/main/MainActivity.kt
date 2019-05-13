@@ -14,22 +14,10 @@ class MainActivity : BaseSwipeRecyclerViewActivity<MainAdapter, MainView, MainPr
 
     override fun createAdapter(): MainAdapter = presenter.getMainAdapter()!!
 
-    override fun getLayoutResource() = R.layout.activity_main
-
     override fun onCreate(savedInstanceState: Bundle?) {
         activityComponent()?.inject(this)
         super.onCreate(savedInstanceState)
         refreshWithUi(300L)
-        btnInsert.setOnClickListener { presenter.insert() }
+        presenter.observe()
     }
-//
-//    override fun getDataSuccess(list: List<Comics>) {
-//        var size = 0
-//        if (list != null) {
-//            size = list.size
-//        }
-//        Toast.makeText(this, "SIZE : " + size, Toast.LENGTH_LONG).show()
-//        hideProgress()
-//    }
-
 }

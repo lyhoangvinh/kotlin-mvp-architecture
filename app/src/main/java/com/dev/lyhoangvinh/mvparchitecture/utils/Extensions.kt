@@ -1,4 +1,4 @@
-package com.dev.lyhoangvinh.mvparchitecture.di
+package com.dev.lyhoangvinh.mvparchitecture.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -61,6 +61,7 @@ fun ImageView.loadImage(url: String) {
         .load(url)
         .placeholder(R.drawable.ic_placeholder_rectangle_200px)
         .error(R.drawable.ic_placeholder_rectangle_200px)
+        .centerCrop()
         .fit()
         .into(this)
 }
@@ -196,4 +197,46 @@ class DateDeserializer : JsonDeserializer<Date> {
         }
 
     }
+}
+
+fun getAppDateFormatter(createdDate: String): String? {
+    var out: String? = null
+    var date_formatter: Date? = null
+    if (!TextUtils.isEmpty(createdDate)) {
+        date_formatter = parseToDate(createdDate)
+    }
+    if (date_formatter != null) {
+        out = formatToDate(date_formatter)
+    }
+    if (TextUtils.isEmpty(out)) {
+        out = createdDate
+    }
+    return out
+}
+
+fun formatToDate(date: Date): String {
+    var result = ""
+    try {
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        result = sdf.format(date)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return result
+}
+
+fun parseToDate(date: String?): Date? {
+    var d: Date? = null
+    if (!TextUtils.isEmpty(date)) {
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        //sdf.setTimeZone(...);
+        try {
+            d = sdf.parse(date)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+    }
+    return d
 }

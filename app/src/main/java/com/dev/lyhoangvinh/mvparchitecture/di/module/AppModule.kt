@@ -2,7 +2,7 @@ package com.dev.lyhoangvinh.mvparchitecture.di.module
 
 import android.app.Application
 import android.content.Context
-import com.dev.lyhoangvinh.mvparchitecture.di.DateDeserializer
+import com.dev.lyhoangvinh.mvparchitecture.utils.DateDeserializer
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ApplicationContext
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson

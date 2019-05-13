@@ -21,17 +21,14 @@ class MainPresenter @Inject constructor(
 ) :
     BaseListPresenter<MainView>(context) {
 
-    override fun canLoadMore(): Boolean = false
+    private var offset = 0
+
+    private var canLoadMore = false
+
+    override fun canLoadMore(): Boolean = canLoadMore
 
     override fun fetchData() {
-        if (mainAdapter == null) {
-            mainAdapter = MainAdapter(ArrayList())
-        }
-        issuesDao.liveData().observe(getLifeCircleOwner()!!, Observer {
-            mainAdapter?.updateNotes(it!!)
-            getView()?.size(it!!.size)
-            getView()?.hideProgress()
-        })
+        insert(offset)
     }
 
     private var mainAdapter: MainAdapter? = null
@@ -42,22 +39,39 @@ class MainPresenter @Inject constructor(
         return mainAdapter
     }
 
-    fun insert() {
+    fun observe() {
+        if (mainAdapter == null) {
+            mainAdapter = MainAdapter(ArrayList())
+        }
+        issuesDao.liveData().observe(getLifeCircleOwner()!!, Observer {
+            mainAdapter?.updateNotes(it!!)
+            getView()?.size(it!!.size)
+            getView()?.hideProgress()
+        })
+    }
+
+    fun insert(page: Int) {
         execute(true, comicVineService.getIssues2(
-            100, 0, BuildConfig.API_KEY, "json",
+            100, page, BuildConfig.API_KEY,
+            "json",
             "cover_date: desc"
-        ), responseConsumer = object :
-            PlainConsumer<BaseResponse<Issues>> {
+        ), object : PlainConsumer<BaseResponse<Issues>> {
             override fun accept(t: BaseResponse<Issues>) {
-                BackgroundThreadExecutor.getInstance().runOnBackground {
-                    upsert(t.results)
+                if (t.results.isNotEmpty()) {
+                    canLoadMore = true
+                    BackgroundThreadExecutor.getInstance().runOnBackground {
+                        offset = page + 1
+                        upsert(t.results)
+                    }
+                } else {
+                    canLoadMore = false
                 }
             }
         })
     }
 
     fun upsert(entities: List<Issues>) {
-        issuesDao.insert2(entities)
-        issuesDao.update2(entities)
+        issuesDao.insertIgnore(entities)
+        issuesDao.updateIgnore(entities)
     }
 }

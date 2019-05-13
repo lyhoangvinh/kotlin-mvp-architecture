@@ -7,11 +7,5 @@
         android:orientation="vertical"
         tools:context=".ui.main.MainActivity">
 
-    <Button
-            android:id="@+id/btnInsert"
-            android:text="Insert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
     <include layout="@layout/swipe_recycler_view"/>
 </LinearLayout>

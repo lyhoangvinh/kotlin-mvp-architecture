@@ -13,7 +13,7 @@ import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.di.component.DaggerFragmentComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.component.FragmentComponent
-import com.dev.lyhoangvinh.mvparchitecture.di.getAppComponent
+import com.dev.lyhoangvinh.mvparchitecture.utils.getAppComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.module.FragmentModule
 import org.greenrobot.eventbus.EventBus
 

@@ -19,9 +19,9 @@ interface IssuesDao : BaseDao<Issues> {
     fun inserts(list: List<Issues>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert2(entities: List<Issues>)
+    fun insertIgnore(entities: List<Issues>)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
-    fun update2(entities: List<Issues>)
+    fun updateIgnore(entities: List<Issues>)
 
 }

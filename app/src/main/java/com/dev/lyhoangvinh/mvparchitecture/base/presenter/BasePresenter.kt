@@ -8,7 +8,7 @@ import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.Lifecycle
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.Refreshable
-import com.dev.lyhoangvinh.mvparchitecture.di.makeRequestSingle
+import com.dev.lyhoangvinh.mvparchitecture.utils.makeRequestSingle
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -83,17 +83,21 @@ abstract class BasePresenter<V : BaseView> internal constructor(
             getView()?.showProgress()
         }
 
-        val disposable = makeRequestSingle(request, shouldUpdateUI, responseConsumer = object
-            : PlainConsumer<T> {
-            override fun accept(t: T) {
-                if ((forceResponseWithoutCheckNullView || view != null) && responseConsumer != null) {
-                    responseConsumer.accept(t)
+        val disposable = makeRequestSingle(
+            request,
+            shouldUpdateUI,
+            responseConsumer = object
+                : PlainConsumer<T> {
+                override fun accept(t: T) {
+                    if ((forceResponseWithoutCheckNullView || view != null) && responseConsumer != null) {
+                        responseConsumer.accept(t)
+                    }
                 }
-            }
 
-        }, onComplete = Action {
-            getView()?.hideProgress()
-        })
+            },
+            onComplete = Action {
+                getView()?.hideProgress()
+            })
 
         if (mCompositeDisposable == null) {
             mCompositeDisposable = CompositeDisposable()
