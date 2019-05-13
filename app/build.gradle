@@ -89,6 +89,9 @@ dependencies {
     // GreenRobot
     implementation "org.greenrobot:eventbus:$rootProject.ext.eventbusVersion"
 
+    //picasso
+    implementation "com.squareup.picasso:picasso:$rootProject.ext.picassoVersion"
+
     //my util
-    implementation 'com.github.lyhoangvinh:myutil:2'
+    implementation "com.github.lyhoangvinh:myutil:$rootProject.ext.myutilVersion"
 }

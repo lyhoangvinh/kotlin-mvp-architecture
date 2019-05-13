@@ -8,10 +8,11 @@ import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Comics
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Issues
 import com.dev.lyhoangvinh.mvparchitecture.database.typecoverter.ImageTypeConverter
+import com.dev.lyhoangvinh.mvparchitecture.database.typecoverter.VolumeTypeConverter
 
 
 @Database(entities = [Comics::class, Issues::class], version = 1, exportSchema = false)
-@TypeConverters(ImageTypeConverter::class)
+@TypeConverters(ImageTypeConverter::class, VolumeTypeConverter::class)
 abstract class DatabaseManager : RoomDatabase() {
 
     abstract fun comicsDao(): ComicsDao

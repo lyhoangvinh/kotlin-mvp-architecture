@@ -11,11 +11,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.dev.lyhoangvinh.mvparchitecture.BuildConfig
 import com.dev.lyhoangvinh.mvparchitecture.MyApplication
+import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.google.gson.*
+import com.squareup.picasso.Picasso
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -53,6 +56,14 @@ fun ViewGroup.inflate(@LayoutRes layout: Int, attachToRoot: Boolean = false): Vi
     return LayoutInflater.from(context).inflate(layout, this, attachToRoot)
 }
 
+fun ImageView.loadImage(url: String) {
+    Picasso.get()
+        .load(url)
+        .placeholder(R.drawable.ic_placeholder_rectangle_200px)
+        .error(R.drawable.ic_placeholder_rectangle_200px)
+        .fit()
+        .into(this)
+}
 
 fun <T> makeService(serviceClass: Class<T>, gson: Gson, okHttpClient: OkHttpClient): T {
     val retrofit = Retrofit.Builder()

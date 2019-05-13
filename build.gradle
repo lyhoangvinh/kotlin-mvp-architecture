@@ -58,6 +58,10 @@ ext {
     okhttpVersion = '3.10.0'
     okhttpLoggingInterceptorVersion = '3.9.1'
 
+    picassoVersion = '2.71828'
+
+    myutilVersion = '2'
+
     //Test dependencies
     junitVersion = '4.12'
     runnerVersion = '1.0.2'
