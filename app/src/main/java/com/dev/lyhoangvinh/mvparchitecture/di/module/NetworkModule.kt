@@ -1,7 +1,7 @@
 package com.dev.lyhoangvinh.mvparchitecture.di.module
 
 import android.app.Application
-import com.dev.lyhoangvinh.mvparchitecture.base.api.ComicVineService
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.api.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.utils.makeOkHttpClientBuilder
 import com.dev.lyhoangvinh.mvparchitecture.utils.makeService
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.OkHttpNoAuth

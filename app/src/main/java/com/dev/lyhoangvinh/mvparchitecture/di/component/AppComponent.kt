@@ -2,8 +2,9 @@ package com.dev.lyhoangvinh.mvparchitecture.di.component
 
 import android.content.Context
 import com.dev.lyhoangvinh.mvparchitecture.MyApplication
-import com.dev.lyhoangvinh.mvparchitecture.base.api.ComicVineService
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.api.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.database.DatabaseManager
+import com.dev.lyhoangvinh.mvparchitecture.database.SharedPrefs
 import com.dev.lyhoangvinh.mvparchitecture.database.dao.ComicsDao
 import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
 import com.dev.lyhoangvinh.mvparchitecture.di.module.AppModule
@@ -26,6 +27,8 @@ interface AppComponent {
     fun getDataBaseManager(): DatabaseManager
 
     fun getComicVineService(): ComicVineService
+
+    fun getSharedPrefs(): SharedPrefs
 
     fun comicsDao(): ComicsDao
 

@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager
 import com.dev.lyhoangvinh.mvparchitecture.di.module.ActivityModule
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityFragmentManager
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerActivity
-import com.dev.lyhoangvinh.mvparchitecture.ui.main.MainActivity
-import com.dev.lyhoangvinh.mvparchitecture.ui.testfeature.FeatureActivity
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.main.MainActivity
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.testfeature.FeatureActivity
 import dagger.Component
 
 @PerActivity

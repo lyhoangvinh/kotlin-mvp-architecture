@@ -15,7 +15,7 @@ import android.widget.ImageView
 import com.dev.lyhoangvinh.mvparchitecture.BuildConfig
 import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.R
-import com.dev.lyhoangvinh.mvparchitecture.base.interfaces.PlainConsumer
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.google.gson.*
 import com.squareup.picasso.Picasso

@@ -5,7 +5,7 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
-import com.dev.lyhoangvinh.mvparchitecture.base.fragment.BaseFragment
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseFragment
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityFragmentManager
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ChildFragmentManager
