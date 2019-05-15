@@ -11,7 +11,7 @@ abstract class BasePresenterActivity<V : BaseView, P : BasePresenter<V>> : BaseA
     protected lateinit var presenter: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (presenter != null){
+        if (presenter != null) {
             presenter.bindView(getViewLayer())
             presenter.onCreate()
         }

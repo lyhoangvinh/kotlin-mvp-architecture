@@ -173,7 +173,7 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
 
     /**
      * Called after refreshing success, for both case of success or fail
-     * Should be called after [BaseFragment.hideProgress]
+     * Should be called after [BaseActivity.hideProgress]
      */
     @CallSuper
     override fun doneRefresh() {

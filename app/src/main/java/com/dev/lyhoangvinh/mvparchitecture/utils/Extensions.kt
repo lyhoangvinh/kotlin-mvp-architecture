@@ -143,7 +143,7 @@ fun enableTls12OnPreLollipop(client: OkHttpClient.Builder): OkHttpClient.Builder
     return client
 }
 
-fun <T> makeRequestSingle(
+fun <T> makeRequest(
     request: Single<Response<T>>,
     shouldUpdateUi: Boolean,
     responseConsumer: PlainConsumer<T>,

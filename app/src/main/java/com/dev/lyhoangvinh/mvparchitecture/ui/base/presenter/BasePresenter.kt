@@ -8,7 +8,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Lifecycle
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Refreshable
-import com.dev.lyhoangvinh.mvparchitecture.utils.makeRequestSingle
+import com.dev.lyhoangvinh.mvparchitecture.utils.makeRequest
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -83,7 +83,7 @@ abstract class BasePresenter<V : BaseView> internal constructor(
             getView()?.showProgress()
         }
 
-        val disposable = makeRequestSingle(
+        val disposable = makeRequest(
             request,
             shouldUpdateUI,
             responseConsumer = object
