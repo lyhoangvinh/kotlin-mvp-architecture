@@ -17,6 +17,7 @@ import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Filter
 import com.google.gson.*
 import com.squareup.picasso.Picasso
 import io.reactivex.Single
@@ -239,4 +240,16 @@ fun parseToDate(date: String?): Date? {
 
     }
     return d
+}
+
+class FilterList<E> {
+    fun <T> filterList(originalList: List<T>, filter: Filter<T, E>, text: E): List<T> {
+        val filterList = ArrayList<T>()
+        for (obj in originalList) {
+            if (filter.isMatched(obj, text)) {
+                filterList.add(obj)
+            }
+        }
+        return filterList
+    }
 }
