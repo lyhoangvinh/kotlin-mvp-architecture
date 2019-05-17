@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import com.dev.lyhoangvinh.mvparchitecture.database.entinies.ErrorEntity
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Lifecycle
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
@@ -85,18 +86,19 @@ abstract class BasePresenter<V : BaseView> internal constructor(
 
         val disposable = makeRequest(
             request,
-            shouldUpdateUI,
-            responseConsumer = object
-                : PlainConsumer<T> {
+            shouldUpdateUI, object : PlainConsumer<T> {
                 override fun accept(t: T) {
                     if ((forceResponseWithoutCheckNullView || view != null) && responseConsumer != null) {
                         responseConsumer.accept(t)
                     }
                 }
-
             },
             onComplete = Action {
                 getView()?.hideProgress()
+            }, errorConsumer = object : PlainConsumer<ErrorEntity> {
+                override fun accept(t: ErrorEntity) {
+                    getView()?.showToast(t.getMessage())
+                }
             })
 
         if (mCompositeDisposable == null) {

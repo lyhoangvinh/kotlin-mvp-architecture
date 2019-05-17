@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.UiRefreshable
@@ -79,7 +80,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     override fun showProgress() {
         hideProgress()
-        if (dialog == null){
+        if (dialog == null) {
             dialog = showLoadingDialog()
         }
         dialog?.show()
@@ -94,5 +95,9 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
             it.setCanceledOnTouchOutside(false)
             return it
         }
+    }
+
+    override fun showToast(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 }

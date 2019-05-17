@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.support.annotation.LayoutRes
+import android.support.annotation.NonNull
+import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.util.Log
@@ -15,6 +17,7 @@ import android.widget.ImageView
 import com.dev.lyhoangvinh.mvparchitecture.BuildConfig
 import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.R
+import com.dev.lyhoangvinh.mvparchitecture.database.entinies.ErrorEntity
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Filter
@@ -147,8 +150,9 @@ fun enableTls12OnPreLollipop(client: OkHttpClient.Builder): OkHttpClient.Builder
 fun <T> makeRequest(
     request: Single<Response<T>>,
     shouldUpdateUi: Boolean,
-    responseConsumer: PlainConsumer<T>,
-    onComplete: Action?
+    @NonNull responseConsumer: PlainConsumer<T>,
+    @Nullable errorConsumer: PlainConsumer<ErrorEntity>,
+    @Nullable onComplete: Action?
 ): Disposable {
 
     var single = request.subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
@@ -166,12 +170,18 @@ fun <T> makeRequest(
             // must be fixed while developing
             throw Exception(throwable)
         }
-//            // handle error
-//            if (errorConsumer != null) {
-//                errorConsumer!!.accept(ErrorEntity.getError(throwable))
-//            }
+        // handle error
+        errorConsumer.accept(ErrorEntity.getError(throwable))
         onComplete?.run()
     })
+}
+
+fun <T> makeRequest(
+    @NonNull request: Single<Response<T>>, shouldUpdateUi: Boolean,
+    @Nullable responseConsumer: PlainConsumer<T>,
+    @Nullable errorConsumer: PlainConsumer<ErrorEntity>
+): Disposable {
+    return makeRequest(request, shouldUpdateUi, responseConsumer, errorConsumer, null)
 }
 
 /**

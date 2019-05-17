@@ -22,6 +22,8 @@ class ErrorEntity {
         this.message = message
     }
 
+    fun getMessage() = message
+
     companion object {
         val HTTP_ERROR_CODE_UNAUTHORIZED = 401
         val OOPS = "Oops! please try again"
