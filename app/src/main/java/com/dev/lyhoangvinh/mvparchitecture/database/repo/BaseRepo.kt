@@ -8,8 +8,8 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import retrofit2.Response
 
-abstract class BaseRepo {
 
+abstract class BaseRepo {
     /**
      * For single data
      * @param remote
@@ -17,15 +17,15 @@ abstract class BaseRepo {
      * @param <T>
      * @return
     </T> */
-    protected fun <T> createResource(
-        remote: Single<Response<T>>?,
-        onSave: PlainConsumer<T>?
+    fun <T> createResource(
+        remote: Single<Response<T>>,
+        onSave: PlainConsumer<T>
     ): Flowable<Resource<T>> {
         return Flowable.create({
             object : SimpleNetworkBoundSource<T>(it, true) {
-                override fun getRemote(): Single<Response<T>> = remote!!
+                override fun getRemote(): Single<Response<T>> = remote
                 override fun saveCallResult(data: T, isRefresh: Boolean) {
-                    onSave?.accept(data)
+                    onSave.accept(data)
                 }
             }
         }, BackpressureStrategy.BUFFER)
@@ -39,21 +39,24 @@ abstract class BaseRepo {
      * @param <T>
      * @return
     </T> */
-    protected fun <T> createResource(
-        isRefresh: Boolean, remote: Single<Response<T>>?,
-        onSave: OnSaveResultListener<T>?
+    fun <T> createResource(
+        isRefresh: Boolean,
+        remote: Single<Response<T>>,
+        onSave: OnSaveResultListener<T>
     ): Flowable<Resource<T>> {
         return Flowable.create({
             object : SimpleNetworkBoundSource<T>(it, isRefresh) {
-                override fun getRemote(): Single<Response<T>> = remote!!
+                override fun getRemote(): Single<Response<T>> = remote
                 override fun saveCallResult(data: T, isRefresh: Boolean) {
-                    onSave?.onSave(data, isRefresh)
+                    onSave.onSave(data, isRefresh)
                 }
             }
         }, BackpressureStrategy.BUFFER)
     }
 
-    protected interface OnSaveResultListener<T> {
+    interface OnSaveResultListener<T> {
         fun onSave(data: T, isRefresh: Boolean)
     }
 }
+
+

@@ -9,5 +9,7 @@ interface BaseView {
 
     fun hideProgress()
 
-    fun showToast(text: String)
+    fun setProgress(show: Boolean)
+
+    fun showMessage(message: String)
 }

@@ -4,6 +4,8 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import com.dev.lyhoangvinh.mvparchitecture.database.Resource
+import com.dev.lyhoangvinh.mvparchitecture.database.Status
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.ErrorEntity
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Lifecycle
@@ -18,7 +20,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
-import javax.annotation.Resource
 
 abstract class BasePresenter<V : BaseView> internal constructor(
     @ActivityContext var context: Context
@@ -26,14 +27,6 @@ abstract class BasePresenter<V : BaseView> internal constructor(
     private var view: V? = null
 
     private var mCompositeDisposable: CompositeDisposable? = null
-
-    protected fun <T> execute(
-        showProgress: Boolean, request: Single<Response<T>>,
-        responseConsumer: PlainConsumer<T>?
-    ) {
-        execute(request, showProgress, true, responseConsumer)
-    }
-
 
     /**
      * @return [LifecycleOwner] associate with this presenter (host activities, fragments)
@@ -97,7 +90,7 @@ abstract class BasePresenter<V : BaseView> internal constructor(
                 getView()?.hideProgress()
             }, errorConsumer = object : PlainConsumer<ErrorEntity> {
                 override fun accept(t: ErrorEntity) {
-                    getView()?.showToast(t.getMessage())
+                    getView()?.showMessage(t.getMessage())
                 }
             })
 
@@ -107,25 +100,52 @@ abstract class BasePresenter<V : BaseView> internal constructor(
         mCompositeDisposable?.add(disposable)
     }
 
+
+    protected fun <T> execute(
+        showProgress: Boolean, request: Single<Response<T>>,
+        responseConsumer: PlainConsumer<T>?
+    ) {
+        execute(request, showProgress, true, responseConsumer)
+    }
+
+
     /**
-     * add a request with [Resource] flowable created by
+     * add a request with {@link Resource} flowable created by
+     * {@link com.dev.lyhoangvinh.mvparchitecture.database.repo.BaseRepo}
      * @param showProgress
      * @param resourceFlowable
      * @param response
      * @param <T>
-    </T> */
-    fun <T> execute(resourceFlowable: Flowable<Response<T>>, response: PlainConsumer<T>?) {
+     */
+
+    fun <T> execute(showProgress: Boolean, resourceFlowable: Flowable<Resource<T>>, response: PlainConsumer<T>?) {
         val disposable = resourceFlowable.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.newThread())
             .subscribe { resource ->
-                if (resource.isSuccessful && getView() != null) {
-                    Log.d("source", "addRequest: resource changed: " + resource.toString())
-                    resource.body()?.let { response?.accept(it) }
+                if (resource != null && getView() != null) {
+                    Log.d("source", "addRequest: resource changed: $resource")
+                    if (resource.data != null && response != null) {
+                        response.accept(resource.data)
+                    }
+                    if (showProgress) {
+                        getView()?.setProgress(resource.status === Status.LOADING)
+                    }
+                    if (resource.message != null) {
+                        getView()?.showMessage(resource.message)
+                    }
                 }
             }
         if (mCompositeDisposable == null) {
             mCompositeDisposable = CompositeDisposable()
         }
         mCompositeDisposable?.add(disposable)
+    }
+
+    fun <T> execute(resourceFlowable: Flowable<Resource<T>>, response: PlainConsumer<T>?) {
+        execute(true, resourceFlowable, response)
+    }
+
+    fun <T> execute(resourceFlowable: Flowable<Resource<T>>) {
+        execute(true, resourceFlowable, null)
     }
 }

@@ -97,7 +97,15 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         }
     }
 
-    override fun showToast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+    override fun setProgress(show: Boolean) {
+        if (show) {
+            showProgress()
+        } else {
+            hideProgress()
+        }
+    }
+
+    override fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

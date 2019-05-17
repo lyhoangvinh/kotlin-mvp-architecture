@@ -8,6 +8,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BaseListPresenter
 import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Issues
+import com.dev.lyhoangvinh.mvparchitecture.database.repo.IssuesRepo
 import com.dev.lyhoangvinh.mvparchitecture.database.response.BaseResponse
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerActivity
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @PerActivity
 class MainPresenter @Inject constructor(
     @ActivityContext context: Context,
-    private val comicVineService: ComicVineService, private val issuesDao: IssuesDao
+    private val comicVineService: ComicVineService, private val issuesDao: IssuesDao,
+    private val issuesRepo: IssuesRepo
 ) :
     BaseListPresenter<MainView>(context) {
 
@@ -28,7 +30,7 @@ class MainPresenter @Inject constructor(
     override fun canLoadMore(): Boolean = canLoadMore
 
     override fun fetchData() {
-        insert(offset)
+        insert2(offset)
     }
 
     private var mainAdapter: MainAdapter? = null
@@ -47,6 +49,14 @@ class MainPresenter @Inject constructor(
             mainAdapter?.updateNotes(it!!)
             getView()?.size(it!!.size)
             getView()?.hideProgress()
+        })
+    }
+
+    fun insert2(page: Int) {
+        execute(issuesRepo.getRepoIssues(canLoadMore, page), object : PlainConsumer<BaseResponse<Issues>> {
+            override fun accept(t: BaseResponse<Issues>) {
+                canLoadMore = t.results.isNotEmpty()
+            }
         })
     }
 
