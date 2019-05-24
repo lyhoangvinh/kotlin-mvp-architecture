@@ -16,16 +16,20 @@ class IssuesRepo @Inject constructor(private val comicVineService: ComicVineServ
 
     private var offset = 0
 
-    fun getRepoIssues(refresh: Boolean, page: Int) : Flowable<Resource<BaseResponse<Issues>>> {
+    fun getRepoIssues(refresh: Boolean): Flowable<Resource<BaseResponse<Issues>>> {
         return createResource(refresh, comicVineService.getIssues2(
-            50, offset, BuildConfig.API_KEY,
+            100, offset, BuildConfig.API_KEY,
             "json",
             "cover_date: desc"
         ), onSave = object : OnSaveResultListener<BaseResponse<Issues>> {
             override fun onSave(data: BaseResponse<Issues>, isRefresh: Boolean) {
+                if (refresh) {
+                    offset = -1
+                    issuesDao.removeAll()
+                }
+                offset = if (offset == -1) 0 else data.offset!! + 1
                 if (data.results.isNotEmpty()) {
                     BackgroundThreadExecutor.getInstance().runOnBackground {
-                        offset = page + 1
                         upsert(data.results)
                     }
                 }

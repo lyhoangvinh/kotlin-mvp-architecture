@@ -31,8 +31,8 @@ abstract class BasePresenter<V : BaseView> internal constructor(
     /**
      * @return [LifecycleOwner] associate with this presenter (host activities, fragments)
      */
-    protected fun getLifeCircleOwner(): LifecycleOwner? {
-        return view as LifecycleOwner?
+    protected fun getLifeCircleOwner(): LifecycleOwner {
+        return view as LifecycleOwner
     }
 
     fun getView(): V? = view

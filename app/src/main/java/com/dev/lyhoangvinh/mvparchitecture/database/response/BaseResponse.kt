@@ -13,7 +13,7 @@ data class BaseResponse<T>(
     var limit: Int? = null,
 
     @SerializedName("offset")
-    var offset: Int? = null,
+    var offset: Int? = 0,
 
     @SerializedName("number_of_page_results")
     var number_of_page_results: Int? = null,
