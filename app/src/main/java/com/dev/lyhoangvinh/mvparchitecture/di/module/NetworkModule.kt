@@ -5,6 +5,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.api.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.utils.makeOkHttpClientBuilder
 import com.dev.lyhoangvinh.mvparchitecture.utils.makeService
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.OkHttpNoAuth
+import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -27,4 +28,9 @@ class NetworkModule(private var context: Application) {
         return makeService(ComicVineService::class.java, gson, okHttpClient)
     }
 
+    @Singleton
+    @Provides
+    internal fun providesConnectionLiveData(): ConnectionLiveData {
+        return ConnectionLiveData(context)
+    }
 }

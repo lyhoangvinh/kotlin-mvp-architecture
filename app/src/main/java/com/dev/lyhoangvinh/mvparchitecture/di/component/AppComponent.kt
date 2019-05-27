@@ -11,6 +11,7 @@ import com.dev.lyhoangvinh.mvparchitecture.di.module.AppModule
 import com.dev.lyhoangvinh.mvparchitecture.di.module.DataModule
 import com.dev.lyhoangvinh.mvparchitecture.di.module.NetworkModule
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ApplicationContext
+import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
 import dagger.Component
 import javax.inject.Singleton
 
@@ -29,6 +30,8 @@ interface AppComponent {
     fun getComicVineService(): ComicVineService
 
     fun getSharedPrefs(): SharedPrefs
+
+    fun getConnectionLiveData(): ConnectionLiveData
 
     fun comicsDao(): ComicsDao
 

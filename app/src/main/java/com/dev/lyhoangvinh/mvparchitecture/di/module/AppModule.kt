@@ -2,7 +2,6 @@ package com.dev.lyhoangvinh.mvparchitecture.di.module
 
 import android.app.Application
 import android.content.Context
-import com.dev.lyhoangvinh.mvparchitecture.database.SharedPrefs
 import com.dev.lyhoangvinh.mvparchitecture.utils.DateDeserializer
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ApplicationContext
 import com.google.gson.FieldNamingPolicy
@@ -34,12 +33,5 @@ class AppModule(private var application: Application) {
             .setPrettyPrinting()
             .registerTypeAdapter(Date::class.java, DateDeserializer())
             .create()
-    }
-
-
-    @Singleton
-    @Provides
-    internal fun providesSharePeres(): SharedPrefs {
-        return SharedPrefs.getInstance(application)
     }
 }

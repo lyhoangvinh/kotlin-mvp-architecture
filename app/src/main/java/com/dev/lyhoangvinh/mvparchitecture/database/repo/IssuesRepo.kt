@@ -6,6 +6,7 @@ import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Issues
 import com.dev.lyhoangvinh.mvparchitecture.database.response.BaseResponse
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.api.ComicVineService
+import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
 import io.reactivex.Flowable
 import lyhoangvinh.com.myutil.thread.BackgroundThreadExecutor
 
@@ -23,15 +24,9 @@ class IssuesRepo @Inject constructor(private val comicVineService: ComicVineServ
             "cover_date: desc"
         ), onSave = object : OnSaveResultListener<BaseResponse<Issues>> {
             override fun onSave(data: BaseResponse<Issues>, isRefresh: Boolean) {
-                if (refresh) {
-                    offset = -1
-                    issuesDao.removeAll()
-                }
-                offset = if (offset == -1) 0 else data.offset!! + 1
+                offset = if (refresh) 0 else data.offset!! + 1
                 if (data.results.isNotEmpty()) {
-                    BackgroundThreadExecutor.getInstance().runOnBackground {
-                        upsert(data.results)
-                    }
+                    upsert(data.results)
                 }
             }
         })
