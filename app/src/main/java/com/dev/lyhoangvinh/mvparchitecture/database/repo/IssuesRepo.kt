@@ -1,5 +1,6 @@
 package com.dev.lyhoangvinh.mvparchitecture.database.repo
 
+import android.util.Log
 import com.dev.lyhoangvinh.mvparchitecture.BuildConfig
 import com.dev.lyhoangvinh.mvparchitecture.database.Resource
 import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
@@ -7,7 +8,16 @@ import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Issues
 import com.dev.lyhoangvinh.mvparchitecture.database.response.BaseResponse
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.api.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Action
+import io.reactivex.internal.util.HalfSerializer.onComplete
+import io.reactivex.plugins.RxJavaPlugins.onSubscribe
+import io.reactivex.schedulers.Schedulers
 import lyhoangvinh.com.myutil.thread.BackgroundThreadExecutor
 
 import javax.inject.Inject
@@ -33,9 +43,23 @@ class IssuesRepo @Inject constructor(private val comicVineService: ComicVineServ
     }
 
     private fun upsert(entities: List<Issues>) {
-        BackgroundThreadExecutor.getInstance().runOnBackground {
+        Completable.fromAction {
             issuesDao.insertIgnore(entities)
             issuesDao.updateIgnore(entities)
-        }
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
+                    Log.d(IssuesRepo::class.java.simpleName, "onComplete")
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    Log.d(IssuesRepo::class.java.simpleName, "onSubscribe")
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.d(IssuesRepo::class.java.simpleName, "onError")
+                }
+            })
     }
 }
