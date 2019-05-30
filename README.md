@@ -274,3 +274,7 @@ Why the Repository Pattern ?
             getView()?.hideProgress()
         })
 ```
+
+### Contributing to Android Kotlin MVP Architecture
+All pull requests are welcome, make sure to follow the [contribution guidelines](CONTRIBUTING.md)
+when you submit pull request.
