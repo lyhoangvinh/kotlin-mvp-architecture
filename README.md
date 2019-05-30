@@ -1,6 +1,6 @@
 <img src="https://user-images.githubusercontent.com/29915177/58609187-e9460780-82d0-11e9-943b-73d71d4f9de2.jpeg"/> 
 
-# Kotlin Mvp Architecture Template 
+# Kotlin Mvp Clean Architecture 
 This repository contains a detailed sample app that implements MVP architecture in Kotlin using Dagger2, Room, RxJava2...
 
 # MVP Design Pattern
