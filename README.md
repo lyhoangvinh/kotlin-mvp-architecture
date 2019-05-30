@@ -203,3 +203,74 @@ Why the Repository Pattern ?
 - Room ( the newly introduced ORM from Google, good support for RXJava 2 )
 
  I will be using for my example Room, the new library introduced by Google.
+
+#### Execute room
+```kotlin
+ Completable.fromAction {
+            issuesDao.insertIgnore(entities)
+            issuesDao.updateIgnore(entities)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
+                    Log.d(IssuesRepo::class.java.simpleName, "onComplete")
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    Log.d(IssuesRepo::class.java.simpleName, "onSubscribe")
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.d(IssuesRepo::class.java.simpleName, "onError")
+                }
+            })
+```
+#### BaseRepo.kt
+```kotlin
+    /**
+     * For single data
+     * @param remote
+     * @param onSave
+     * @param <T>
+     * @return
+    </T> */
+    fun <T> createResource(
+        remote: Single<Response<T>>,
+        onSave: PlainConsumer<T>
+    ): Flowable<Resource<T>> {
+        return Flowable.create({
+            object : SimpleNetworkBoundSource<T>(it, true) {
+                override fun getRemote(): Single<Response<T>> = remote
+                override fun saveCallResult(data: T, isRefresh: Boolean) {
+                    onSave.accept(data)
+                }
+            }
+        }, BackpressureStrategy.BUFFER)
+    }
+```
+#### IssuesRepo.kt
+```kotlin
+    fun getRepoIssues(refresh: Boolean): Flowable<Resource<BaseResponse<Issues>>> {
+        return createResource(refresh, comicVineService.getIssues2(
+            100, offset, BuildConfig.API_KEY,
+            "json",
+            "cover_date: desc"
+        ), onSave = object : OnSaveResultListener<BaseResponse<Issues>> {
+            override fun onSave(data: BaseResponse<Issues>, isRefresh: Boolean) {
+                offset = if (refresh) 0 else data.offset!! + 1
+                if (data.results.isNotEmpty()) {
+                    upsert(data.results)
+                }
+            }
+        })
+    }
+```
+
+#### Presenter
+```kotlin
+    issuesDao.liveData().observe(getLifeCircleOwner(), Observer {
+            mainAdapter?.updateNotes(it!!)
+            getView()?.size(it!!.size)
+            getView()?.hideProgress()
+        })
+```
