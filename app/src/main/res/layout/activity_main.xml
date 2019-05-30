@@ -8,4 +8,5 @@
         tools:context=".ui.feature.main.MainActivity">
 
     <include layout="@layout/swipe_recycler_view"/>
+
 </LinearLayout>

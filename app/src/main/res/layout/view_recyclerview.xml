@@ -12,4 +12,6 @@
     <include layout="@layout/view_scroll_top" />
 
     <include layout="@layout/view_no_data" />
+
+    <include layout="@layout/view_error_connection"/>
 </FrameLayout>

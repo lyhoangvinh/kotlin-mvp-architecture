@@ -50,6 +50,7 @@ class MainPresenter @Inject constructor(
         })
 
         connectionLive.observe(getLifeCircleOwner(), Observer {
+            getView()?.connection(it!!.isConnected)
             if (currentConnected && !it!!.isConnected) {
                 currentConnected = it.isConnected
             } else if (!currentConnected && it!!.isConnected) {
