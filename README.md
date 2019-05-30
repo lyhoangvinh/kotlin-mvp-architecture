@@ -269,7 +269,7 @@ Why the Repository Pattern ?
 #### Presenter
 ```kotlin
     issuesDao.liveData().observe(getLifeCircleOwner(), Observer {
-            mainAdapter?.updateNotes(it!!)
+            mainAdapter?.updateUi(it!!)
             getView()?.size(it!!.size)
             getView()?.hideProgress()
         })
