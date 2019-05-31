@@ -252,7 +252,7 @@ Why the Repository Pattern ?
 ```kotlin
     fun getRepoIssues(refresh: Boolean): Flowable<Resource<BaseResponse<Issues>>> {
         return createResource(refresh, comicVineService.getIssues2(
-            100, offset, BuildConfig.API_KEY,
+            100, offset, Constants.KEY,
             "json",
             "cover_date: desc"
         ), onSave = object : OnSaveResultListener<BaseResponse<Issues>> {
