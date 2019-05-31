@@ -76,7 +76,6 @@ class MainPresenter @Inject constructor(
         issues = getMainAdapter()?.getData()!![i]
         execute({ issuesDao.delete(issues!!) }, object : () -> Unit {
             override fun invoke() {
-//                Handler().postDelayed({ issues = null }, 1000)
                 getView()?.deleteSuccess()
             }
         })

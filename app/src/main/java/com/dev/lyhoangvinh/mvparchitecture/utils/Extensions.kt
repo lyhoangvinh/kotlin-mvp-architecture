@@ -26,6 +26,7 @@ import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Filter
 import com.google.gson.*
 import com.squareup.picasso.Picasso
+import io.reactivex.CompletableObserver
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -282,4 +283,10 @@ fun getRandomMaterialColor(context: Context): Int {
 
 fun getRandomColorDrawable(ctx: Context): ColorDrawable {
     return ColorDrawable(getRandomMaterialColor(ctx))
+}
+
+interface CompleteCompletableObserver : CompletableObserver {
+    override fun onError(e: Throwable){}
+
+    override fun onSubscribe(d: Disposable){}
 }

@@ -7,13 +7,13 @@ import android.util.Log
 import com.dev.lyhoangvinh.mvparchitecture.database.Resource
 import com.dev.lyhoangvinh.mvparchitecture.database.Status
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.ErrorEntity
-import com.dev.lyhoangvinh.mvparchitecture.database.repo.IssuesRepo
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Lifecycle
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Refreshable
 import com.dev.lyhoangvinh.mvparchitecture.utils.makeRequest
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
+import com.dev.lyhoangvinh.mvparchitecture.utils.CompleteCompletableObserver
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
@@ -161,18 +161,10 @@ abstract class BasePresenter<V : BaseView> internal constructor(
             addAction.invoke()
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : CompletableObserver {
+            .subscribe(object : CompleteCompletableObserver {
+
                 override fun onComplete() {
-                    if (onComplete != null)
-                        onComplete.invoke()
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    Log.d(IssuesRepo::class.java.simpleName, "onSubscribe")
-                }
-
-                override fun onError(e: Throwable) {
-                    Log.d(IssuesRepo::class.java.simpleName, "onError")
+                    onComplete?.invoke()
                 }
             })
     }
