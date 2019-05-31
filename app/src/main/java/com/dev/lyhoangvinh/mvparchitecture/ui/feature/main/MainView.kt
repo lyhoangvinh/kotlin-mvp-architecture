@@ -6,4 +6,6 @@ interface MainView : BaseView {
     fun size(size: Int)
 
     fun connection(isConnected: Boolean)
+
+    fun deleteSuccess()
 }

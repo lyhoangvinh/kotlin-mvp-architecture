@@ -2,6 +2,7 @@ package com.dev.lyhoangvinh.mvparchitecture.ui.feature.main
 
 import android.arch.lifecycle.Observer
 import android.content.Context
+import android.os.Handler
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BaseListPresenter
 import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
@@ -67,5 +68,21 @@ class MainPresenter @Inject constructor(
                 canLoadMore = t.results.isNotEmpty()
             }
         })
+    }
+
+    private var issues: Issues? = null
+
+    fun delete(i: Int) {
+        issues = getMainAdapter()?.getData()!![i]
+        execute({ issuesDao.delete(issues!!) }, object : () -> Unit {
+            override fun invoke() {
+//                Handler().postDelayed({ issues = null }, 1000)
+                getView()?.deleteSuccess()
+            }
+        })
+    }
+
+    fun undo() {
+        execute { issuesDao.insert(issues!!) }
     }
 }

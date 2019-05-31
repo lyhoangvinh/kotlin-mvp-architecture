@@ -3,6 +3,8 @@ package com.dev.lyhoangvinh.mvparchitecture.utils
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.support.annotation.LayoutRes
 import android.support.annotation.NonNull
@@ -263,4 +265,21 @@ class FilterList<E> {
         }
         return filterList
     }
+}
+
+fun getRandomMaterialColor(context: Context): Int {
+    var returnColor = Color.GRAY
+    val arrayId = context.resources.getIdentifier("mdcolor_500", "array", context.packageName)
+
+    if (arrayId != 0) {
+        val colors = context.resources.obtainTypedArray(arrayId)
+        val index = (Math.random() * colors.length()).toInt()
+        returnColor = colors.getColor(index, Color.GRAY)
+        colors.recycle()
+    }
+    return returnColor
+}
+
+fun getRandomColorDrawable(ctx: Context): ColorDrawable {
+    return ColorDrawable(getRandomMaterialColor(ctx))
 }

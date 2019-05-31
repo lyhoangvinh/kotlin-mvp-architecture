@@ -7,16 +7,20 @@ import android.util.Log
 import com.dev.lyhoangvinh.mvparchitecture.database.Resource
 import com.dev.lyhoangvinh.mvparchitecture.database.Status
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.ErrorEntity
+import com.dev.lyhoangvinh.mvparchitecture.database.repo.IssuesRepo
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Lifecycle
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Refreshable
 import com.dev.lyhoangvinh.mvparchitecture.utils.makeRequest
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -147,5 +151,33 @@ abstract class BasePresenter<V : BaseView> internal constructor(
 
     fun <T> execute(resourceFlowable: Flowable<Resource<T>>) {
         execute(true, resourceFlowable, null)
+    }
+
+    /**
+     * execute room
+     */
+    fun execute(addAction: () -> Unit, onComplete: (() -> Unit)?) {
+        Completable.fromAction {
+            addAction.invoke()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
+                    if (onComplete != null)
+                        onComplete.invoke()
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    Log.d(IssuesRepo::class.java.simpleName, "onSubscribe")
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.d(IssuesRepo::class.java.simpleName, "onError")
+                }
+            })
+    }
+
+    fun execute(addAction: () -> Unit) {
+        execute(addAction, null)
     }
 }
