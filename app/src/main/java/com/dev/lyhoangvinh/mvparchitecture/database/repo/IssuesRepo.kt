@@ -1,24 +1,19 @@
 package com.dev.lyhoangvinh.mvparchitecture.database.repo
 
 import android.util.Log
-import com.dev.lyhoangvinh.mvparchitecture.BuildConfig
+import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.database.Resource
 import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Issues
 import com.dev.lyhoangvinh.mvparchitecture.database.response.BaseResponse
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.api.ComicVineService
-import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
-import io.reactivex.internal.util.HalfSerializer.onComplete
-import io.reactivex.plugins.RxJavaPlugins.onSubscribe
 import io.reactivex.schedulers.Schedulers
-import lyhoangvinh.com.myutil.thread.BackgroundThreadExecutor
+
 
 import javax.inject.Inject
 
@@ -29,7 +24,7 @@ class IssuesRepo @Inject constructor(private val comicVineService: ComicVineServ
 
     fun getRepoIssues(refresh: Boolean): Flowable<Resource<BaseResponse<Issues>>> {
         return createResource(refresh, comicVineService.getIssues2(
-            100, offset, BuildConfig.API_KEY,
+            100, offset, Constants.KEY,
             "json",
             "cover_date: desc"
         ), onSave = object : OnSaveResultListener<BaseResponse<Issues>> {

@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.dev.lyhoangvinh.mvparchitecture.BuildConfig
+import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.ErrorEntity
@@ -72,7 +73,7 @@ fun ImageView.loadImage(url: String) {
 
 fun <T> makeService(serviceClass: Class<T>, gson: Gson, okHttpClient: OkHttpClient): T {
     val retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.ENDPOINT)
+        .baseUrl(Constants.ENDPOINT)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
