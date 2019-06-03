@@ -113,7 +113,8 @@ fun Activity.showKeyboard(yourEditText: EditText) {
         val input = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         input.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
         input.showSoftInput(yourEditText, InputMethodManager.SHOW_IMPLICIT)
-    } catch (ignored: Exception) { }
+    } catch (ignored: Exception) {
+    }
 }
 
 fun clearText(vararg textViews: TextView) {
@@ -392,9 +393,9 @@ fun getRandomColorDrawable(ctx: Context): ColorDrawable {
 }
 
 interface CompleteCompletableObserver : CompletableObserver {
-    override fun onError(e: Throwable){}
+    override fun onError(e: Throwable) {}
 
-    override fun onSubscribe(d: Disposable){}
+    override fun onSubscribe(d: Disposable) {}
 }
 
 
