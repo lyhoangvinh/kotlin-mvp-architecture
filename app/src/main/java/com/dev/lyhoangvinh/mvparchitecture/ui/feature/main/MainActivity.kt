@@ -8,6 +8,7 @@ import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.activity.BaseSwipeRecyclerViewActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.SwipeToDeleteCallback
+import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_error_connection.*
 import lyhoangvinh.com.myutil.androidutils.AlertUtils
@@ -32,7 +33,7 @@ class MainActivity : BaseSwipeRecyclerViewActivity<MainAdapter, MainView, MainPr
     }
 
     override fun connection(isConnected: Boolean) {
-        viewErrorConnection.visibility = if (isConnected) View.GONE else View.VISIBLE
+        viewErrorConnection.setVisible(!isConnected)
     }
 
     override fun deleteSuccess() {
