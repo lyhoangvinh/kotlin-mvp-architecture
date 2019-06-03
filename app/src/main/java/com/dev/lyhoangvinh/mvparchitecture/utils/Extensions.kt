@@ -1,5 +1,6 @@
 package com.dev.lyhoangvinh.mvparchitecture.utils
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -15,7 +16,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import com.dev.lyhoangvinh.mvparchitecture.BuildConfig
 import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.MyApplication
@@ -72,6 +77,107 @@ fun ImageView.loadImage(url: String) {
         .centerCrop()
         .fit()
         .into(this)
+}
+
+fun Activity.showToastMessage(message: String) {
+    if (!message.isEmpty()) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+}
+
+fun Fragment.showToastMessage(message: String) {
+    if (this.context != null && !message.isEmpty()) {
+        Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show()
+    }
+}
+
+fun Fragment.hideKeyboard() {
+    view?.let { activity?.hideKeyboard(it) }
+}
+
+fun Fragment.showKeyboard(editText: EditText) {
+    activity?.showKeyboard(editText)
+}
+
+fun Activity.hideKeyboard() {
+    hideKeyboard(if (currentFocus == null) View(this) else currentFocus)
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun Activity.showKeyboard(yourEditText: EditText) {
+    try {
+        val input = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        input.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        input.showSoftInput(yourEditText, InputMethodManager.SHOW_IMPLICIT)
+    } catch (ignored: Exception) { }
+}
+
+fun clearText(vararg textViews: TextView) {
+    textViews.iterator().forEach { it.text = "" }
+}
+
+fun TextView.startCustomAnimation(isCollapsing: Boolean, finalText: String, duration: Long) {
+    cancelAnimation()
+    val mStartText = this.text
+    val animator =
+        if (isCollapsing) ValueAnimator.ofFloat(1.0f, 0.0f)
+        else ValueAnimator.ofFloat(0.0f, 1.0f)
+    animator.addUpdateListener {
+        val currentValue = it.animatedValue as Float
+        val ended = (isCollapsing && currentValue == 0.0f) || (!isCollapsing && currentValue == 1.0f)
+        if (ended) {
+            this.text = finalText
+        } else {
+            val n = (mStartText.length * currentValue).toInt()
+            val text = mStartText.substring(0, n)
+            if (text != this.text) {
+                this.text = text
+            }
+        }
+    }
+    this.tag = animator
+    animator.duration = duration
+    animator.start()
+}
+
+fun TextView.startExpandingAnimation(text: String, duration: Long) {
+    cancelAnimation()
+    val animator = ValueAnimator.ofFloat(0.0f, 1.0f)
+    animator.addUpdateListener {
+        val currentValue = it.animatedValue as Float
+        val ended = currentValue == 1.0f
+        if (ended) {
+            this.text = text
+        } else {
+            val n = (text.length * currentValue).toInt()
+            val currentText = text.substring(0, n)
+            if (currentText != this.text) {
+                this.text = currentText
+            }
+        }
+    }
+    this.tag = animator
+    animator.duration = duration
+    animator.start()
+}
+
+fun TextView.startCollapsingAnimation(finalText: String, duration: Long) {
+    this.startCustomAnimation(true, finalText, duration)
+}
+
+fun TextView.cancelAnimation() {
+    val o = this.tag
+    if (o != null && o is ValueAnimator) {
+        o.cancel()
+    }
+}
+
+fun View.setVisible(visible: Boolean) {
+    this.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
 fun <T> makeService(serviceClass: Class<T>, gson: Gson, okHttpClient: OkHttpClient): T {
@@ -290,3 +396,5 @@ interface CompleteCompletableObserver : CompletableObserver {
 
     override fun onSubscribe(d: Disposable){}
 }
+
+

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,8 @@ import com.dev.lyhoangvinh.mvparchitecture.di.component.DaggerFragmentComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.component.FragmentComponent
 import com.dev.lyhoangvinh.mvparchitecture.utils.getAppComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.module.FragmentModule
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.UiRefreshable
+import com.dev.lyhoangvinh.mvparchitecture.utils.hideKeyboard
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -64,6 +67,9 @@ abstract class BaseFragment : Fragment(), BaseView {
     abstract fun getLayoutResource(): Int
 
     override fun hideProgress() {
+        if (this is UiRefreshable) {
+            (this as UiRefreshable).doneRefresh()
+        }
         dialog?.let { if (it.isShowing) it.cancel() }
     }
 
@@ -82,5 +88,29 @@ abstract class BaseFragment : Fragment(), BaseView {
             it.setCanceledOnTouchOutside(false)
             return it
         }
+    }
+
+    override fun setProgress(show: Boolean) {
+        if (show) {
+            showProgress()
+        } else {
+            hideProgress()
+        }
+    }
+
+    fun finishFragment() {
+        hideKeyboard()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity?.finishAfterTransition()
+        } else {
+            activity?.finish()
+        }
+    }
+
+    /**
+     * @return true if fragment should handle back press, false if not (activity will handle back press event)
+     */
+    fun onBackPressed(): Boolean {
+        return false
     }
 }

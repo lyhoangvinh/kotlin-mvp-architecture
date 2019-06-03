@@ -3,8 +3,11 @@ package com.dev.lyhoangvinh.mvparchitecture.ui.base.activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.IdRes
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.dev.lyhoangvinh.mvparchitecture.R
@@ -54,6 +57,20 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
                 .build()
         }
         return mActivityComponent
+    }
+
+    fun addFragment(@IdRes res: Int, fragment: Fragment, tag: String?) {
+        supportFragmentManager.beginTransaction()
+            .add(res, fragment, tag)
+            .commit()
+    }
+
+    protected fun finishWithAnimation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition()
+        } else {
+            finish()
+        }
     }
 
     /**
