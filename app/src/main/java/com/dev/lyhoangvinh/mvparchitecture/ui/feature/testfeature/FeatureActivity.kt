@@ -23,10 +23,10 @@ class FeatureActivity : BasePresenterActivity<FeatureView, FeaturePresenter>(), 
         rcvFeature.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val adapter = FeatureAdapter()
         rcvFeature.adapter = adapter
-        adapter.setItemList(hasItem())
+        adapter.setItemList(hardItem())
     }
 
-    private fun hasItem(): ArrayList<Item> {
+    private fun hardItem(): ArrayList<Item> {
         return ArrayList(
             Arrays.asList(
                 TextItem(0, "asdas"),

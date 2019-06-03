@@ -15,12 +15,10 @@ import com.dev.lyhoangvinh.mvparchitecture.utils.makeRequest
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import com.dev.lyhoangvinh.mvparchitecture.utils.CompleteCompletableObserver
 import io.reactivex.Completable
-import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -117,13 +115,13 @@ abstract class BasePresenter<V : BaseView> internal constructor(
      * add a request with {@link Resource} flowable created by
      * {@link com.dev.lyhoangvinh.mvparchitecture.database.repo.BaseRepo}
      * @param showProgress
-     * @param resourceFlowable
+     * @param resourceFollowable
      * @param response
      * @param <T>
      */
 
-    fun <T> execute(showProgress: Boolean, resourceFlowable: Flowable<Resource<T>>, response: PlainConsumer<T>?) {
-        val disposable = resourceFlowable.observeOn(AndroidSchedulers.mainThread())
+    fun <T> execute(showProgress: Boolean, resourceFollowable: Flowable<Resource<T>>, response: PlainConsumer<T>?) {
+        val disposable = resourceFollowable.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.newThread())
             .subscribe { resource ->
                 if (resource != null && getView() != null) {
@@ -145,8 +143,8 @@ abstract class BasePresenter<V : BaseView> internal constructor(
         mCompositeDisposable?.add(disposable)
     }
 
-    fun <T> execute(resourceFlowable: Flowable<Resource<T>>, response: PlainConsumer<T>?) {
-        execute(true, resourceFlowable, response)
+    fun <T> execute(resourceFollowable: Flowable<Resource<T>>, response: PlainConsumer<T>?) {
+        execute(true, resourceFollowable, response)
     }
 
     fun <T> execute(resourceFlowable: Flowable<Resource<T>>) {
