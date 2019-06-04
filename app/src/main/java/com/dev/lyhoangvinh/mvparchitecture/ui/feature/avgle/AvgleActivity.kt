@@ -10,6 +10,9 @@ import javax.inject.Inject
 
 class AvgleActivity : BaseSwipeRecyclerViewActivity<CategoriesAdapter, AvgleView, AvglePresenter>(), AvgleView {
 
+    @Inject
+    lateinit var navigatorHelper: NavigatorHelper
+
     override fun createAdapter() = presenter.getAdapter()!!
 
     override fun getLayoutResource() = R.layout.activity_main
@@ -24,4 +27,7 @@ class AvgleActivity : BaseSwipeRecyclerViewActivity<CategoriesAdapter, AvgleView
         viewErrorConnection.setVisible(!isConnected)
     }
 
+    override fun openDetail(url: String) {
+        navigatorHelper.navigateDetailActivity(url)
+    }
 }

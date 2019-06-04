@@ -9,7 +9,6 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.activity.BasePresenterActivit
 import com.dev.lyhoangvinh.mvparchitecture.utils.NetworkUtils
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), DetailView {
@@ -17,6 +16,7 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
     override fun getLayoutResource() = R.layout.activity_detail
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        activityComponent()?.inject(this)
         super.onCreate(savedInstanceState)
         if (intent != null) {
             val url = intent.getStringExtra(Constants.EXTRA_DATA)
@@ -28,7 +28,7 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
                 domStorageEnabled = true
                 cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             }
-            webViewDetail.webViewClient = object : WebViewClient() {}
+
             webViewDetail.webViewClient = object : WebViewClient() {
 
                 override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
@@ -46,7 +46,6 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
                 override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                     super.onReceivedError(view, request, error)
                     viewNoConnection.setVisible(true)
-                    root.setVisible(false)
                 }
             }
             webViewDetail.loadUrl(url)
@@ -59,7 +58,6 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
             webViewDetail.loadUrl(url)
         }
         viewNoConnection.setVisible(!isConnection)
-        root.setVisible(isConnection)
     }
 
     override fun onPause() {

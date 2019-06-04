@@ -8,14 +8,12 @@ import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BaseListPresenter
 import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
-import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
 import javax.inject.Inject
 
 @PerActivity
 class AvglePresenter @Inject constructor(
     @ActivityContext context: Context, private val categoriesRepo: CategoriesRepo,
-    private val connectionLiveData: ConnectionLiveData,
-    val navigatorHelper: NavigatorHelper
+    private val connectionLiveData: ConnectionLiveData
 ) :
     BaseListPresenter<AvgleView>(context) {
 
@@ -28,7 +26,7 @@ class AvglePresenter @Inject constructor(
     override fun fetchData() {
         execute()
         observe(getLifeCircleOwner())
-        adapter?.setOnClickItemListener { navigatorHelper.navigateDetailActivity(it) }
+        adapter?.setOnClickItemListener { getView()?.openDetail(it) }
     }
 
     fun getAdapter(): CategoriesAdapter? {

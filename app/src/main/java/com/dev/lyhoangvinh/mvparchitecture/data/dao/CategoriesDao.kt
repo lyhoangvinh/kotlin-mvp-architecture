@@ -13,6 +13,9 @@ interface CategoriesDao : BaseDao<Category> {
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateIgnore(entities: List<Category>)
 
+    @Query("DELETE FROM CATEGORY")
+    fun deleteAll()
+
     @Query("SELECT * FROM CATEGORY")
     fun liveData(): LiveData<List<Category>>
 }

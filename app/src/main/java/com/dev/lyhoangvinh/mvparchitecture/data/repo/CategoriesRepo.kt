@@ -31,6 +31,7 @@ class CategoriesRepo @Inject constructor(
                 override fun accept(t: BaseResponseAvgle<CategoriesResponse>) {
                     if (t.success) {
                         Completable.fromAction {
+                            categoriesDao.deleteAll()
                             categoriesDao.insertIgnore(t.response.categories!!)
                             categoriesDao.updateIgnore(t.response.categories!!)
                         }.subscribeOn(Schedulers.io())
