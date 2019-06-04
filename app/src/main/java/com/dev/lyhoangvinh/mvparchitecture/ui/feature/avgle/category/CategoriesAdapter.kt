@@ -11,8 +11,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseViewHolder
 import com.dev.lyhoangvinh.mvparchitecture.utils.loadImage
 import kotlinx.android.synthetic.main.item_category.view.*
 
-class CategoriesAdapter(mData: ArrayList<Category>) :
-    BaseAdapter<Category, CategoriesAdapter.CategoriesViewHolder>(mData) {
+class CategoriesAdapter : BaseAdapter<Category, CategoriesAdapter.CategoriesViewHolder>(ArrayList()) {
 
     override fun itemLayoutResource() = R.layout.item_category
 

@@ -31,7 +31,7 @@ class CategoriesPresenter @Inject constructor(
 
     fun getAdapter(): CategoriesAdapter? {
         if (adapter == null)
-            adapter = CategoriesAdapter(ArrayList())
+            adapter = CategoriesAdapter()
         return adapter
     }
 
