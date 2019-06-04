@@ -5,16 +5,15 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BasePresenter
 import javax.inject.Inject
 
+@Suppress("UNCHECKED_CAST")
 abstract class BasePresenterActivity<V : BaseView, P : BasePresenter<V>> : BaseActivity() {
 
     @Inject
     protected lateinit var presenter: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (presenter != null) {
-            presenter.bindView(getViewLayer())
-            presenter.onCreate()
-        }
+        presenter.bindView(getViewLayer())
+        presenter.onCreate()
         super.onCreate(savedInstanceState)
     }
 

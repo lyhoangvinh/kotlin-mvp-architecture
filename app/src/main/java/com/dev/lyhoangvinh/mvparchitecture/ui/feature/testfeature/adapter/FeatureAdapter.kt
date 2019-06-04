@@ -8,6 +8,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Item
 import com.dev.lyhoangvinh.mvparchitecture.database.item.ImageItem
 import com.dev.lyhoangvinh.mvparchitecture.database.item.TextItem
 
+@Suppress("UNCHECKED_CAST")
 class FeatureAdapter : BaseItemAdapter() {
 
     companion object {

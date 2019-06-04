@@ -32,16 +32,16 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val data: Ar
     }
 
     override fun getItemCount(): Int {
-        return data?.size ?: 0
+        return data.size
     }
 
     fun getItemAt(position: Int): T? {
-        return data?.get(position)
+        return data[position]
     }
 
     fun getData(): ArrayList<T> {
         return data
     }
 
-    override fun isDataEmpty(): Boolean = data.size == 0
+    override fun isDataEmpty() = data.size == 0
 }

@@ -17,6 +17,7 @@ import com.dev.lyhoangvinh.mvparchitecture.di.component.ActivityComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.component.DaggerActivityComponent
 import com.dev.lyhoangvinh.mvparchitecture.utils.getAppComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.module.ActivityModule
+import com.dev.lyhoangvinh.mvparchitecture.utils.showToastMessage
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -123,6 +124,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     }
 
     override fun showMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        showToastMessage(message)
     }
 }

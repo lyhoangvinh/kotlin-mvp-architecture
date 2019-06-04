@@ -10,6 +10,7 @@ import com.google.gson.Gson
  * Created by LyHoangVinh on 11/5/2017.
  */
 
+@Suppress("UNCHECKED_CAST")
 class SharedPrefs private constructor(application: Application) {
     private val mSharedPreferences: SharedPreferences
 

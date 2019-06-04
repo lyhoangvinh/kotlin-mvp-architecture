@@ -18,11 +18,14 @@ import com.dev.lyhoangvinh.mvparchitecture.utils.getAppComponent
 import com.dev.lyhoangvinh.mvparchitecture.di.module.FragmentModule
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.UiRefreshable
 import com.dev.lyhoangvinh.mvparchitecture.utils.hideKeyboard
+import com.dev.lyhoangvinh.mvparchitecture.utils.showToastMessage
 import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by lyhoangvinh on 04/01/18.
  */
+
+@Suppress("UNCHECKED_CAST")
 abstract class BaseFragment : Fragment(), BaseView {
 
     private var mFragmentComponent: FragmentComponent? = null
@@ -75,12 +78,11 @@ abstract class BaseFragment : Fragment(), BaseView {
 
     override fun showProgress() {
         hideProgress()
-        dialog = showLoadingDialog()
+        dialog = showLoadingDialog(activity!!)
     }
 
-    fun showLoadingDialog(): Dialog {
-        val progressDialog = Dialog(activity)
-        progressDialog.let {
+    private fun showLoadingDialog(ctx: Context): Dialog {
+        Dialog(ctx).let {
             it.show()
             it.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             it.setContentView(R.layout.progress_dialog)
@@ -105,6 +107,10 @@ abstract class BaseFragment : Fragment(), BaseView {
         } else {
             activity?.finish()
         }
+    }
+
+    override fun showMessage(message: String) {
+        showToastMessage(message)
     }
 
     /**

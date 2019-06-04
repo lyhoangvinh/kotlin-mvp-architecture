@@ -199,8 +199,7 @@ fun makeOkHttpClientBuilder(context: Context): OkHttpClient.Builder {
     }
 
     // : 4/26/2017 add the UnauthorisedInterceptor to this retrofit, or 401
-    var builder: OkHttpClient.Builder? = null
-    builder = OkHttpClient.Builder()
+    val builder = OkHttpClient.Builder()
 //        .addInterceptor(UnauthorisedInterceptor(context))
         .addInterceptor(logging)
         .followRedirects(true)
@@ -230,6 +229,7 @@ fun makeOkHttpClientBuilder(context: Context): OkHttpClient.Builder {
  * * how to enable tls on android 4.4
  * [](https://github.com/square/okhttp/issues/2372)
  */
+@Suppress("DEPRECATION")
 @SuppressLint("ObsoleteSdkInt")
 fun enableTls12OnPreLollipop(client: OkHttpClient.Builder): OkHttpClient.Builder {
     if (Build.VERSION.SDK_INT in 16..21) {

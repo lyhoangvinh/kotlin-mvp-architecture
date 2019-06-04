@@ -45,7 +45,7 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
      * @return true if our adapter has no data
      */
     fun isDataEmpty(): Boolean {
-        return adapter != null && adapter is ListData && (adapter as ListData).isDataEmpty()
+        return adapter is ListData && (adapter as ListData).isDataEmpty()
     }
 
     // footer for load more state
@@ -72,7 +72,7 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
         noDataView = findViewById(R.id.noDataView)
         if (scrollTopView != null) {
             scrollTopView!!.visibility = View.GONE
-            scrollTopView!!.setOnClickListener { view1 -> recyclerView!!.scrollToPosition(0) }
+            scrollTopView!!.setOnClickListener { _ -> recyclerView!!.scrollToPosition(0) }
         }
         if (noDataView != null) {
             noDataView!!.visibility = View.GONE
@@ -177,9 +177,9 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
      */
     @CallSuper
     override fun doneRefresh() {
-        if (adapter != null) {
+//        if (adapter != null) {
             //            adapter.removeFooter(getFooterView());
-        }
+//        }
         updateNoDataState()
         updateScrollTop()
         android.os.Handler().postDelayed({ super.doneRefresh() }, 300)

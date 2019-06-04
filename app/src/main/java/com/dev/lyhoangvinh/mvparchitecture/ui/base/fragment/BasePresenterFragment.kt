@@ -8,6 +8,8 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BasePresenter
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import javax.inject.Inject
 
+
+@Suppress("UNCHECKED_CAST")
 abstract class BasePresenterFragment<V : BaseView, P : BasePresenter<V>> : BaseFragment() {
 
     @Inject

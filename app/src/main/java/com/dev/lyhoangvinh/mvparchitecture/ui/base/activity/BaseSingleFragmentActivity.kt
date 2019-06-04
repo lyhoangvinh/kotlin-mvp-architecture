@@ -8,6 +8,7 @@ import android.support.annotation.Nullable
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseFragment
 
+@Suppress("UNCHECKED_CAST")
 abstract class BaseSingleFragmentActivity<T : BaseFragment> : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,9 +25,9 @@ abstract class BaseSingleFragmentActivity<T : BaseFragment> : BaseActivity() {
     }
 
     @IdRes
-    protected fun getContainerId(): Int {
-        return R.id.container
-    }
+    protected fun getContainerId() = R.id.container
+
+    override fun getLayoutResource() = R.layout.container
 
     protected abstract fun createFragment(): T
 

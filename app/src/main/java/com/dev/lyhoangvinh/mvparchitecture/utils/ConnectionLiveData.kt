@@ -9,6 +9,7 @@ import android.net.NetworkInfo
 import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Connection
 import com.dev.lyhoangvinh.mvparchitecture.receiver.NetworkReceiver
 
+@Suppress("DEPRECATION")
 class ConnectionLiveData(private val context: Context) : LiveData<Connection>() {
 
     override fun onActive() {
@@ -26,7 +27,7 @@ class ConnectionLiveData(private val context: Context) : LiveData<Connection>() 
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.extras != null) {
                 val activeNetwork = intent.extras!!.get(ConnectivityManager.EXTRA_NETWORK_INFO) as NetworkInfo
-                val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
+                val isConnected = activeNetwork.isConnectedOrConnecting
                 if (isConnected) {
                     when (activeNetwork.type) {
                         ConnectivityManager.TYPE_WIFI -> postValue(Connection(CONNECTION_WIFI, true))
