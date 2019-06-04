@@ -2,7 +2,6 @@ package com.dev.lyhoangvinh.mvparchitecture.ui.feature.comics
 
 import android.os.Bundle
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.widget.Toast
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.activity.BaseSwipeRecyclerViewActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer

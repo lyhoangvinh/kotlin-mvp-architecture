@@ -7,12 +7,13 @@ import com.dev.lyhoangvinh.mvparchitecture.data.SharedPrefs
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.CategoriesDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.ComicsDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.IssuesDao
+import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ApplicationContext
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DataModule(private var context: Application) {
+class DataModule(@ApplicationContext private var context: Application) {
 
     @Singleton
     @Provides

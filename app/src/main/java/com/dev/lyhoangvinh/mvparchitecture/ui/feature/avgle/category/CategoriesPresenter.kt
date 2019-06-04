@@ -1,21 +1,21 @@
-package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle
+package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.category
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.content.Context
 import com.dev.lyhoangvinh.mvparchitecture.data.repo.CategoriesRepo
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
-import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerActivity
+import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BaseListPresenter
 import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
 import javax.inject.Inject
 
-@PerActivity
-class AvglePresenter @Inject constructor(
+@PerFragment
+class CategoriesPresenter @Inject constructor(
     @ActivityContext context: Context, private val categoriesRepo: CategoriesRepo,
     private val connectionLiveData: ConnectionLiveData
 ) :
-    BaseListPresenter<AvgleView>(context) {
+    BaseListPresenter<CategoriesView>(context) {
 
     private var currentConnected = true
 

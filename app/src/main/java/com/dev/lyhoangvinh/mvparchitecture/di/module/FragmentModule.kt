@@ -5,11 +5,11 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
-import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseFragment
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityFragmentManager
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ChildFragmentManager
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerFragment
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseFragment
 import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
 import dagger.Module
 import dagger.Provides
@@ -21,8 +21,8 @@ import lyhoangvinh.com.myutil.navigation.Navigator
 @Module
 class FragmentModule(private val mFragment: BaseFragment) {
 
-    @PerFragment
     @Provides
+    @PerFragment
     internal fun provideFragment(): Fragment {
         return mFragment
     }
@@ -33,7 +33,6 @@ class FragmentModule(private val mFragment: BaseFragment) {
     internal fun provideChildFragmentManager(): FragmentManager {
         return mFragment.childFragmentManager
     }
-
 
     @Provides
     internal fun provideActivity(): FragmentActivity? {
@@ -48,8 +47,8 @@ class FragmentModule(private val mFragment: BaseFragment) {
 
     @Provides
     @ActivityContext
-    internal fun provideContext(): Context? {
-        return mFragment.context
+    internal fun provideContext(): Context {
+        return mFragment.context!!
     }
 
     @Provides

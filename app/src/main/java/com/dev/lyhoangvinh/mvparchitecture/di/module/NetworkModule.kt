@@ -4,10 +4,11 @@ import android.app.Application
 import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
 import com.dev.lyhoangvinh.mvparchitecture.data.services.ComicVineService
-import com.dev.lyhoangvinh.mvparchitecture.utils.makeOkHttpClientBuilder
-import com.dev.lyhoangvinh.mvparchitecture.utils.makeService
+import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ApplicationContext
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.OkHttpNoAuth
 import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
+import com.dev.lyhoangvinh.mvparchitecture.utils.makeOkHttpClientBuilder
+import com.dev.lyhoangvinh.mvparchitecture.utils.makeService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -15,7 +16,7 @@ import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
-class NetworkModule(private var context: Application) {
+class NetworkModule(@ApplicationContext private var context: Application) {
 
     @Provides
     @OkHttpNoAuth

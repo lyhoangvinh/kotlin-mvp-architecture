@@ -4,8 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.view.View
-import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BasePresenter
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BasePresenter
 import javax.inject.Inject
 
 
@@ -38,7 +38,8 @@ abstract class BasePresenterFragment<V : BaseView, P : BasePresenter<V>> : BaseF
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        presenter.onRestoreInstanceState(savedInstanceState!!)
+        if (savedInstanceState != null)
+            presenter.onRestoreInstanceState(savedInstanceState)
     }
 
 

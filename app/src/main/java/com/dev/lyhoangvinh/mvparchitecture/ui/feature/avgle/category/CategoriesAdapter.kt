@@ -1,4 +1,4 @@
-package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle
+package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.category
 
 import android.support.v7.util.DiffUtil
 import android.view.View
@@ -26,8 +26,8 @@ class CategoriesAdapter(mData: ArrayList<Category>) :
 
     override fun onBindViewHolder(vh: CategoriesViewHolder, dto: Category, position: Int) {
         vh.tvName.text = dto.name
-        vh.tvSlug.text = dto.slug
-        vh.tvTotalVideos.text = dto.totalVideos.toString()
+        vh.tvSlug.text = String.format("Slug: %s", dto.slug)
+        vh.tvTotalVideos.text = String.format("Total videos: %s", dto.totalVideos.toString())
         vh.imv.loadImage(dto.coverUrl.toString())
         vh.tvClick.setOnClickListener { onClickItemListener?.invoke(dto.categoryUrl.toString()) }
     }
@@ -41,7 +41,13 @@ class CategoriesAdapter(mData: ArrayList<Category>) :
     }
 
     fun updateCategories(newList: List<Category>) {
-        update(newList, CategoriesDiffCallBack(getData(), newList), false)
+        update(
+            newList,
+            CategoriesDiffCallBack(
+                getData(),
+                newList
+            ), false
+        )
     }
 
     class CategoriesDiffCallBack(private val current: List<Category>, private val next: List<Category>) :
