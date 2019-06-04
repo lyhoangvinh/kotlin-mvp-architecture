@@ -22,10 +22,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.dev.lyhoangvinh.mvparchitecture.BuildConfig
-import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.R
-import com.dev.lyhoangvinh.mvparchitecture.database.entinies.ErrorEntity
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.ErrorEntity
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Filter
@@ -181,9 +180,9 @@ fun View.setVisible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-fun <T> makeService(serviceClass: Class<T>, gson: Gson, okHttpClient: OkHttpClient): T {
+fun <T> makeService(serviceClass: Class<T>, gson: Gson, okHttpClient: OkHttpClient, url: String): T {
     val retrofit = Retrofit.Builder()
-        .baseUrl(Constants.ENDPOINT)
+        .baseUrl(url)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))

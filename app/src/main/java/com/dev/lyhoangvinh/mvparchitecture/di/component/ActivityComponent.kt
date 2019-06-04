@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager
 import com.dev.lyhoangvinh.mvparchitecture.di.module.ActivityModule
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityFragmentManager
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerActivity
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.main.MainActivity
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.testfeature.FeatureActivity
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.AvgleActivity
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.comics.IssuesActivity
 import dagger.Component
 
 @PerActivity
@@ -18,7 +18,7 @@ interface ActivityComponent {
 
     fun lifeCycleOwner(): LifecycleOwner
 
-    fun inject(activity: MainActivity)
+    fun inject(activity: IssuesActivity)
 
-    fun inject(activity: FeatureActivity)
+    fun inject(activity: AvgleActivity)
 }

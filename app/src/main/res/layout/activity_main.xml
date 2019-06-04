@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/root"
-        tools:context=".ui.feature.main.MainActivity">
+        tools:context=".ui.feature.comics.IssuesActivity">
 
     <include layout="@layout/swipe_recycler_view"/>
 

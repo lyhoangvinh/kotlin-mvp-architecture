@@ -2,11 +2,13 @@ package com.dev.lyhoangvinh.mvparchitecture.di.component
 
 import android.content.Context
 import com.dev.lyhoangvinh.mvparchitecture.MyApplication
-import com.dev.lyhoangvinh.mvparchitecture.ui.base.api.ComicVineService
-import com.dev.lyhoangvinh.mvparchitecture.database.DatabaseManager
-import com.dev.lyhoangvinh.mvparchitecture.database.SharedPrefs
-import com.dev.lyhoangvinh.mvparchitecture.database.dao.ComicsDao
-import com.dev.lyhoangvinh.mvparchitecture.database.dao.IssuesDao
+import com.dev.lyhoangvinh.mvparchitecture.data.services.ComicVineService
+import com.dev.lyhoangvinh.mvparchitecture.data.DatabaseManager
+import com.dev.lyhoangvinh.mvparchitecture.data.SharedPrefs
+import com.dev.lyhoangvinh.mvparchitecture.data.dao.CategoriesDao
+import com.dev.lyhoangvinh.mvparchitecture.data.dao.ComicsDao
+import com.dev.lyhoangvinh.mvparchitecture.data.dao.IssuesDao
+import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
 import com.dev.lyhoangvinh.mvparchitecture.di.module.AppModule
 import com.dev.lyhoangvinh.mvparchitecture.di.module.DataModule
 import com.dev.lyhoangvinh.mvparchitecture.di.module.NetworkModule
@@ -29,6 +31,8 @@ interface AppComponent {
 
     fun getComicVineService(): ComicVineService
 
+    fun getAvgleService(): AvgleService
+
     fun getSharedPrefs(): SharedPrefs
 
     fun getConnectionLiveData(): ConnectionLiveData
@@ -36,6 +40,8 @@ interface AppComponent {
     fun comicsDao(): ComicsDao
 
     fun issuesDao(): IssuesDao
+
+    fun categories(): CategoriesDao
 
     fun inject(app: MyApplication)
 }

@@ -16,7 +16,15 @@
             android:roundIcon="@drawable/ic_kotlin_logo"
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.dev.lyhoangvinh.mvparchitecture.ui.feature.main.MainActivity">
+        <activity android:name="com.dev.lyhoangvinh.mvparchitecture.ui.feature.comics.IssuesActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".ui.feature.avgle.AvgleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -24,13 +32,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.dev.lyhoangvinh.mvparchitecture.ui.feature.testfeature.FeatureActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-        </activity>
+        <activity android:name=".ui.feature.avgle.detail.DetailActivity"/>
 
         <receiver android:name=".receiver.NetworkReceiver"/>
     </application>

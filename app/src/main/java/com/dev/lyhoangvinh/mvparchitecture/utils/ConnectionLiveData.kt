@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import com.dev.lyhoangvinh.mvparchitecture.database.entinies.Connection
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.comic.Connection
 import com.dev.lyhoangvinh.mvparchitecture.receiver.NetworkReceiver
 
 @Suppress("DEPRECATION")
@@ -30,11 +30,26 @@ class ConnectionLiveData(private val context: Context) : LiveData<Connection>() 
                 val isConnected = activeNetwork.isConnectedOrConnecting
                 if (isConnected) {
                     when (activeNetwork.type) {
-                        ConnectivityManager.TYPE_WIFI -> postValue(Connection(CONNECTION_WIFI, true))
-                        ConnectivityManager.TYPE_MOBILE -> postValue(Connection(CONNECTION_MOBILE, true))
+                        ConnectivityManager.TYPE_WIFI -> postValue(
+                            Connection(
+                                CONNECTION_WIFI,
+                                true
+                            )
+                        )
+                        ConnectivityManager.TYPE_MOBILE -> postValue(
+                            Connection(
+                                CONNECTION_MOBILE,
+                                true
+                            )
+                        )
                     }
                 } else {
-                    postValue(Connection(CONNECTION_NONE, false))
+                    postValue(
+                        Connection(
+                            CONNECTION_NONE,
+                            false
+                        )
+                    )
                 }
             }
         }

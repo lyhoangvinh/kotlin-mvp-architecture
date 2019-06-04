@@ -1,7 +1,9 @@
 package com.dev.lyhoangvinh.mvparchitecture.di.module
 
 import android.app.Application
-import com.dev.lyhoangvinh.mvparchitecture.ui.base.api.ComicVineService
+import com.dev.lyhoangvinh.mvparchitecture.Constants
+import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
+import com.dev.lyhoangvinh.mvparchitecture.data.services.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.utils.makeOkHttpClientBuilder
 import com.dev.lyhoangvinh.mvparchitecture.utils.makeService
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.OkHttpNoAuth
@@ -24,8 +26,14 @@ class NetworkModule(private var context: Application) {
 
     @Provides
     @Singleton
-    internal fun provideGithubService(gson: Gson, @OkHttpNoAuth okHttpClient: OkHttpClient): ComicVineService {
-        return makeService(ComicVineService::class.java, gson, okHttpClient)
+    internal fun provideComicVineService(gson: Gson, @OkHttpNoAuth okHttpClient: OkHttpClient): ComicVineService {
+        return makeService(ComicVineService::class.java, gson, okHttpClient, Constants.COMIC_ENDPOINT)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideAvgleService(gson: Gson, @OkHttpNoAuth okHttpClient: OkHttpClient): AvgleService {
+        return makeService(AvgleService::class.java, gson, okHttpClient, Constants.AVGLE_ENDPOINT)
     }
 
     @Singleton

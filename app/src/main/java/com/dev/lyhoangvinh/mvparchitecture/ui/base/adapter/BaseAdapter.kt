@@ -1,5 +1,7 @@
 package com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter
 
+import android.support.annotation.NonNull
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +11,10 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.ListData
 abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val data: ArrayList<T>) :
     RecyclerView.Adapter<VH>(), ListData {
 
-    abstract val itemLayoutResource: Int
+    abstract fun itemLayoutResource(): Int
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val v = LayoutInflater.from(parent.context).inflate(this.itemLayoutResource, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(itemLayoutResource(), parent, false)
         return this.createViewHolder(v)
     }
 
@@ -43,5 +45,14 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val data: Ar
         return data
     }
 
-    override fun isDataEmpty() = data.size == 0
+    override fun isDataEmpty(): Boolean {
+        return data.size == 0
+    }
+
+    fun update(newList: List<T>, @NonNull cb: DiffUtil.Callback, detectMoves: Boolean) {
+        val result = DiffUtil.calculateDiff(cb, detectMoves)
+        getData().clear()
+        getData().addAll(newList)
+        result.dispatchUpdatesTo(this)
+    }
 }

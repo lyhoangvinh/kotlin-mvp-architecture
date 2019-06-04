@@ -4,9 +4,9 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import com.dev.lyhoangvinh.mvparchitecture.database.Resource
-import com.dev.lyhoangvinh.mvparchitecture.database.Status
-import com.dev.lyhoangvinh.mvparchitecture.database.entinies.ErrorEntity
+import com.dev.lyhoangvinh.mvparchitecture.data.Resource
+import com.dev.lyhoangvinh.mvparchitecture.data.Status
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.ErrorEntity
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Lifecycle
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer

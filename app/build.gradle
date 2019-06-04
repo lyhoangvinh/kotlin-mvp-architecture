@@ -20,7 +20,8 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "ENDPOINT", "\"http://api.comicvine.com\"")
+            buildConfigField("String", "COMIC_ENDPOINT", "\"http://api.comicvine.com\"")
+            buildConfigField("String", "AVGLE_ENDPOINT", "\"https://api.avgle.com/v1/\"")
             buildConfigField("String", "HEADER_AUTH", "\"Authorization\"")
             buildConfigField "boolean", "ENABLE_LOGCAT", "true"
             buildConfigField("String", "API_KEY", "\"8c7bd28c573cebf75e30f9ecc109845810cf5024\"")
@@ -28,7 +29,8 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "ENDPOINT", "\"http://api.comicvine.com\"")
+            buildConfigField("String", "COMIC_ENDPOINT", "\"http://api.comicvine.com\"")
+            buildConfigField("String", "AVGLE_ENDPOINT", "\"https://api.avgle.com/v1/\"")
             buildConfigField "boolean", "ENABLE_LOGCAT", "false"
             buildConfigField("String", "HEADER_AUTH", "\"Authorization\"")
             buildConfigField("String", "API_KEY", "\"8c7bd28c573cebf75e30f9ecc109845810cf5024\"")
