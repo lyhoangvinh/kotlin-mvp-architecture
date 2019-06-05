@@ -7,13 +7,10 @@ import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseSwipeRecyclerViewFragment
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionPresenter
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionView
 import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.toolbar_default.*
 import kotlinx.android.synthetic.main.view_error_connection.*
-import kotlinx.android.synthetic.main.view_no_data.*
 import javax.inject.Inject
 
 class VideosFragment : BaseSwipeRecyclerViewFragment<VideosAdapter, VideosView, VideosPresenter>(),
@@ -39,6 +36,7 @@ class VideosFragment : BaseSwipeRecyclerViewFragment<VideosAdapter, VideosView, 
             tvText.text = category.name
         }
         refreshWithUi(300L)
+        presenter.observe()
     }
 
     override fun connection(isConnected: Boolean) {

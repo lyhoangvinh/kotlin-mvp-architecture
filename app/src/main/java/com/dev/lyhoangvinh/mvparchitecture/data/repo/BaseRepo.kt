@@ -1,11 +1,13 @@
 package com.dev.lyhoangvinh.mvparchitecture.data.repo
 
+import android.util.Log
 import com.dev.lyhoangvinh.mvparchitecture.data.Resource
 import com.dev.lyhoangvinh.mvparchitecture.data.SimpleNetworkBoundSource
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.Single
+import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 
 
@@ -56,6 +58,27 @@ abstract class BaseRepo {
 
     interface OnSaveResultListener<T> {
         fun onSave(data: T, isRefresh: Boolean)
+    }
+
+    fun execute(action: () -> Unit, onComplete: () -> Unit) {
+        Completable.fromAction {
+            action.invoke()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
+                    onComplete.invoke()
+                    Log.d(BaseRepo::class.java.simpleName, "onComplete")
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    Log.d(BaseRepo::class.java.simpleName, "onSubscribe")
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.d(BaseRepo::class.java.simpleName, "onError")
+                }
+            })
     }
 }
 

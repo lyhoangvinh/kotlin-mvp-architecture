@@ -1,16 +1,14 @@
 package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos
 
-import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.content.Context
-import com.dev.lyhoangvinh.mvparchitecture.data.repo.CollectionRepo
 import com.dev.lyhoangvinh.mvparchitecture.data.repo.VideosRepo
+import com.dev.lyhoangvinh.mvparchitecture.data.response.BaseResponseAvgle
+import com.dev.lyhoangvinh.mvparchitecture.data.response.VideosResponseAvgle
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerFragment
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BaseListPresenter
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.category.CategoriesAdapter
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionAdapter
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionView
 import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
 import javax.inject.Inject
 
@@ -23,15 +21,23 @@ class VideosPresenter @Inject constructor(
 
     private var chId = ""
 
+    private var currentPage: Int = 0
+
     private var currentConnected = true
+
+    private var canLoadMore = false
 
     private var adapter: VideosAdapter? = null
 
-    override fun canLoadMore() = false
+    override fun canLoadMore() = canLoadMore
 
     override fun fetchData() {
-        execute(chId)
-        observe(chId, getLifeCircleOwner())
+        if (isRefreshed) {
+            currentPage = 0
+        } else {
+            currentPage += 1
+        }
+        execute(chId, currentPage)
     }
 
     fun getAdapter(): VideosAdapter? {
@@ -45,25 +51,31 @@ class VideosPresenter @Inject constructor(
         adapter?.setOnItemClickListener { getView()?.openDetail(it) }
     }
 
-    private fun observe(chId: String, owner: LifecycleOwner) {
-        videosRepo.liveData().observe(owner, Observer {
+    fun observe() {
+        videosRepo.liveData().observe(getLifeCircleOwner(), Observer {
             adapter?.updateVideos(it!!)
-            getView()?.showMessage("SIZE : " + it!!.size)
+//            getView()?.showMessage("SIZE : " + it!!.size)
         })
 
-        connectionLiveData.observe(owner, Observer {
+        connectionLiveData.observe(getLifeCircleOwner(), Observer {
             getView()?.connection(it!!.isConnected)
             if (currentConnected && !it!!.isConnected) {
                 currentConnected = it.isConnected
             } else if (!currentConnected && it!!.isConnected) {
                 isRefreshed = true
-                execute(chId)
+                fetchData()
             }
         })
     }
 
-    private fun execute(chId: String) {
-        execute(videosRepo.getRepoVideos(chId))
+    private fun execute(chId: String, page: Int) {
+        execute(videosRepo.getRepoVideos(isRefreshed, chId, page),
+            object : PlainConsumer<BaseResponseAvgle<VideosResponseAvgle>> {
+                override fun accept(t: BaseResponseAvgle<VideosResponseAvgle>) {
+                    canLoadMore = t.response.hasMore
+                    isRefreshed = false
+                }
+            })
     }
 
     fun deleteAll() {
