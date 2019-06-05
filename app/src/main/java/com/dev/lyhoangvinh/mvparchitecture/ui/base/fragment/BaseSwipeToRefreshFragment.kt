@@ -11,12 +11,11 @@ import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.UiRefreshable
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BasePresenter
+import kotlinx.android.synthetic.main.swipe_recycler_view.*
 import lyhoangvinh.com.myutil.view.AppBarStateChangeListener
 
 abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : BasePresenterFragment<V, P>(),
     SwipeRefreshLayout.OnRefreshListener, UiRefreshable {
-
-    protected var refreshLayout: SwipeRefreshLayout? = null
 
     protected var isRefresh = false
 
@@ -28,16 +27,13 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
     }
 
     private fun initSwipeToRefresh() {
-        if (refreshLayout == null) {
-            refreshLayout = activity?.findViewById(R.id.srl)
-        }
-        refreshLayout!!.setColorSchemeResources(
+        srl!!.setColorSchemeResources(
             android.R.color.holo_blue_bright,
             android.R.color.holo_green_light,
             android.R.color.holo_orange_light,
             android.R.color.holo_red_light
         )
-        refreshLayout!!.setOnRefreshListener(this)
+        srl!!.setOnRefreshListener(this)
     }
 
     override fun onStop() {
@@ -46,7 +42,7 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
     }
 
     override fun setRefreshEnabled(enabled: Boolean) {
-        refreshLayout!!.isEnabled = enabled
+        srl!!.isEnabled = enabled
     }
 
     override fun showProgress() {
@@ -57,8 +53,8 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
     override fun doneRefresh() {
         isRefresh = false
         shouldRefreshUi = false
-        if (refreshLayout != null) {
-            refreshLayout!!.isRefreshing = false
+        if (srl != null) {
+            srl!!.isRefreshing = false
         }
     }
 
@@ -72,8 +68,8 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
 
 
     override fun refreshWithUi(delay: Long) {
-        if (refreshLayout != null) {
-            refreshLayout!!.postDelayed({
+        if (srl != null) {
+            srl!!.postDelayed({
                 refreshWithUi()
                 onRefresh()
             }, delay)
@@ -83,8 +79,8 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
     override fun refreshWithUi() {
         shouldRefreshUi = true
         android.os.Handler().postDelayed({
-            if (shouldRefreshUi && refreshLayout != null) {
-                refreshLayout!!.isRefreshing = true
+            if (shouldRefreshUi && srl != null) {
+                srl!!.isRefreshing = true
             }
         }, 100L)
     }
@@ -99,14 +95,14 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
         appBar.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
             override fun onStateChanged(appBarLayout: AppBarLayout, state: AppBarStateChangeListener.State) {
                 if (state == AppBarStateChangeListener.State.EXPANDED) {
-                    if (refreshLayout != null) {
+                    if (srl != null) {
                         Log.d("refresh_layout", "enabled")
-                        refreshLayout!!.isEnabled = true
+                        srl!!.isEnabled = true
                     }
                 } else {
-                    if (refreshLayout != null && !isRefresh) {
+                    if (srl != null && !isRefresh) {
                         Log.d("refresh_layout", "disabled")
-                        refreshLayout!!.isEnabled = false
+                        srl!!.isEnabled = false
                     }
                 }
             }
@@ -132,11 +128,11 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
                 // All of this is to inhibit any scrollable container from consuming our touch events as the user is changing pages
                 if (mPreviousState == ViewPager.SCROLL_STATE_IDLE) {
                     if (state == ViewPager.SCROLL_STATE_DRAGGING) {
-                        refreshLayout!!.isEnabled = false
+                        srl!!.isEnabled = false
                     }
                 } else {
                     if (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING) {
-                        refreshLayout!!.isEnabled = true
+                        srl!!.isEnabled = true
                     }
                 }
                 mPreviousState = state

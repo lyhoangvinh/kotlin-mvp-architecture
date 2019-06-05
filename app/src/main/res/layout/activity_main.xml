@@ -8,6 +8,8 @@
         android:id="@+id/root"
         tools:context=".ui.feature.comics.IssuesActivity">
 
+    <include layout="@layout/toolbar_default"/>
+
     <include layout="@layout/swipe_recycler_view"/>
 
 </LinearLayout>

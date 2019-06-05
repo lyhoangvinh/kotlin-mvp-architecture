@@ -61,7 +61,7 @@ abstract class BaseFragment : Fragment(), BaseView {
         return mFragmentComponent
     }
 
-    protected fun shouldRegisterEventBus(): Boolean {
+    protected open fun shouldRegisterEventBus(): Boolean {
         return false
     }
 
@@ -116,7 +116,7 @@ abstract class BaseFragment : Fragment(), BaseView {
     /**
      * @return true if fragment should handle back press, false if not (activity will handle back press event)
      */
-    fun onBackPressed(): Boolean {
+    open fun onBackPressed(): Boolean {
         return false
     }
 }

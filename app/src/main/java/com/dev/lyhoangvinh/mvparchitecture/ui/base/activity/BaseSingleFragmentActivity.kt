@@ -7,6 +7,7 @@ import android.support.annotation.IdRes
 import android.support.annotation.Nullable
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseFragment
+import com.dev.lyhoangvinh.mvparchitecture.utils.FragmentStateHelper
 
 @Suppress("UNCHECKED_CAST")
 abstract class BaseSingleFragmentActivity<T : BaseFragment> : BaseActivity() {

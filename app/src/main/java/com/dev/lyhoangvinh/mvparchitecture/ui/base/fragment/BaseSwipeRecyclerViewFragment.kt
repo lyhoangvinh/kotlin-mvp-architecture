@@ -10,6 +10,9 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.ListData
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.LoadMoreable
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BasePresenter
+import kotlinx.android.synthetic.main.view_no_data.*
+import kotlinx.android.synthetic.main.view_recyclerview.*
+import kotlinx.android.synthetic.main.view_scroll_top.*
 
 
 /**
@@ -27,11 +30,11 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
 
     private var mVisibleThreshold: Int = 5
 
-    var recyclerView: RecyclerView? = null
-
-    private var noDataView: View? = null
-
-    private var scrollTopView: View? = null
+//    var recyclerView: RecyclerView? = null
+//
+//    private var noDataView: View? = null
+//
+//    private var scrollTopView: View? = null
 
     private lateinit var adapter: A
 
@@ -68,11 +71,11 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
     override fun initialize(view: View, ctx: Context?) {
         super.initialize(view, ctx)
         initRecyclerView(view)
-        scrollTopView = view.findViewById(R.id.scrollTop)
-        noDataView = view.findViewById(R.id.noDataView)
-        if (scrollTopView != null) {
-            scrollTopView!!.visibility = View.GONE
-            scrollTopView!!.setOnClickListener { recyclerView!!.scrollToPosition(0) }
+//        scrollTopView = view.findViewById(R.id.scrollTop)
+//        noDataView = view.findViewById(R.id.noDataView)
+        if (scrollTop != null) {
+            scrollTop!!.visibility = View.GONE
+            scrollTop!!.setOnClickListener { rcv!!.scrollToPosition(0) }
         }
         if (noDataView != null) {
             noDataView!!.visibility = View.GONE
@@ -88,18 +91,18 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
 
     @CallSuper
     protected fun initRecyclerView(view: View) {
-        if (recyclerView == null) {
-            recyclerView = view.findViewById(R.id.rcv)
-        }
+//        if (recyclerView == null) {
+//            recyclerView = view.findViewById(R.id.rcv)
+//        }
         layoutManager = createLayoutManager()
-        recyclerView?.layoutManager = layoutManager
-        recyclerView?.itemAnimator = DefaultItemAnimator()
+        rcv?.layoutManager = layoutManager
+        rcv?.itemAnimator = DefaultItemAnimator()
 
         if (addItemDecoration() != null) {
-            recyclerView?.addItemDecoration(addItemDecoration()!!)
+            rcv?.addItemDecoration(addItemDecoration()!!)
         }
 
-        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rcv?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -132,7 +135,7 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
         })
         adapter = createAdapter()
         //        recyclerView.getRecycledViewPool().clear();
-        recyclerView?.adapter = adapter
+        rcv?.adapter = adapter
     }
 
     private fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
@@ -217,15 +220,15 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
      * if user scroll down more than [.DEFAULT_SCROLL_TOP_POSITION]
      */
     private fun updateScrollTop(visibleItemCount: Int, pastVisibleItems: Int) {
-        if (scrollTopView != null) {
-            if (recyclerView != null) {
+        if (scrollTop != null) {
+            if (scrollTop != null) {
                 if (visibleItemCount + pastVisibleItems >= scrollTopPosition) {
-                    scrollTopView!!.visibility = View.VISIBLE
+                    scrollTop!!.visibility = View.VISIBLE
                 } else {
-                    scrollTopView!!.visibility = View.GONE
+                    scrollTop!!.visibility = View.GONE
                 }
             } else {
-                scrollTopView!!.visibility = View.GONE
+                scrollTop!!.visibility = View.GONE
             }
         }
     }
