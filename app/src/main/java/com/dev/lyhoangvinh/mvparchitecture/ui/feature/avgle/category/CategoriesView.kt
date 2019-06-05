@@ -5,5 +5,5 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 interface CategoriesView : BaseView {
     fun connection(isConnected: Boolean)
 
-    fun openDetail(url: String)
+    fun openCollection(keyword: String)
 }

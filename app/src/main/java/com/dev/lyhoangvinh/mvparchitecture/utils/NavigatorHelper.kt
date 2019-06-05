@@ -1,6 +1,9 @@
 package com.dev.lyhoangvinh.mvparchitecture.utils
 
+import android.os.Bundle
 import com.dev.lyhoangvinh.mvparchitecture.Constants
+import com.dev.lyhoangvinh.mvparchitecture.R
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.detail.DetailActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.comics.IssuesActivity
 import lyhoangvinh.com.myutil.navigation.ActivityNavigator
@@ -27,5 +30,13 @@ class NavigatorHelper(private var mNavigator: Navigator) {
 
     fun navigateDetailActivity(url: String) {
         mNavigator.startActivity(DetailActivity::class.java) { intent -> intent.putExtra(Constants.EXTRA_DATA, url) }
+    }
+
+    fun navigateCollectionFragment(keyword: String) {
+        val collectionFragment = CollectionFragment()
+        val bundle = Bundle()
+        bundle.putString(Constants.EXTRA_DATA, keyword)
+        collectionFragment.arguments = bundle
+        mNavigator.replaceFragmentAndAddToBackStack(R.id.container, collectionFragment, bundle, null)
     }
 }

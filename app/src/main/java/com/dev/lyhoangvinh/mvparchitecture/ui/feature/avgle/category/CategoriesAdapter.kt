@@ -28,7 +28,7 @@ class CategoriesAdapter : BaseAdapter<Category, CategoriesAdapter.CategoriesView
         vh.tvSlug.text = String.format("Slug: %s", dto.slug)
         vh.tvTotalVideos.text = String.format("Total videos: %s", dto.totalVideos.toString())
         vh.imv.loadImage(dto.coverUrl.toString())
-        vh.tvClick.setOnClickListener { onClickItemListener?.invoke(dto.categoryUrl.toString()) }
+        vh.tvClick.setOnClickListener { onClickItemListener?.invoke(dto.slug.toString()) }
     }
 
     class CategoriesViewHolder(itemView: View) : BaseViewHolder(itemView) {
@@ -40,13 +40,7 @@ class CategoriesAdapter : BaseAdapter<Category, CategoriesAdapter.CategoriesView
     }
 
     fun updateCategories(newList: List<Category>) {
-        update(
-            newList,
-            CategoriesDiffCallBack(
-                getData(),
-                newList
-            ), false
-        )
+        update(newList, CategoriesDiffCallBack(getData(), newList), false)
     }
 
     class CategoriesDiffCallBack(private val current: List<Category>, private val next: List<Category>) :

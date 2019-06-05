@@ -26,7 +26,7 @@ class CategoriesPresenter @Inject constructor(
     override fun fetchData() {
         execute()
         observe(getLifeCircleOwner())
-        adapter?.setOnClickItemListener { getView()?.openDetail(it) }
+        adapter?.setOnClickItemListener { getView()?.openCollection(it) }
     }
 
     fun getAdapter(): CategoriesAdapter? {

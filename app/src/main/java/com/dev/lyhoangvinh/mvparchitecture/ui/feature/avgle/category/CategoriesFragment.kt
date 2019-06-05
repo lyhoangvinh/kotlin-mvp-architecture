@@ -35,7 +35,7 @@ class CategoriesFragment : BaseSwipeRecyclerViewFragment<CategoriesAdapter, Cate
         viewErrorConnection.setVisible(!isConnected)
     }
 
-    override fun openDetail(url: String) {
-        navigatorHelper.navigateDetailActivity(url)
+    override fun openCollection(keyword: String) {
+        navigatorHelper.navigateCollectionFragment(keyword)
     }
 }

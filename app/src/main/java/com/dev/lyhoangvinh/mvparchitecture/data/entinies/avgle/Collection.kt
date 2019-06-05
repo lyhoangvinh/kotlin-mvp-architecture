@@ -7,8 +7,9 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "COLLECTION")
 data class Collection(
+
     @PrimaryKey(autoGenerate = true)
-    var id: Long,
+    var idAuto: Long,
 
     @SerializedName("id")
     @Expose

@@ -5,6 +5,7 @@ import android.arch.persistence.room.Room
 import com.dev.lyhoangvinh.mvparchitecture.data.DatabaseManager
 import com.dev.lyhoangvinh.mvparchitecture.data.SharedPrefs
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.CategoriesDao
+import com.dev.lyhoangvinh.mvparchitecture.data.dao.CollectionDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.ComicsDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.IssuesDao
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ApplicationContext
@@ -22,6 +23,12 @@ class DataModule(@ApplicationContext private var context: Application) {
             .fallbackToDestructiveMigration()
             .allowMainThreadQueries()
             .build()
+    }
+
+    @Singleton
+    @Provides
+    internal fun providesSharePeres(): SharedPrefs {
+        return SharedPrefs.getInstance(context)
     }
 
     @Provides
@@ -42,9 +49,9 @@ class DataModule(@ApplicationContext private var context: Application) {
         return databaseManager.categoriesDao()
     }
 
-    @Singleton
     @Provides
-    internal fun providesSharePeres(): SharedPrefs {
-        return SharedPrefs.getInstance(context)
+    @Singleton
+    fun provideCollectionDao(databaseManager: DatabaseManager): CollectionDao {
+        return databaseManager.collectionDao()
     }
 }

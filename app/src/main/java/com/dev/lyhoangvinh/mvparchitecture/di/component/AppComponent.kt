@@ -6,6 +6,7 @@ import com.dev.lyhoangvinh.mvparchitecture.data.services.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.data.DatabaseManager
 import com.dev.lyhoangvinh.mvparchitecture.data.SharedPrefs
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.CategoriesDao
+import com.dev.lyhoangvinh.mvparchitecture.data.dao.CollectionDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.ComicsDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.IssuesDao
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
@@ -41,7 +42,9 @@ interface AppComponent {
 
     fun issuesDao(): IssuesDao
 
-    fun categories(): CategoriesDao
+    fun categoriesDao(): CategoriesDao
+
+    fun collectionDao(): CollectionDao
 
     fun inject(app: MyApplication)
 }
