@@ -17,9 +17,9 @@ class CategoriesAdapter : BaseAdapter<Category, CategoriesAdapter.CategoriesView
 
     override fun createViewHolder(itemView: View) = CategoriesViewHolder(itemView)
 
-    private var onClickItemListener: ((String) -> Unit?)? = null
+    private var onClickItemListener: ((Category) -> Unit?)? = null
 
-    fun setOnClickItemListener(onClickItemListener: (String) -> Unit) {
+    fun setOnClickItemListener(onClickItemListener: (Category) -> Unit) {
         this.onClickItemListener = onClickItemListener
     }
 
@@ -28,7 +28,7 @@ class CategoriesAdapter : BaseAdapter<Category, CategoriesAdapter.CategoriesView
         vh.tvSlug.text = String.format("Slug: %s", dto.slug)
         vh.tvTotalVideos.text = String.format("Total videos: %s", dto.totalVideos.toString())
         vh.imv.loadImage(dto.coverUrl.toString())
-        vh.tvClick.setOnClickListener { onClickItemListener?.invoke(dto.slug.toString()) }
+        vh.tvClick.setOnClickListener { onClickItemListener?.invoke(dto) }
     }
 
     class CategoriesViewHolder(itemView: View) : BaseViewHolder(itemView) {

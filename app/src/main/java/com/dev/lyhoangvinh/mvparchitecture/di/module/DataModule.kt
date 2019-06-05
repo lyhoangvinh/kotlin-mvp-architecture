@@ -4,10 +4,7 @@ import android.app.Application
 import android.arch.persistence.room.Room
 import com.dev.lyhoangvinh.mvparchitecture.data.DatabaseManager
 import com.dev.lyhoangvinh.mvparchitecture.data.SharedPrefs
-import com.dev.lyhoangvinh.mvparchitecture.data.dao.CategoriesDao
-import com.dev.lyhoangvinh.mvparchitecture.data.dao.CollectionDao
-import com.dev.lyhoangvinh.mvparchitecture.data.dao.ComicsDao
-import com.dev.lyhoangvinh.mvparchitecture.data.dao.IssuesDao
+import com.dev.lyhoangvinh.mvparchitecture.data.dao.*
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ApplicationContext
 import dagger.Module
 import dagger.Provides
@@ -53,5 +50,11 @@ class DataModule(@ApplicationContext private var context: Application) {
     @Singleton
     fun provideCollectionDao(databaseManager: DatabaseManager): CollectionDao {
         return databaseManager.collectionDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideVideosDao(databaseManager: DatabaseManager): VideosDao {
+        return databaseManager.videosDao()
     }
 }

@@ -6,8 +6,10 @@ import android.content.Context
 import android.os.Bundle
 import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.R
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.detail.DetailActivity
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos.VideosFragment
 import lyhoangvinh.com.myutil.navigation.ActivityNavigator
 import lyhoangvinh.com.myutil.navigation.FragmentNavigator
 import lyhoangvinh.com.myutil.navigation.Navigator
@@ -30,12 +32,18 @@ class NavigatorHelper(private var mNavigator: Navigator) {
         mNavigator.startActivity(DetailActivity::class.java) { intent -> intent.putExtra(Constants.EXTRA_DATA, url) }
     }
 
-    @Suppress("DEPRECATION")
-    @SuppressLint("CommitTransaction")
-    fun navigateCollectionFragment(keyword: String) {
+    fun navigateCollectionFragment(category: Category) {
         val collectionFragment = CollectionFragment()
         val bundle = Bundle()
-        bundle.putString(Constants.EXTRA_DATA, keyword)
+        bundle.putParcelable(Constants.EXTRA_DATA, category)
+        collectionFragment.arguments = bundle
+        mNavigator.replaceFragmentAndAddToBackStack(R.id.container, collectionFragment, bundle, null)
+    }
+
+    fun navigateVideosFragment(category: Category) {
+        val collectionFragment = VideosFragment()
+        val bundle = Bundle()
+        bundle.putParcelable(Constants.EXTRA_DATA, category)
         collectionFragment.arguments = bundle
         mNavigator.replaceFragmentAndAddToBackStack(R.id.container, collectionFragment, bundle, null)
     }

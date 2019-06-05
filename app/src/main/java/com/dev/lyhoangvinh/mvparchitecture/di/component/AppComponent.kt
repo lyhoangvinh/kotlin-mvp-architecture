@@ -5,10 +5,7 @@ import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.data.services.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.data.DatabaseManager
 import com.dev.lyhoangvinh.mvparchitecture.data.SharedPrefs
-import com.dev.lyhoangvinh.mvparchitecture.data.dao.CategoriesDao
-import com.dev.lyhoangvinh.mvparchitecture.data.dao.CollectionDao
-import com.dev.lyhoangvinh.mvparchitecture.data.dao.ComicsDao
-import com.dev.lyhoangvinh.mvparchitecture.data.dao.IssuesDao
+import com.dev.lyhoangvinh.mvparchitecture.data.dao.*
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
 import com.dev.lyhoangvinh.mvparchitecture.di.module.AppModule
 import com.dev.lyhoangvinh.mvparchitecture.di.module.DataModule
@@ -45,6 +42,8 @@ interface AppComponent {
     fun categoriesDao(): CategoriesDao
 
     fun collectionDao(): CollectionDao
+
+    fun videosDao(): VideosDao
 
     fun inject(app: MyApplication)
 }

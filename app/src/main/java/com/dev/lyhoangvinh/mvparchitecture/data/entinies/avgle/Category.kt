@@ -2,6 +2,8 @@ package com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -34,4 +36,38 @@ data class Category(
     @SerializedName("cover_url")
     @Expose
     var coverUrl: String? = ""
-)
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readLong(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readString()
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeLong(id)
+        parcel.writeString(CHID)
+        parcel.writeString(name)
+        parcel.writeString(slug)
+        parcel.writeValue(totalVideos)
+        parcel.writeString(categoryUrl)
+        parcel.writeString(coverUrl)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Category> {
+        override fun createFromParcel(parcel: Parcel): Category {
+            return Category(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Category?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

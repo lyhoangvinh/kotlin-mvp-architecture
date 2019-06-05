@@ -46,7 +46,7 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val data: Ar
     }
 
     override fun isDataEmpty(): Boolean {
-        return data.size == 0
+        return data.isNullOrEmpty()
     }
 
     fun update(newList: List<T>, @NonNull cb: DiffUtil.Callback, detectMoves: Boolean) {

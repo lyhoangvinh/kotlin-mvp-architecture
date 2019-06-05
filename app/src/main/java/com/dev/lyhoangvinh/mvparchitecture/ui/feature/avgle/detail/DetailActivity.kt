@@ -4,11 +4,13 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.webkit.*
 import com.dev.lyhoangvinh.mvparchitecture.Constants
-import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.activity.BasePresenterActivity
 import com.dev.lyhoangvinh.mvparchitecture.utils.NetworkUtils
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.activity_detail.*
+import android.content.Intent
+import android.net.Uri
+import com.dev.lyhoangvinh.mvparchitecture.R
 
 
 class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), DetailView {
@@ -46,6 +48,23 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
                 override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                     super.onReceivedError(view, request, error)
                     viewNoConnection.setVisible(true)
+                }
+
+                @Suppress("DEPRECATION")
+                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                    return if (url!!.endsWith(".mp3")) {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.setDataAndType(Uri.parse(url), "audio/*")
+                        startActivity(intent)
+                        true
+                    } else if (url.endsWith(".mp4") || url.endsWith(".3gp")) {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.setDataAndType(Uri.parse(url), "video/*")
+                        startActivity(intent)
+                        true
+                    } else {
+                        super.shouldOverrideUrlLoading(view, url)
+                    }
                 }
             }
             webViewDetail.loadUrl(url)

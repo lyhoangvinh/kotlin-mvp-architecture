@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.R
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseSwipeRecyclerViewFragment
 import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
@@ -30,10 +31,11 @@ class CollectionFragment : BaseSwipeRecyclerViewFragment<CollectionAdapter, Coll
     override fun initialize(view: View, ctx: Context?) {
         super.initialize(view, ctx)
         if (arguments != null) {
-            presenter.setKeyword(arguments!!.getString(Constants.EXTRA_DATA)!!)
+            val category: Category = arguments!!.getParcelable(Constants.EXTRA_DATA)!!
+            presenter.setKeyword(category.slug!!)
+            tvText.text = category.name
         }
         refreshWithUi(300L)
-        tvText.text = "Collection"
     }
 
     override fun connection(isConnected: Boolean) {

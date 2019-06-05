@@ -17,6 +17,8 @@ class CategoriesPresenter @Inject constructor(
 ) :
     BaseListPresenter<CategoriesView>(context) {
 
+    private var destroyView = false
+
     private var currentConnected = true
 
     private var adapter: CategoriesAdapter? = null
@@ -37,8 +39,11 @@ class CategoriesPresenter @Inject constructor(
 
     private fun observe(owner: LifecycleOwner) {
         categoriesRepo.liveData().observe(owner, Observer {
-            adapter?.updateCategories(it!!)
-            getView()?.showMessage("SIZE : " + it!!.size)
+            if (!destroyView) {
+                adapter?.updateCategories(it!!)
+                getView()?.showMessage("SIZE : " + it!!.size)
+                destroyView = false
+            }
         })
 
         connectionLiveData.observe(owner, Observer {
@@ -54,5 +59,9 @@ class CategoriesPresenter @Inject constructor(
 
     private fun execute() {
         execute(categoriesRepo.getRepoCategories())
+    }
+
+    fun onDetroyView() {
+        destroyView = true
     }
 }

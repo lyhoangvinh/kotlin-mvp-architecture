@@ -1,20 +1,23 @@
-package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.category
-
+package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseSwipeRecyclerViewFragment
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionPresenter
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionView
 import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.toolbar_default.*
 import kotlinx.android.synthetic.main.view_error_connection.*
+import kotlinx.android.synthetic.main.view_no_data.*
 import javax.inject.Inject
 
-class CategoriesFragment : BaseSwipeRecyclerViewFragment<CategoriesAdapter, CategoriesView, CategoriesPresenter>(),
-    CategoriesView {
+class VideosFragment : BaseSwipeRecyclerViewFragment<VideosAdapter, VideosView, VideosPresenter>(),
+    VideosView {
 
     @Inject
     lateinit var navigatorHelper: NavigatorHelper
@@ -30,20 +33,25 @@ class CategoriesFragment : BaseSwipeRecyclerViewFragment<CategoriesAdapter, Cate
 
     override fun initialize(view: View, ctx: Context?) {
         super.initialize(view, ctx)
+        if (arguments != null) {
+            val category: Category = arguments!!.getParcelable(Constants.EXTRA_DATA)!!
+            presenter.setKeyword(category.CHID!!)
+            tvText.text = category.name
+        }
         refreshWithUi(300L)
-        tvText.text = "Categories"
     }
 
     override fun connection(isConnected: Boolean) {
         viewErrorConnection.setVisible(!isConnected)
     }
 
-    override fun openCollection(category: Category) {
-        navigatorHelper.navigateVideosFragment(category)
+    override fun openDetail(url: String) {
+        navigatorHelper.navigateDetailActivity(url)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        presenter.onDetroyView()
+    override fun onBackPressed(): Boolean {
+        presenter.deleteAll()
+        fragmentManager?.popBackStack()
+        return true
     }
 }
