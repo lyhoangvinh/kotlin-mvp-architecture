@@ -15,6 +15,7 @@
             android:label="@string/app_name"
             android:roundIcon="@drawable/ic_kotlin_logo"
             android:supportsRtl="true"
+            android:hardwareAccelerated="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.dev.lyhoangvinh.mvparchitecture.ui.feature.comics.IssuesActivity">
             <!--<intent-filter>-->

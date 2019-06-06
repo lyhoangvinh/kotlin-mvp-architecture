@@ -10,12 +10,13 @@ import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.activity_detail.*
 import android.content.Intent
 import android.net.Uri
-import com.dev.lyhoangvinh.mvparchitecture.R
+import android.util.DisplayMetrics
+import com.dev.lyhoangvinh.mvparchitecture.utils.WebAppInterface
 
 
 class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), DetailView {
 
-    override fun getLayoutResource() = R.layout.activity_detail
+    override fun getLayoutResource() = com.dev.lyhoangvinh.mvparchitecture.R.layout.activity_detail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activityComponent()?.inject(this)
@@ -24,13 +25,16 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
             val url = intent.getStringExtra(Constants.EXTRA_DATA)
             webViewDetail.settings.apply {
                 javaScriptEnabled = true
+                allowFileAccess = true
+                loadWithOverviewMode = true
                 useWideViewPort = true
                 displayZoomControls = false
                 builtInZoomControls = false
                 domStorageEnabled = true
                 cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             }
-
+            webViewDetail.addJavascriptInterface(WebAppInterface(), "MyJSInterface")
+            webViewDetail.webChromeClient = WebChromeClient()
             webViewDetail.webViewClient = object : WebViewClient() {
 
                 override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
@@ -67,8 +71,8 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
                     }
                 }
             }
+            presenter.observeConnection(url)
             webViewDetail.loadUrl(url)
-            presenter.observeConnection(url.toString())
         }
     }
 

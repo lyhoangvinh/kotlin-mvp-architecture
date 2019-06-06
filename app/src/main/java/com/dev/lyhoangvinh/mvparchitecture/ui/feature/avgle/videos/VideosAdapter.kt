@@ -30,7 +30,7 @@ class VideosAdapter :
     override fun onBindViewHolder(vh: VideoViewHoler, dto: Video, position: Int) {
         vh.tvName.text = dto.title
         vh.imv.loadImage(dto.previewUrl.toString())
-        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.previewVideoUrl!!) }
+        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.embeddedUrl!!) }
     }
 
     class VideoViewHoler(itemView: View) : BaseViewHolder(itemView) {
