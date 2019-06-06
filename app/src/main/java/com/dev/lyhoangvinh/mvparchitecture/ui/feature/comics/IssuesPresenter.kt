@@ -2,6 +2,7 @@ package com.dev.lyhoangvinh.mvparchitecture.ui.feature.comics
 
 import android.arch.lifecycle.Observer
 import android.content.Context
+import android.os.AsyncTask.execute
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BaseListPresenter
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.comic.Issues
@@ -21,13 +22,21 @@ class IssuesPresenter @Inject constructor(
 
     private var canLoadMore = false
 
+    private var currentPage: Int = 0
+
     private var currentConnected = true
 
     override fun canLoadMore(): Boolean = canLoadMore
 
     override fun fetchData() {
-        insert()
+        if (isRefreshed) {
+            currentPage = 0
+        } else {
+            currentPage += 1
+        }
+        insert(currentPage)
     }
+
 
     private var mainAdapter: IssuesAdapter? = null
 
@@ -53,13 +62,13 @@ class IssuesPresenter @Inject constructor(
                 currentConnected = it.isConnected
             } else if (!currentConnected && it!!.isConnected) {
                 isRefreshed = true
-                insert()
+                fetchData()
             }
         })
     }
 
-    private fun insert() {
-        execute(issuesRepo.getRepoIssues(isRefreshed), object : PlainConsumer<BaseResponseComic<Issues>> {
+    private fun insert(page: Int) {
+        execute(issuesRepo.getRepoIssues(isRefreshed, page), object : PlainConsumer<BaseResponseComic<Issues>> {
             override fun accept(t: BaseResponseComic<Issues>) {
                 isRefreshed = false
                 canLoadMore = t.results.isNotEmpty()

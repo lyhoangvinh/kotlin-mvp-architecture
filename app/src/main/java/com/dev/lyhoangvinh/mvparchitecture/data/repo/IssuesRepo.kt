@@ -20,22 +20,19 @@ import javax.inject.Inject
 class IssuesRepo @Inject constructor(private val comicVineService: ComicVineService, private val issuesDao: IssuesDao) :
     BaseRepo() {
 
-    private var offset = 0
-
     fun liveData() = issuesDao.liveData()
 
     fun delete(t: Issues) = issuesDao.delete(t)
 
     fun insert(t: Issues) = issuesDao.insert(t)
 
-    fun getRepoIssues(refresh: Boolean): Flowable<Resource<BaseResponseComic<Issues>>> {
+    fun getRepoIssues(refresh: Boolean, offset: Int): Flowable<Resource<BaseResponseComic<Issues>>> {
         return createResource(refresh, comicVineService.getIssues2(
             100, offset, Constants.KEY,
             "json",
             "cover_date: desc"
         ), onSave = object : OnSaveResultListener<BaseResponseComic<Issues>> {
             override fun onSave(data: BaseResponseComic<Issues>, isRefresh: Boolean) {
-                offset = if (refresh) 0 else data.offset!! + 1
                 if (data.results.isNotEmpty()) {
                     upsert(data.results)
                 }

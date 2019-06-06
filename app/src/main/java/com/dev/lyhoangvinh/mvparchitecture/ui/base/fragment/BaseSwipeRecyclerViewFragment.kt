@@ -70,9 +70,7 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
 
     override fun initialize(view: View, ctx: Context?) {
         super.initialize(view, ctx)
-        initRecyclerView(view)
-//        scrollTopView = view.findViewById(R.id.scrollTop)
-//        noDataView = view.findViewById(R.id.noDataView)
+        initRecyclerView()
         if (scrollTop != null) {
             scrollTop!!.visibility = View.GONE
             scrollTop!!.setOnClickListener { rcv!!.scrollToPosition(0) }
@@ -90,7 +88,7 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
     protected abstract fun createAdapter(): A
 
     @CallSuper
-    protected fun initRecyclerView(view: View) {
+    protected fun initRecyclerView() {
 //        if (recyclerView == null) {
 //            recyclerView = view.findViewById(R.id.rcv)
 //        }
@@ -218,16 +216,10 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
      * if user scroll down more than [.DEFAULT_SCROLL_TOP_POSITION]
      */
     private fun updateScrollTop(visibleItemCount: Int, pastVisibleItems: Int) {
-        if (scrollTop != null) {
-            if (scrollTop != null) {
-                if (visibleItemCount + pastVisibleItems >= scrollTopPosition) {
-                    scrollTop.visibility = View.VISIBLE
-                } else {
-                    scrollTop.visibility = View.GONE
-                }
-            } else {
-                scrollTop.visibility = View.GONE
-            }
+        if (visibleItemCount + pastVisibleItems >= scrollTopPosition) {
+            scrollTop.visibility = View.VISIBLE
+        } else {
+            scrollTop.visibility = View.GONE
         }
     }
 

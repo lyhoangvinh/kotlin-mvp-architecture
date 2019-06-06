@@ -9,6 +9,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.widget.SwipeToDeleteCallback
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_error_connection.*
+import kotlinx.android.synthetic.main.view_recyclerview.*
 import lyhoangvinh.com.myutil.androidutils.AlertUtils
 
 class IssuesActivity : BaseSwipeRecyclerViewActivity<IssuesAdapter, IssuesView, IssuesPresenter>(),
@@ -27,7 +28,7 @@ class IssuesActivity : BaseSwipeRecyclerViewActivity<IssuesAdapter, IssuesView, 
             override fun accept(t: Int) {
                 presenter.delete(t)
             }
-        })).attachToRecyclerView(recyclerView)
+        })).attachToRecyclerView(rcv)
     }
 
     override fun connection(isConnected: Boolean) {

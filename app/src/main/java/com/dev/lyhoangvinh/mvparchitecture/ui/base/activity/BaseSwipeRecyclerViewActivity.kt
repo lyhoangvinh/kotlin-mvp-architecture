@@ -10,6 +10,9 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.ListData
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.LoadMoreable
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BasePresenter
+import kotlinx.android.synthetic.main.view_no_data.*
+import kotlinx.android.synthetic.main.view_recyclerview.*
+import kotlinx.android.synthetic.main.view_scroll_top.*
 
 
 /**
@@ -26,12 +29,6 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
     BaseSwipeToRefreshActivity<V, P>(), SwipeRefreshLayout.OnRefreshListener, LoadMoreable {
 
     private var mVisibleThreshold: Int = 5
-
-    var recyclerView: RecyclerView? = null
-
-    private var noDataView: View? = null
-
-    private var scrollTopView: View? = null
 
     private lateinit var adapter: A
 
@@ -68,12 +65,8 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initRecyclerView()
-        scrollTopView = findViewById(R.id.scrollTop)
-        noDataView = findViewById(R.id.noDataView)
-        if (scrollTopView != null) {
-            scrollTopView!!.visibility = View.GONE
-            scrollTopView!!.setOnClickListener { _ -> recyclerView!!.scrollToPosition(0) }
-        }
+        scrollTop!!.visibility = View.GONE
+        scrollTop!!.setOnClickListener { rcv.scrollToPosition(0) }
         if (noDataView != null) {
             noDataView!!.visibility = View.GONE
         }
@@ -88,18 +81,15 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
 
     @CallSuper
     protected fun initRecyclerView() {
-        if (recyclerView == null) {
-            recyclerView = findViewById(R.id.rcv)
-        }
         layoutManager = createLayoutManager()
-        recyclerView?.layoutManager = layoutManager
-        recyclerView?.itemAnimator = DefaultItemAnimator()
+        rcv.layoutManager = layoutManager
+        rcv.itemAnimator = DefaultItemAnimator()
 
         if (addItemDecoration() != null) {
-            recyclerView?.addItemDecoration(addItemDecoration()!!)
+            rcv.addItemDecoration(addItemDecoration()!!)
         }
 
-        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -110,19 +100,23 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
                 val totalItemCount = layoutManager!!.itemCount
 
                 var lastVisibleItemPosition = 0
-                if (layoutManager is StaggeredGridLayoutManager) {
-                    val lastVisibleItemPositions =
-                        (layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
-                    lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
-                    mVisibleThreshold *= (layoutManager as StaggeredGridLayoutManager).spanCount
-                } else if (layoutManager is GridLayoutManager) {
-                    mVisibleThreshold *= (layoutManager as GridLayoutManager).spanCount
-                    lastVisibleItemPosition = (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
-                } else if (layoutManager is LinearLayoutManager) {
-                    lastVisibleItemPosition = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val visibleItemCount = layoutManager!!.childCount
-                    val pastVisibleItems = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    updateScrollTop(visibleItemCount, pastVisibleItems)
+                when (layoutManager) {
+                    is StaggeredGridLayoutManager -> {
+                        val lastVisibleItemPositions =
+                            (layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
+                        lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
+                        mVisibleThreshold *= (layoutManager as StaggeredGridLayoutManager).spanCount
+                    }
+                    is GridLayoutManager -> {
+                        mVisibleThreshold *= (layoutManager as GridLayoutManager).spanCount
+                        lastVisibleItemPosition = (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+                    }
+                    is LinearLayoutManager -> {
+                        lastVisibleItemPosition = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                        val visibleItemCount = layoutManager!!.childCount
+                        val pastVisibleItems = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                        updateScrollTop(visibleItemCount, pastVisibleItems)
+                    }
                 }
 
                 if (lastVisibleItemPosition + mVisibleThreshold > totalItemCount) {
@@ -132,7 +126,7 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
         })
         adapter = createAdapter()
         //        recyclerView.getRecycledViewPool().clear();
-        recyclerView?.adapter = adapter
+        rcv.adapter = adapter
     }
 
     private fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
@@ -178,7 +172,7 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
     @CallSuper
     override fun doneRefresh() {
 //        if (adapter != null) {
-            //            adapter.removeFooter(getFooterView());
+        //            adapter.removeFooter(getFooterView());
 //        }
         updateNoDataState()
         updateScrollTop()
@@ -217,16 +211,11 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
      * if user scroll down more than [.DEFAULT_SCROLL_TOP_POSITION]
      */
     private fun updateScrollTop(visibleItemCount: Int, pastVisibleItems: Int) {
-        if (scrollTopView != null) {
-            if (recyclerView != null) {
-                if (visibleItemCount + pastVisibleItems >= scrollTopPosition) {
-                    scrollTopView!!.visibility = View.VISIBLE
-                } else {
-                    scrollTopView!!.visibility = View.GONE
-                }
-            } else {
-                scrollTopView!!.visibility = View.GONE
-            }
+
+        if (visibleItemCount + pastVisibleItems >= scrollTopPosition) {
+            scrollTop.visibility = View.VISIBLE
+        } else {
+            scrollTop.visibility = View.GONE
         }
     }
 
