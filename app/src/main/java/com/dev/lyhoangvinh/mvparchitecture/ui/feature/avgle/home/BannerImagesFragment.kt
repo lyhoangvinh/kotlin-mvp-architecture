@@ -12,12 +12,13 @@ import kotlinx.android.synthetic.main.fragment_banner_images.*
 class BannerImagesFragment : BaseFragment() {
 
     companion object {
-        private lateinit var instance: BannerImagesFragment
 
         fun getInstance(url: String): BannerImagesFragment {
             val bundle = Bundle()
             bundle.putString(Constants.EXTRA_DATA, url)
-            return instance
+            val fragment = BannerImagesFragment()
+            fragment.arguments = bundle
+            return fragment
         }
     }
 

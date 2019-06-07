@@ -5,20 +5,14 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 
-class ImageBannerAdapter(fm: FragmentManager) :
+class ImageBannerAdapter(fm: FragmentManager, private var mBannerList: List<Category>) :
     FragmentStatePagerAdapter(fm) {
 
-    private var mBannerList: List<Category>? = null
-
-    fun setBanner(mBannerList: List<Category>) {
-        this.mBannerList = mBannerList
-    }
-
     override fun getItem(position: Int): Fragment? {
-        return BannerImagesFragment.getInstance(mBannerList?.get(position)!!.coverUrl.toString())
+        return BannerImagesFragment.getInstance(mBannerList[position].coverUrl.toString())
     }
 
     override fun getCount(): Int {
-        return mBannerList!!.size
+        return mBannerList.size
     }
 }

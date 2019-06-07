@@ -43,4 +43,5 @@
     <declare-styleable name="AspectLockedImageView">
         <attr name="imageAspectRatioPhoto" format="dimension" />
     </declare-styleable>
+    <bool name="is_rtl">false</bool>
 </resources>

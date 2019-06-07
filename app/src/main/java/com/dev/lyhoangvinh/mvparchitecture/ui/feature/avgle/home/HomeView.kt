@@ -5,5 +5,6 @@ import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 
 interface HomeView : BaseView {
-    fun swapDataSuccess(categories: List<Category>, collections: List<Collection>)
+    fun swapCategoriesSuccess(categories: List<Category>)
+    fun swapCollectionsSuccess(collections: List<Collection>)
 }

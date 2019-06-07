@@ -18,6 +18,10 @@ class HomeRepo @Inject constructor(
     private val avgleService: AvgleService
 ) : BaseRepo() {
 
+    fun liveCategories() = categoriesDao.liveData()
+
+    fun liveCollection() = collectionDao.liveData()
+
     fun getRepoHome(): Flowable<Resource<ResponseBiZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>>>> {
         return createResource(
             avgleService.getCategories(),
