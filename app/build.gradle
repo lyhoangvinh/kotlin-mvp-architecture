@@ -96,4 +96,9 @@ dependencies {
 
     //my util
     implementation "com.github.lyhoangvinh:myutil:$rootProject.ext.myutilVersion"
+
+    //ultraviewpager
+    implementation ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+        transitive = true
+    }
 }

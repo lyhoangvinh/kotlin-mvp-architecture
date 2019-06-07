@@ -1,5 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="padding_1dp">1dp</dimen>
+    <dimen name="padding_2dp">2dp</dimen>
+    <dimen name="padding_4dp">4dp</dimen>
+    <dimen name="padding_6dp">6dp</dimen>
+    <dimen name="padding_8dp">8dp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="padding_12dp">12dp</dimen>
+    <dimen name="padding_14dp">14dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="padding_18dp">18dp</dimen>
+    <dimen name="padding_20dp">20dp</dimen>
+    <dimen name="padding_22dp">22dp</dimen>
+    <dimen name="padding_24dp">24dp</dimen>
+    <dimen name="padding_27dp">27dp</dimen>
+    <dimen name="padding_28dp">28dp</dimen>
+    <dimen name="padding_30dp">30dp</dimen>
+    <dimen name="padding_35dp">35dp</dimen>
+    <dimen name="padding_32dp">32dp</dimen>
+    <dimen name="padding_40dp">40dp</dimen>
+    <dimen name="padding_42dp">42dp</dimen>
+    <dimen name="padding_46dp">46dp</dimen>
+    <dimen name="padding_50dp">50dp</dimen>
+    <dimen name="padding_64dp">64dp</dimen>
+    <dimen name="padding_60dp">60dp</dimen>
+    <dimen name="padding_70dp">70dp</dimen>
+    <dimen name="padding_90dp">90dp</dimen>
+
+    <dimen name="ts_9_sp">9sp</dimen>
+    <dimen name="ts_10_sp">10sp</dimen>
+    <dimen name="ts_11_sp">11sp</dimen>
+    <dimen name="ts_12_sp">12sp</dimen>
+    <dimen name="ts_13_sp">13sp</dimen>
+    <dimen name="ts_14_sp">14sp</dimen>
+    <dimen name="ts_15_sp">15sp</dimen>
+    <dimen name="ts_16_sp">16sp</dimen>
+    <dimen name="ts_17_sp">17sp</dimen>
+    <dimen name="ts_18_sp">18sp</dimen>
+    <dimen name="ts_19_sp">19sp</dimen>
+    <dimen name="ts_20_sp">20sp</dimen>
+    <dimen name="ts_21_sp">21sp</dimen>
+    <dimen name="ts_22_sp">22sp</dimen>
+    <dimen name="ts_24_sp">24sp</dimen>
+    <dimen name="ts_25_sp">25sp</dimen>
+    <dimen name="ts_26_sp">26sp</dimen>
+    <dimen name="ts_28_sp">28sp</dimen>
+    <dimen name="ts_30_sp">30sp</dimen>
+    <dimen name="ts_32_sp">32sp</dimen>
+    <dimen name="ts_42_sp">42sp</dimen>
+
     <dimen name="dimen_toolbar">50dp</dimen>
     <dimen name="dimen_toolbar_elevation">4dp</dimen>
 
@@ -20,4 +71,6 @@
     <dimen name="search_bar_filter_section_marin_left">64dp</dimen>
     <dimen name="text_content_margin">16dp</dimen>
     <dimen name="search_view_corner_radius">3dp</dimen>
+
+
 </resources>

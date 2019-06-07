@@ -16,7 +16,7 @@ interface AvgleService {
     fun getCategories(): Single<Response<BaseResponseAvgle<CategoriesResponse>>>
 
     @GET("collections/{page}")
-    fun getAllVideo(@Path("page") page: Int): Single<Response<BaseResponseAvgle<CollectionsResponseAvgle>>>
+    fun getCollections(@Path("page") page: Int, @Query("limit") limit: Int): Single<Response<BaseResponseAvgle<CollectionsResponseAvgle>>>
 
     @GET("collections/{keyword}")
     fun getVideoCollections(@Path("keyword") keyword: String): Single<Response<BaseResponseAvgle<CollectionsResponseAvgle>>>

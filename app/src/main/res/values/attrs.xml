@@ -39,4 +39,8 @@
         <attr name="floatingSearch_dimBackground" format="boolean"/>
         <attr name="floatingSearch_suggestionRightIconColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="AspectLockedImageView">
+        <attr name="imageAspectRatioPhoto" format="dimension" />
+    </declare-styleable>
 </resources>

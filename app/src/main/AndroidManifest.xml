@@ -26,14 +26,22 @@
         </activity>
 
         <activity android:name=".ui.feature.avgle.AvgleActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".ui.feature.avgle.detail.DetailActivity"/>
+
+        <activity android:name=".ui.feature.avgle.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".ui.feature.avgle.detail.DetailActivity"/>
 
         <receiver android:name=".receiver.NetworkReceiver"/>
     </application>
