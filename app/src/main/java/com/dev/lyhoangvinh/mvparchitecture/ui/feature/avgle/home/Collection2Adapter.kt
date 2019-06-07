@@ -3,6 +3,8 @@ package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.home
 import android.support.v7.util.DiffUtil
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
@@ -16,6 +18,16 @@ class Collection2Adapter :
 
     private var onItemClickListener: ((String) -> Unit)? = null
 
+    private var mWidth = 0
+
+    private var mHeight = 0
+
+    fun setLayoutParams(mWidth: Int, mHeight: Int): Collection2Adapter {
+        this.mWidth = mWidth
+        this.mHeight = mHeight
+        return this
+    }
+
     fun setOnItemClickListener(onItemClickListener: (String) -> Unit) {
         this.onItemClickListener = onItemClickListener
     }
@@ -25,6 +37,11 @@ class Collection2Adapter :
     override fun createViewHolder(itemView: View) = CollectionViewHoler(itemView)
 
     override fun onBindViewHolder(vh: CollectionViewHoler, dto: Collection, position: Int) {
+        vh.imv.layoutParams.width = mWidth
+        vh.imv.layoutParams.height = mHeight
+        vh.lnMain.layoutParams = RelativeLayout.LayoutParams(mWidth, RelativeLayout.LayoutParams.WRAP_CONTENT)
+        vh.imv.requestLayout()
+
         vh.tvName.text = dto.title
         vh.imv.loadImage(dto.coverUrl.toString())
         vh.tvKeyword.text = dto.keyword
@@ -39,6 +56,7 @@ class Collection2Adapter :
         val tvKeyword: TextView = itemView.tvKeyword
         val tvTotalViews: TextView = itemView.tvTotalViews
         val tvVideoCount: TextView = itemView.tvVideoCount
+        val lnMain: LinearLayout = itemView.lnlMain
     }
 
     fun updateCollection(newList: List<Collection>) {

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/lnl_main"
+              android:id="@+id/lnlMain"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:background="@drawable/bg_corner_gray_thin"
@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
-            android:padding="2dp"
+            android:padding="@dimen/padding_1dp"
             app:sriv_left_top_corner_radius="3dp"
             app:sriv_right_top_corner_radius="3dp"
             tools:src="@drawable/ic_placeholder_rectangle_200px"/>

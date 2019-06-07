@@ -9,6 +9,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.RelativeLayout
+import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
@@ -33,8 +34,13 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
 
     override fun initialize(view: View, ctx: Context?) {
         super.initialize(view, ctx)
+        val mWidth =
+            (MyApplication.getInstance().getDeviceWidth() - 2 * resources.getDimensionPixelSize(R.dimen.padding_16dp)) / 4 * 3 - resources.getDimensionPixelSize(
+                R.dimen.padding_16dp
+            ) / 2
+        val mHeight = mWidth * 5 / 7
         categoriesAdapter = Categories2Adapter()
-        collectionAdapter = Collection2Adapter()
+        collectionAdapter = Collection2Adapter().setLayoutParams(mWidth, mHeight)
 
         val pixel = (ctx as AppCompatActivity).windowManager.defaultDisplay.width / 2
         viewPage.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, pixel)
@@ -77,11 +83,11 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
 
     override fun swapCategoriesSuccess(categories: List<Category>) {
         categoriesAdapter?.updateCategories(categories)
-        imageBannerAdapter = ImageBannerAdapter(fragmentManager!!, categories)
-        viewPage.adapter = imageBannerAdapter
     }
 
     override fun swapCollectionsSuccess(collections: List<Collection>) {
         collectionAdapter?.updateCollection(collections)
+        imageBannerAdapter = ImageBannerAdapter(fragmentManager!!, collections)
+        viewPage.adapter = imageBannerAdapter
     }
 }
