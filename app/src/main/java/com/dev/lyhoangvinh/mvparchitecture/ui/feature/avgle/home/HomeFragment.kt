@@ -13,7 +13,7 @@ import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
-import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.VideosHome
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BasePresenterFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.recycleview.GravitySnapHelper
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.recycleview.HorizontalSpaceItemDecoration
@@ -28,7 +28,7 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
     lateinit var navigatorHelper: NavigatorHelper
 
     private var categoriesAdapter: Categories2Adapter? = null
-    private var collectionAdapter: VideoAdapter? = null
+    private var collectionAdapter: VideosHomeAdapter? = null
     private var imageBannerAdapter: ImageBannerAdapter? = null
 
     override fun getLayoutResource() = R.layout.fragment_home
@@ -46,7 +46,7 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
             ) / 2
         val mHeight = mWidth * 5 / 7
         categoriesAdapter = Categories2Adapter().setOnClickItemListener { navigatorHelper.navigateVideosFragment(it) }
-        collectionAdapter = VideoAdapter().setLayoutParams(mWidth, mHeight).setOnItemClickListener { navigatorHelper.navigateDetailActivity(it) }
+        collectionAdapter = VideosHomeAdapter().setLayoutParams(mWidth, mHeight).setOnItemClickListener { navigatorHelper.navigateDetailActivity(it) }
 
         val pixel = (ctx as AppCompatActivity).windowManager.defaultDisplay.width / 2
         viewPage.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, pixel)
@@ -96,7 +96,7 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
         viewPage.adapter = imageBannerAdapter
     }
 
-    override fun swapVideos(videos: List<Video>) {
+    override fun swapVideos(videos: List<VideosHome>) {
         collectionAdapter?.updateCollection(videos)
     }
 }

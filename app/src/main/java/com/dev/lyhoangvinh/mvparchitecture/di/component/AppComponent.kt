@@ -2,11 +2,11 @@ package com.dev.lyhoangvinh.mvparchitecture.di.component
 
 import android.content.Context
 import com.dev.lyhoangvinh.mvparchitecture.MyApplication
-import com.dev.lyhoangvinh.mvparchitecture.data.services.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.data.DatabaseManager
 import com.dev.lyhoangvinh.mvparchitecture.data.SharedPrefs
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.*
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
+import com.dev.lyhoangvinh.mvparchitecture.data.services.ComicVineService
 import com.dev.lyhoangvinh.mvparchitecture.di.module.AppModule
 import com.dev.lyhoangvinh.mvparchitecture.di.module.DataModule
 import com.dev.lyhoangvinh.mvparchitecture.di.module.NetworkModule
@@ -44,6 +44,8 @@ interface AppComponent {
     fun collectionDao(): CollectionDao
 
     fun videosDao(): VideosDao
+
+    fun videosHomeDao(): VideosHomeDao
 
     fun inject(app: MyApplication)
 }

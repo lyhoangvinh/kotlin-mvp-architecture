@@ -10,11 +10,11 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BasePresenter
 import javax.inject.Inject
 
 @PerActivity
-class SplashPresenter @Inject constructor(@ActivityContext context: Context, val homeRepo: HomeRepo) :
+class SplashPresenter @Inject constructor(@ActivityContext context: Context, private val homeRepo: HomeRepo) :
     BasePresenter<SplashView>(context) {
     fun getData() {
         execute(
-            homeRepo.getRepoHome(),
+            homeRepo.getRepoHomeMap(),
             object :
                 PlainConsumer<ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>> {
                 override fun accept(t: ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>) {

@@ -57,4 +57,10 @@ class DataModule(@ApplicationContext private var context: Application) {
     fun provideVideosDao(databaseManager: DatabaseManager): VideosDao {
         return databaseManager.videosDao()
     }
+
+    @Provides
+    @Singleton
+    fun provideVideosHomeDao(databaseManager: DatabaseManager): VideosHomeDao {
+        return databaseManager.videoHomeDao()
+    }
 }

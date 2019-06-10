@@ -21,11 +21,11 @@ class HomePresenter @Inject constructor(
     fun getData() {
 
         connectionLiveData.observe(getLifeCircleOwner(), Observer {
-            if (it!!.isConnected && !currentConnection) {
-                execute(homeRepo.getRepoHome())
-                currentConnection = true
+            currentConnection = if (it!!.isConnected && !currentConnection) {
+                execute(homeRepo.getRepoHomeMap())
+                true
             } else {
-                currentConnection = false
+                false
             }
         })
 
@@ -36,7 +36,7 @@ class HomePresenter @Inject constructor(
             getView()?.swapCollectionsSuccess(it!!)
         })
 
-        homeRepo.liveVideos().observe(getLifeCircleOwner(), Observer {
+        homeRepo.liveVideosHome().observe(getLifeCircleOwner(), Observer {
             getView()?.swapVideos(it!!)
         })
     }

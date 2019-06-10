@@ -27,9 +27,9 @@ import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.ErrorEntity
 import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseBiZip
 import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseThreeZip
-import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Filter
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipBiConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipThreeConsumer
 import com.google.gson.*
@@ -60,6 +60,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
+import kotlin.reflect.KMutableProperty1
 
 
 fun getAppComponent(fragment: Fragment): AppComponent? {
@@ -517,4 +518,10 @@ fun TextView.formatDate(time: Long) {
     }
 }
 
-
+inline fun <reified T, Y> MutableList<T>.listOfField(property: KMutableProperty1<T, Y?>):MutableList<Y> {
+    val yy = ArrayList<Y>()
+    this.forEach { t: T ->
+        yy.add(property.get(t) as Y)
+    }
+    return yy
+}
