@@ -27,7 +27,7 @@ abstract class BaseSingleFragmentHomeActivity<T : BaseFragment> : BaseActivity()
     @IdRes
     protected fun getContainerId() = R.id.container
 
-    override fun getLayoutResource() = R.layout.container_home
+    override fun getLayoutResource() = R.layout.container
 
     protected abstract fun createFragment(): T
 

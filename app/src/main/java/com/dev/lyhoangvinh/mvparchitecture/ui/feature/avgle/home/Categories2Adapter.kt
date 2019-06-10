@@ -19,8 +19,9 @@ class Categories2Adapter : BaseAdapter<Category, Categories2Adapter.CategoriesVi
 
     private var onClickItemListener: ((Category) -> Unit?)? = null
 
-    fun setOnClickItemListener(onClickItemListener: (Category) -> Unit) {
+    fun setOnClickItemListener(onClickItemListener: (Category) -> Unit): Categories2Adapter {
         this.onClickItemListener = onClickItemListener
+        return this
     }
 
     override fun onBindViewHolder(vh: CategoriesViewHolder, dto: Category, position: Int) {

@@ -3,4 +3,7 @@
     <string name="see_all">See All</string>
     <string name="category">Category</string>
     <string name="collection">Collection</string>
+    <string name="videos">Videos</string>
+    <string name="all">All</string>
+    <string name="preview">Preview</string>
 </resources>

@@ -16,12 +16,19 @@ class HomePresenter @Inject constructor(
 ) :
     BasePresenter<HomeView>(ctx) {
 
+    private var currentConnection = true
+
     fun getData() {
+
         connectionLiveData.observe(getLifeCircleOwner(), Observer {
-            if (it!!.isConnected) {
+            if (it!!.isConnected && !currentConnection) {
                 execute(homeRepo.getRepoHome())
+                currentConnection = true
+            } else {
+                currentConnection = false
             }
         })
+
         homeRepo.liveCategories().observe(getLifeCircleOwner(), Observer {
             getView()?.swapCategoriesSuccess(it!!)
         })

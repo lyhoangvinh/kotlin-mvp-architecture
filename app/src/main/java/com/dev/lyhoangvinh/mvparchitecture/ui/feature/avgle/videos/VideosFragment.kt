@@ -34,6 +34,9 @@ class VideosFragment : BaseSwipeRecyclerViewFragment<VideosAdapter, VideosView, 
             val category: Category = arguments!!.getParcelable(Constants.EXTRA_DATA)!!
             presenter.setKeyword(category.CHID!!)
             tvText.text = category.name
+        } else {
+            presenter.setKeyword("")
+            tvText.text = getString(R.string.all)
         }
         refreshWithUi(300L)
         presenter.observe()

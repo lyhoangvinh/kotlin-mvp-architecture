@@ -41,7 +41,6 @@ class CategoriesPresenter @Inject constructor(
         categoriesRepo.liveData().observe(owner, Observer {
             if (!destroyView) {
                 adapter?.updateCategories(it!!)
-                getView()?.showMessage("SIZE : " + it!!.size)
                 destroyView = false
             }
         })

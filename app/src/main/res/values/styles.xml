@@ -14,7 +14,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/padding_14dp</item>
-        <item name="android:fontFamily">monospace</item>
+
         <item name="android:textSize">@dimen/ts_19_sp</item>
     </style>
 
@@ -28,7 +28,7 @@
     </style>
 
     <style name="TextViewSeeAllHeader">
-        <item name="android:fontFamily">monospace</item>
+
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">true</item>

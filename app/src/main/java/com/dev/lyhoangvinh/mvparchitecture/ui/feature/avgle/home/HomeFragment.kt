@@ -17,13 +17,18 @@ import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BasePresenterFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.recycleview.GravitySnapHelper
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.recycleview.HorizontalSpaceItemDecoration
+import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
 import com.tmall.ultraviewpager.UltraViewPager
 import kotlinx.android.synthetic.main.fragment_home.*
+import javax.inject.Inject
 
 class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView {
 
+    @Inject
+    lateinit var navigatorHelper: NavigatorHelper
+
     private var categoriesAdapter: Categories2Adapter? = null
-    private var collectionAdapter: Collection2Adapter? = null
+    private var collectionAdapter: VideoAdapter? = null
     private var imageBannerAdapter: ImageBannerAdapter? = null
 
     override fun getLayoutResource() = R.layout.fragment_home
@@ -40,8 +45,8 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
                 R.dimen.padding_16dp
             ) / 2
         val mHeight = mWidth * 5 / 7
-        categoriesAdapter = Categories2Adapter()
-        collectionAdapter = Collection2Adapter().setLayoutParams(mWidth, mHeight)
+        categoriesAdapter = Categories2Adapter().setOnClickItemListener { navigatorHelper.navigateVideosFragment(it) }
+        collectionAdapter = VideoAdapter().setLayoutParams(mWidth, mHeight).setOnItemClickListener { navigatorHelper.navigateDetailActivity(it) }
 
         val pixel = (ctx as AppCompatActivity).windowManager.defaultDisplay.width / 2
         viewPage.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, pixel)
@@ -77,8 +82,8 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
         GravitySnapHelper(Gravity.START).attachToRecyclerView(rcvCollection)
 
         tvSeeAll.text = getString(R.string.see_all)
-        tvCollection.text = getString(R.string.collection)
-
+        tvCollection.text = getString(R.string.videos)
+        tvSeeAll.setOnClickListener {  navigatorHelper.navigateVideosFragment(null)  }
         presenter.getData()
     }
 
@@ -87,11 +92,11 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
     }
 
     override fun swapCollectionsSuccess(collections: List<Collection>) {
-        collectionAdapter?.updateCollection(collections)
+        imageBannerAdapter = ImageBannerAdapter(fragmentManager!!, collections)
+        viewPage.adapter = imageBannerAdapter
     }
 
     override fun swapVideos(videos: List<Video>) {
-        imageBannerAdapter = ImageBannerAdapter(fragmentManager!!, videos)
-        viewPage.adapter = imageBannerAdapter
+        collectionAdapter?.updateCollection(videos)
     }
 }

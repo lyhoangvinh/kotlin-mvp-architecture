@@ -2,17 +2,16 @@ package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos
 
 import android.support.v7.util.DiffUtil
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import com.dev.lyhoangvinh.mvparchitecture.R
-import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseAdapter
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseViewHolder
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionAdapter
+import com.dev.lyhoangvinh.mvparchitecture.utils.formatDate
 import com.dev.lyhoangvinh.mvparchitecture.utils.loadImage
-import kotlinx.android.synthetic.main.item_collection.view.*
+import kotlinx.android.synthetic.main.item_video.view.*
+
 
 class VideosAdapter :
     BaseAdapter<Video, VideosAdapter.VideoViewHoler>(ArrayList()) {
@@ -23,18 +22,26 @@ class VideosAdapter :
         this.onItemClickListener = onItemClickListener
     }
 
-    override fun itemLayoutResource() = R.layout.item_collection
+    override fun itemLayoutResource() = R.layout.item_video
 
     override fun createViewHolder(itemView: View) = VideoViewHoler(itemView)
 
     override fun onBindViewHolder(vh: VideoViewHoler, dto: Video, position: Int) {
-        vh.tvName.text = dto.title
+        vh.tvTitle.text = dto.title
+        vh.tvKeyword.text = dto.keyword
+        vh.tvDate.formatDate(dto.addTime!!)
+        vh.tvViews.text = String.format("Views: %s", dto.viewNumber)
         vh.imv.loadImage(dto.previewUrl.toString())
-        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.previewVideoUrl!!) }
+        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.videoUrl!!) }
+        vh.tvPreview.setOnClickListener { onItemClickListener?.invoke(dto.previewVideoUrl!!) }
     }
 
     class VideoViewHoler(itemView: View) : BaseViewHolder(itemView) {
-        val tvName: TextView = itemView.tvName
+        val tvTitle: TextView = itemView.tvTitle
+        val tvKeyword: TextView = itemView.tvKeyword
+        val tvPreview: TextView = itemView.tvPreview
+        val tvDate: TextView = itemView.tvDate
+        val tvViews: TextView = itemView.tvViews
         val imv: ImageView = itemView.imv
     }
 

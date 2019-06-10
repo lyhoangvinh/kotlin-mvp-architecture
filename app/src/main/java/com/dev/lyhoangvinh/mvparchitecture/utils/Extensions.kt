@@ -506,4 +506,15 @@ interface CompleteCompletableObserver : CompletableObserver {
     override fun onSubscribe(d: Disposable) {}
 }
 
+@SuppressLint("SimpleDateFormat")
+fun TextView.formatDate(time: Long) {
+    try {
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
+        val netDate = Date(time)
+        this.text = sdf.format(netDate)
+    } catch (e: Exception) {
+        this.text = e.toString()
+    }
+}
+
 

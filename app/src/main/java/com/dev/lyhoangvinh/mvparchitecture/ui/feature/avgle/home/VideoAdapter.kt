@@ -8,13 +8,14 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseAdapter
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseViewHolder
 import com.dev.lyhoangvinh.mvparchitecture.utils.loadImage
 import kotlinx.android.synthetic.main.item_collection_2.view.*
 
-class Collection2Adapter :
-    BaseAdapter<Collection, Collection2Adapter.CollectionViewHoler>(ArrayList()) {
+class VideoAdapter :
+    BaseAdapter<Video, VideoAdapter.VideoViewHoler>(ArrayList()) {
 
     private var onItemClickListener: ((String) -> Unit)? = null
 
@@ -22,35 +23,36 @@ class Collection2Adapter :
 
     private var mHeight = 0
 
-    fun setLayoutParams(mWidth: Int, mHeight: Int): Collection2Adapter {
+    fun setLayoutParams(mWidth: Int, mHeight: Int): VideoAdapter {
         this.mWidth = mWidth
         this.mHeight = mHeight
         return this
     }
 
-    fun setOnItemClickListener(onItemClickListener: (String) -> Unit) {
+    fun setOnItemClickListener(onItemClickListener: (String) -> Unit): VideoAdapter {
         this.onItemClickListener = onItemClickListener
+        return this
     }
 
     override fun itemLayoutResource() = R.layout.item_collection_2
 
-    override fun createViewHolder(itemView: View) = CollectionViewHoler(itemView)
+    override fun createViewHolder(itemView: View) = VideoViewHoler(itemView)
 
-    override fun onBindViewHolder(vh: CollectionViewHoler, dto: Collection, position: Int) {
+    override fun onBindViewHolder(vh: VideoViewHoler, dto: Video, position: Int) {
         vh.imv.layoutParams.width = mWidth
         vh.imv.layoutParams.height = mHeight
         vh.lnMain.layoutParams = RelativeLayout.LayoutParams(mWidth, RelativeLayout.LayoutParams.WRAP_CONTENT)
         vh.imv.requestLayout()
 
         vh.tvName.text = dto.title
-        vh.imv.loadImage(dto.coverUrl.toString())
+        vh.imv.loadImage(dto.previewUrl.toString())
         vh.tvKeyword.text = dto.keyword
-        vh.tvTotalViews.text = String.format("View %s", dto.totalViews)
-        vh.tvVideoCount.text = String.format("Video count %s", dto.videoCount)
-        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.collectionUrl!!) }
+        vh.tvTotalViews.text = String.format("Like: %s", dto.likes)
+        vh.tvVideoCount.text = String.format("Views: %s", dto.viewNumber)
+        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.videoUrl!!) }
     }
 
-    class CollectionViewHoler(itemView: View) : BaseViewHolder(itemView) {
+    class VideoViewHoler(itemView: View) : BaseViewHolder(itemView) {
         val tvName: TextView = itemView.tvName
         val imv: ImageView = itemView.imv
         val tvKeyword: TextView = itemView.tvKeyword
@@ -59,11 +61,11 @@ class Collection2Adapter :
         val lnMain: LinearLayout = itemView.lnlMain
     }
 
-    fun updateCollection(newList: List<Collection>) {
-        update(newList, CollectionDiffCallBack(getData(), newList), false)
+    fun updateCollection(newList: List<Video>) {
+        update(newList, VideosDiffCallBack(getData(), newList), false)
     }
 
-    class CollectionDiffCallBack(private val current: List<Collection>, private val next: List<Collection>) :
+    class VideosDiffCallBack(private val current: List<Video>, private val next: List<Video>) :
         DiffUtil.Callback() {
 
         override fun getOldListSize(): Int {
@@ -77,7 +79,7 @@ class Collection2Adapter :
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val currentItem = current[oldItemPosition]
             val nextItem = next[newItemPosition]
-            return currentItem.idCLS == nextItem.idCLS
+            return currentItem.vid == nextItem.vid
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
