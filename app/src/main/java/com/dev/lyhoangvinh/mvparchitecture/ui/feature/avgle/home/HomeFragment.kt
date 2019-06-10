@@ -13,6 +13,7 @@ import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BasePresenterFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.recycleview.GravitySnapHelper
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.recycleview.HorizontalSpaceItemDecoration
@@ -87,7 +88,10 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
 
     override fun swapCollectionsSuccess(collections: List<Collection>) {
         collectionAdapter?.updateCollection(collections)
-        imageBannerAdapter = ImageBannerAdapter(fragmentManager!!, collections)
+    }
+
+    override fun swapVideos(videos: List<Video>) {
+        imageBannerAdapter = ImageBannerAdapter(fragmentManager!!, videos)
         viewPage.adapter = imageBannerAdapter
     }
 }

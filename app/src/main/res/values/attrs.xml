@@ -10,10 +10,10 @@
         <attr name="floatingSearch_showMenuAction" format="boolean"/>
         <attr name="floatingSearch_dismissFocusOnItemSelection" format="boolean"/>
         <attr name="floatingSearch_leftActionMode">
-            <enum name="showHamburger" value="1" />
-            <enum name="showSearch" value="2" />
-            <enum name="showHome" value="3" />
-            <enum name="noLeftAction" value="4" />
+            <enum name="showHamburger" value="1"/>
+            <enum name="showSearch" value="2"/>
+            <enum name="showHome" value="3"/>
+            <enum name="noLeftAction" value="4"/>
         </attr>
         <attr name="floatingSearch_showVoiceInput" format="boolean"/>
         <attr name="floatingSearch_showSearchKey" format="boolean"/>
@@ -41,7 +41,8 @@
     </declare-styleable>
 
     <declare-styleable name="AspectLockedImageView">
-        <attr name="imageAspectRatioPhoto" format="dimension" />
+        <attr name="imageAspectRatioPhoto" format="dimension"/>
     </declare-styleable>
+
     <bool name="is_rtl">false</bool>
 </resources>

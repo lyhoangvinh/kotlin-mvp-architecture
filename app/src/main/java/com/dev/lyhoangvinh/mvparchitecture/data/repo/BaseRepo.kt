@@ -1,15 +1,16 @@
 package com.dev.lyhoangvinh.mvparchitecture.data.repo
 
-import android.util.Log
 import com.dev.lyhoangvinh.mvparchitecture.data.Resource
 import com.dev.lyhoangvinh.mvparchitecture.data.SimpleNetworkBoundSource
 import com.dev.lyhoangvinh.mvparchitecture.data.SimpleNetworkBoundSourceBiRemote
+import com.dev.lyhoangvinh.mvparchitecture.data.SimpleNetworkBoundSourceThreeRemote
 import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseBiZip
+import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseThreeZip
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipBiConsumer
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipThreeConsumer
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 
@@ -28,7 +29,7 @@ abstract class BaseRepo {
     ): Flowable<Resource<T>> {
         return Flowable.create({
             object : SimpleNetworkBoundSource<T>(it, true) {
-                override fun getRemote(): Single<Response<T>> = remote
+                override fun getRemote() = remote
                 override fun saveCallResult(data: T, isRefresh: Boolean) {
                     onSave.accept(data)
                 }
@@ -51,7 +52,7 @@ abstract class BaseRepo {
     ): Flowable<Resource<T>> {
         return Flowable.create({
             object : SimpleNetworkBoundSource<T>(it, isRefresh) {
-                override fun getRemote(): Single<Response<T>> = remote
+                override fun getRemote() = remote
                 override fun saveCallResult(data: T, isRefresh: Boolean) {
                     onSave.onSave(data, isRefresh)
                 }
@@ -77,8 +78,8 @@ abstract class BaseRepo {
     ): Flowable<Resource<ResponseBiZip<T1, T2>>> {
         return Flowable.create({
             object : SimpleNetworkBoundSourceBiRemote<T1, T2>(it, true) {
-                override fun getRemote1(): Single<Response<T1>> = remote1
-                override fun getRemote2(): Single<Response<T2>> = remote2
+                override fun getRemote1() = remote1
+                override fun getRemote2() = remote2
                 override fun saveCallResult(data: ResponseBiZip<T1, T2>, isRefresh: Boolean) {
                     onSave.accept(data)
                 }
@@ -86,6 +87,24 @@ abstract class BaseRepo {
         }, BackpressureStrategy.BUFFER)
     }
 
+    fun <T1, T2, T3> createResource(
+        remote1: Single<Response<T1>>,
+        remote2: Single<Response<T2>>,
+        remote3: Single<Response<T3>>,
+        onSave: PlainResponseZipThreeConsumer<T1, T2, T3>
+    ): Flowable<Resource<ResponseThreeZip<T1, T2, T3>>> {
+        return Flowable.create({
+            object : SimpleNetworkBoundSourceThreeRemote<T1, T2, T3>(it, true) {
+                override fun getRemote1() = remote1
+                override fun getRemote2() = remote2
+                override fun getRemote3() = remote3
+                override fun saveCallResult(data: ResponseThreeZip<T1, T2, T3>, isRefresh: Boolean) {
+                    onSave.accept(data)
+                }
+
+            }
+        }, BackpressureStrategy.BUFFER)
+    }
 
     /**
      * Excute room

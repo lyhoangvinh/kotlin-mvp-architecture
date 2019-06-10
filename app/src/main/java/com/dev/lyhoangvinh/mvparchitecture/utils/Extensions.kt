@@ -26,10 +26,12 @@ import com.dev.lyhoangvinh.mvparchitecture.MyApplication
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.ErrorEntity
 import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseBiZip
+import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseThreeZip
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.Filter
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipBiConsumer
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipThreeConsumer
 import com.google.gson.*
 import com.squareup.picasso.Picasso
 import io.reactivex.CompletableObserver
@@ -38,6 +40,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import lyhoangvinh.com.myutil.network.Tls12SocketFactory
 import okhttp3.Cache
@@ -340,6 +343,64 @@ fun <T1, T2> makeRequest(
     @Nullable errorConsumer: PlainConsumer<ErrorEntity>?
 ): Disposable {
     return makeRequest(request1, request2, shouldUpdateUi, responseConsumer, errorConsumer, null)
+}
+
+/**
+ * Make 3 Request
+ *
+ */
+
+
+fun <T1, T2, T3> makeRequest(
+    request1: Single<Response<T1>>,
+    request2: Single<Response<T2>>,
+    request3: Single<Response<T3>>,
+    shouldUpdateUi: Boolean,
+    @NonNull responseConsumer: PlainResponseZipThreeConsumer<T1, T2, T3>,
+    @Nullable errorConsumer: PlainConsumer<ErrorEntity>?,
+    @Nullable onComplete: Action?
+): Disposable {
+    var single1 = request1.subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
+    var single2 = request2.subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
+    var single3 = request3.subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
+
+
+    if (shouldUpdateUi) {
+        single1 = single1.observeOn(AndroidSchedulers.mainThread())
+        single2 = single2.observeOn(AndroidSchedulers.mainThread())
+        single3 = single3.observeOn(AndroidSchedulers.mainThread())
+    }
+    return Single.zip(single1, single2, single3,
+        Function3<Response<T1>, Response<T2>, Response<T3>, ResponseThreeZip<T1, T2, T3>> { t1, t2, t3 ->
+            ResponseThreeZip(
+                t1.body(),
+                t2.body(),
+                t3.body()
+            )
+        })
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe({ o ->
+            responseConsumer.accept(o)
+            onComplete?.run()
+        }, { throwable ->
+            // handle error
+//                throwable.printStackTrace()
+            errorConsumer?.accept(ErrorEntity.getError(throwable))
+            onComplete?.run()
+        })
+}
+
+fun <T1, T2, T3> makeRequest(
+    request1: Single<Response<T1>>,
+    request2: Single<Response<T2>>,
+    request3: Single<Response<T3>>,
+    shouldUpdateUi: Boolean,
+    @NonNull responseConsumer: PlainResponseZipThreeConsumer<T1, T2, T3>,
+    @Nullable errorConsumer: PlainConsumer<ErrorEntity>?
+): Disposable {
+    return makeRequest(request1, request2, request3, shouldUpdateUi, responseConsumer, errorConsumer, null)
 }
 
 /**

@@ -23,4 +23,7 @@ interface AvgleService {
 
     @GET("videos/{page}")
     fun getVideosFromKeyword(@Path("page") page: Int, @Query("c") chId: String): Single<Response<BaseResponseAvgle<VideosResponseAvgle>>>
+
+    @GET("videos/{page}")
+    fun getAllVideos(@Path("page") page: Int): Single<Response<BaseResponseAvgle<VideosResponseAvgle>>>
 }

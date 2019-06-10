@@ -3,18 +3,18 @@ package com.dev.lyhoangvinh.mvparchitecture.data.repo
 import com.dev.lyhoangvinh.mvparchitecture.data.Resource
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.CategoriesDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.CollectionDao
-import com.dev.lyhoangvinh.mvparchitecture.data.response.BaseResponseAvgle
-import com.dev.lyhoangvinh.mvparchitecture.data.response.CategoriesResponse
-import com.dev.lyhoangvinh.mvparchitecture.data.response.CollectionsResponseAvgle
-import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseBiZip
+import com.dev.lyhoangvinh.mvparchitecture.data.dao.VideosDao
+import com.dev.lyhoangvinh.mvparchitecture.data.response.*
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipBiConsumer
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipThreeConsumer
 import io.reactivex.Flowable
 import javax.inject.Inject
 
 class HomeRepo @Inject constructor(
     private val categoriesDao: CategoriesDao,
     private val collectionDao: CollectionDao,
+    private val videosDao: VideosDao,
     private val avgleService: AvgleService
 ) : BaseRepo() {
 
@@ -22,22 +22,29 @@ class HomeRepo @Inject constructor(
 
     fun liveCollection() = collectionDao.liveData()
 
-    fun getRepoHome(): Flowable<Resource<ResponseBiZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>>>> {
+    fun liveVideos() = videosDao.liveData()
+
+    fun getRepoHome(): Flowable<Resource<ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>>> {
         return createResource(
             avgleService.getCategories(),
             avgleService.getCollections(0, 10),
+            avgleService.getAllVideos(0),
             object :
-                PlainResponseZipBiConsumer<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>> {
-                override fun accept(dto: ResponseBiZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>>) {
+                PlainResponseZipThreeConsumer<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>> {
+                override fun accept(dto: ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>) {
                     execute {
                         categoriesDao.deleteAll()
                         collectionDao.deleteAll()
+                        videosDao.deleteAll()
 
                         categoriesDao.insertIgnore(dto.t1?.response?.categories!!)
                         categoriesDao.updateIgnore(dto.t1?.response?.categories!!)
 
                         collectionDao.insertIgnore(dto.t2?.response?.collections!!)
                         collectionDao.updateIgnore(dto.t2?.response?.collections!!)
+
+                        videosDao.insertIgnore(dto.t3?.response?.videos!!)
+                        videosDao.updateIgnore(dto.t3?.response?.videos!!)
                     }
                 }
             })
