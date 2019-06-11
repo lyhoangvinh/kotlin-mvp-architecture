@@ -18,11 +18,11 @@
             android:hardwareAccelerated="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.dev.lyhoangvinh.mvparchitecture.ui.feature.comics.IssuesActivity">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-            <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
 
         <activity android:name=".ui.feature.avgle.AvgleActivity">
@@ -33,23 +33,17 @@
             <!--</intent-filter>-->
         </activity>
 
-        <activity android:name=".ui.feature.avgle.detail.DetailActivity"/>
+        <activity android:name=".ui.feature.avgle.search.SearchActivity" android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.feature.avgle.home.HomeActivity" android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-        </activity>
+        <activity android:name=".ui.feature.avgle.detail.DetailActivity" android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.feature.splash.SplashActivity"
                   android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <receiver android:name=".receiver.NetworkReceiver"/>

@@ -60,13 +60,10 @@ abstract class BaseRepo {
         }, BackpressureStrategy.BUFFER)
     }
 
-    interface OnSaveResultListener<T> {
-        fun onSave(data: T, isRefresh: Boolean)
-    }
-
     /**
      * For 2 single data
-     * @param remote
+     * @param remote1
+     * @param remote2
      * @param onSave
      * @param <T>
      * @return
@@ -86,6 +83,33 @@ abstract class BaseRepo {
             }
         }, BackpressureStrategy.BUFFER)
     }
+
+    fun <T1, T2> createResource(
+        isRefresh: Boolean,
+        remote1: Single<Response<T1>>,
+        remote2: Single<Response<T2>>,
+        onSave: OnSaveBiResultListener<T1, T2>
+    ): Flowable<Resource<ResponseBiZip<T1, T2>>> {
+        return Flowable.create({
+            object : SimpleNetworkBoundSourceBiRemote<T1, T2>(it, isRefresh) {
+                override fun getRemote1() = remote1
+                override fun getRemote2() = remote2
+                override fun saveCallResult(data: ResponseBiZip<T1, T2>, isRefresh: Boolean) {
+                    onSave.onSave(data, isRefresh)
+                }
+            }
+        }, BackpressureStrategy.BUFFER)
+    }
+
+    /**
+     * For 3 single data
+     * @param remote1
+     * @param remote2
+     * @param remote3
+     * @param onSave
+     * @param <T>
+     * @return
+    </T> */
 
     fun <T1, T2, T3> createResource(
         remote1: Single<Response<T1>>,
@@ -116,6 +140,14 @@ abstract class BaseRepo {
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()
+    }
+
+    interface OnSaveResultListener<T> {
+        fun onSave(data: T, isRefresh: Boolean)
+    }
+
+    interface OnSaveBiResultListener<T1, T2> {
+        fun onSave(data: ResponseBiZip<T1, T2>, isRefresh: Boolean)
     }
 }
 

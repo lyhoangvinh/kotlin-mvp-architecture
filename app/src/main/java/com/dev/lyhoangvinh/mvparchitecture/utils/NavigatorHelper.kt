@@ -4,9 +4,9 @@ import android.os.Bundle
 import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.AvgleActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.detail.DetailActivity
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.home.HomeActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos.VideosFragment
 import lyhoangvinh.com.myutil.navigation.ActivityNavigator
 import lyhoangvinh.com.myutil.navigation.FragmentNavigator
@@ -50,8 +50,8 @@ class NavigatorHelper(private var mNavigator: Navigator) {
         }
     }
 
-    fun navigateSplashActivity() {
-        mNavigator.startActivity(HomeActivity::class.java)
+    fun navigateAvgleActivity() {
+        mNavigator.startActivity(AvgleActivity::class.java)
         mNavigator.finishActivity()
     }
 }
