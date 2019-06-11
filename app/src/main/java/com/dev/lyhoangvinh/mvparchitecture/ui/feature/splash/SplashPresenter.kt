@@ -14,7 +14,7 @@ class SplashPresenter @Inject constructor(@ActivityContext context: Context, pri
     BasePresenter<SplashView>(context) {
     fun getData() {
         execute(
-            homeRepo.getRepoHomeMap(),
+            homeRepo.getRepoHome(),
             object :
                 PlainConsumer<ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>> {
                 override fun accept(t: ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>) {

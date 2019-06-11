@@ -7,7 +7,6 @@ import com.dev.lyhoangvinh.mvparchitecture.data.dao.*
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
-import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.VideosHome
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.comic.Comics
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.comic.Issues
 import com.dev.lyhoangvinh.mvparchitecture.data.typecoverter.ImageTypeConverter
@@ -15,7 +14,7 @@ import com.dev.lyhoangvinh.mvparchitecture.data.typecoverter.VolumeTypeConverter
 
 
 @Database(
-    entities = [Comics::class, Issues::class, Category::class, Collection::class, Video::class, VideosHome::class],
+    entities = [Comics::class, Issues::class, Category::class, Collection::class, Video::class],
     version = 1,
     exportSchema = false
 )
@@ -32,5 +31,4 @@ abstract class DatabaseManager : RoomDatabase() {
 
     abstract fun videosDao(): VideosDao
 
-    abstract fun videoHomeDao(): VideosHomeDao
-}
+ }

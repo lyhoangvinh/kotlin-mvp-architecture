@@ -25,7 +25,7 @@
             <!--</intent-filter>-->
         </activity>
 
-        <activity android:name=".ui.feature.avgle.AvgleActivity">
+        <activity android:name=".ui.feature.avgle.AvgleActivity" android:screenOrientation="portrait">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN"/>-->
 

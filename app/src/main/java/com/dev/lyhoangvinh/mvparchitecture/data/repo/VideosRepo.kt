@@ -8,7 +8,6 @@ import com.dev.lyhoangvinh.mvparchitecture.data.response.BaseResponseAvgle
 import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseBiZip
 import com.dev.lyhoangvinh.mvparchitecture.data.response.VideosResponseAvgle
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
-import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipBiConsumer
 import io.reactivex.Flowable
 import lyhoangvinh.com.myutil.thread.BackgroundThreadExecutor
 import javax.inject.Inject
