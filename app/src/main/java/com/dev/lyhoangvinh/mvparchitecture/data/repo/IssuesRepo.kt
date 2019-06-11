@@ -34,30 +34,21 @@ class IssuesRepo @Inject constructor(private val comicVineService: ComicVineServ
         ), onSave = object : OnSaveResultListener<BaseResponseComic<Issues>> {
             override fun onSave(data: BaseResponseComic<Issues>, isRefresh: Boolean) {
                 if (data.results.isNotEmpty()) {
-                    upsert(data.results)
+                    upsert(data.results, isRefresh)
                 }
             }
         })
     }
 
-    private fun upsert(entities: List<Issues>) {
+    private fun upsert(entities: List<Issues>, isRefresh: Boolean) {
         Completable.fromAction {
+            if (isRefresh) {
+                issuesDao.removeAll()
+            }
             issuesDao.insertIgnore(entities)
             issuesDao.updateIgnore(entities)
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : CompletableObserver {
-                override fun onComplete() {
-                    Log.d(IssuesRepo::class.java.simpleName, "onComplete")
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    Log.d(IssuesRepo::class.java.simpleName, "onSubscribe")
-                }
-
-                override fun onError(e: Throwable) {
-                    Log.d(IssuesRepo::class.java.simpleName, "onError")
-                }
-            })
+            .subscribe()
     }
 }
