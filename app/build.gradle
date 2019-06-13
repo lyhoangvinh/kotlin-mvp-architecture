@@ -25,6 +25,7 @@ android {
             buildConfigField("String", "HEADER_AUTH", "\"Authorization\"")
             buildConfigField "boolean", "ENABLE_LOGCAT", "true"
             buildConfigField("String", "API_KEY", "\"8c7bd28c573cebf75e30f9ecc109845810cf5024\"")
+            archivesBaseName = "mvparchitecture-app-$defaultConfig.versionName($defaultConfig.versionCode)"
         }
         release {
             minifyEnabled true
@@ -34,6 +35,7 @@ android {
             buildConfigField "boolean", "ENABLE_LOGCAT", "false"
             buildConfigField("String", "HEADER_AUTH", "\"Authorization\"")
             buildConfigField("String", "API_KEY", "\"8c7bd28c573cebf75e30f9ecc109845810cf5024\"")
+            archivesBaseName = "mvparchitecture-app-$defaultConfig.versionName($defaultConfig.versionCode)"
         }
     }
 
