@@ -51,7 +51,6 @@ class VideosFragment : BaseSwipeRecyclerViewFragment<VideosAdapter, VideosView, 
     }
 
     override fun onBackPressed(): Boolean {
-        presenter.deleteAll()
         fragmentManager?.popBackStack()
         return true
     }

@@ -7,14 +7,14 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.dev.lyhoangvinh.mvparchitecture.R
-import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.VideosHome
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseAdapter
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseViewHolder
 import com.dev.lyhoangvinh.mvparchitecture.utils.loadImage
 import kotlinx.android.synthetic.main.item_collection_2.view.*
 
 class VideosHomeAdapter :
-    BaseAdapter<VideosHome, VideosHomeAdapter.VideoViewHoler>(ArrayList()) {
+    BaseAdapter<Video, VideosHomeAdapter.VideoViewHoler>(ArrayList()) {
 
     private var onItemClickListener: ((String) -> Unit)? = null
 
@@ -37,7 +37,7 @@ class VideosHomeAdapter :
 
     override fun createViewHolder(itemView: View) = VideoViewHoler(itemView)
 
-    override fun onBindViewHolder(vh: VideoViewHoler, dto: VideosHome, position: Int) {
+    override fun onBindViewHolder(vh: VideoViewHoler, dto: Video, position: Int) {
         vh.imv.layoutParams.width = mWidth
         vh.imv.layoutParams.height = mHeight
         vh.lnMain.layoutParams = RelativeLayout.LayoutParams(mWidth, RelativeLayout.LayoutParams.WRAP_CONTENT)
@@ -60,11 +60,11 @@ class VideosHomeAdapter :
         val lnMain: LinearLayout = itemView.lnlMain
     }
 
-    fun updateCollection(newList: List<VideosHome>) {
+    fun updateCollection(newList: List<Video>) {
         update(newList, VideosDiffCallBack(getData(), newList), false)
     }
 
-    class VideosDiffCallBack(private val current: List<VideosHome>, private val next: List<VideosHome>) :
+    class VideosDiffCallBack(private val current: List<Video>, private val next: List<Video>) :
         DiffUtil.Callback() {
 
         override fun getOldListSize(): Int {

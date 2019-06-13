@@ -6,28 +6,14 @@ import com.dev.lyhoangvinh.mvparchitecture.data.repo.HomeRepo
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BasePresenter
-import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
 import javax.inject.Inject
 
 @PerFragment
 class HomePresenter @Inject constructor(
-    @ActivityContext ctx: Context, private val homeRepo: HomeRepo,
-    private val connectionLiveData: ConnectionLiveData
-) :
-    BasePresenter<HomeView>(ctx) {
-
-    private var currentConnection = true
+    @ActivityContext ctx: Context, private val homeRepo: HomeRepo
+) : BasePresenter<HomeView>(ctx) {
 
     fun getData() {
-
-        connectionLiveData.observe(getLifeCircleOwner(), Observer {
-            currentConnection = if (it!!.isConnected && !currentConnection) {
-                execute(homeRepo.getRepoHomeMap())
-                true
-            } else {
-                false
-            }
-        })
 
         homeRepo.liveCategories().observe(getLifeCircleOwner(), Observer {
             getView()?.swapCategoriesSuccess(it!!)
@@ -36,7 +22,7 @@ class HomePresenter @Inject constructor(
             getView()?.swapCollectionsSuccess(it!!)
         })
 
-        homeRepo.liveVideosHome().observe(getLifeCircleOwner(), Observer {
+        homeRepo.liveVideos().observe(getLifeCircleOwner(), Observer {
             getView()?.swapVideos(it!!)
         })
     }

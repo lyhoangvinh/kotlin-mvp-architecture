@@ -45,7 +45,5 @@ interface AppComponent {
 
     fun videosDao(): VideosDao
 
-    fun videosHomeDao(): VideosHomeDao
-
     fun inject(app: MyApplication)
 }

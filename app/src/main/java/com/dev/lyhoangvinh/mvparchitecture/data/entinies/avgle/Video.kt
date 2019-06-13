@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 data class Video(
 
     @PrimaryKey(autoGenerate = true)
-    var idAuto: Long? = 0,
+    var idAuto: Long,
 
     @SerializedName("vid")
     @Expose
