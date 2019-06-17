@@ -1,5 +1,8 @@
 package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.detail
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.webkit.*
@@ -10,17 +13,21 @@ import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.activity_detail.*
 import android.content.Intent
 import android.net.Uri
-import android.util.DisplayMetrics
+import android.text.TextUtils
+import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.utils.WebAppInterface
+import kotlinx.android.synthetic.main.toolbar_back.*
+import lyhoangvinh.com.myutil.androidutils.AlertUtils
 
 
 class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), DetailView {
 
-    override fun getLayoutResource() = com.dev.lyhoangvinh.mvparchitecture.R.layout.activity_detail
+    override fun getLayoutResource() = R.layout.activity_detail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activityComponent()?.inject(this)
         super.onCreate(savedInstanceState)
+        imvBack.setOnClickListener { onBackPressed() }
         if (intent != null) {
             val url = intent.getStringExtra(Constants.EXTRA_DATA)
             webViewDetail.settings.apply {
@@ -73,6 +80,16 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
             }
             presenter.observeConnection(url)
             webViewDetail.loadUrl(url)
+            tvTitleToolBar.text = url
+            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+
+            imvCopy.setOnClickListener {
+                if (!TextUtils.isEmpty(url)) {
+                    val clipData = ClipData.newPlainText("Source Text", url)
+                    clipboardManager?.primaryClip = clipData
+                    AlertUtils.showSnackBarShortMessage(it, "Copy text success.")
+                }
+            }
         }
     }
 

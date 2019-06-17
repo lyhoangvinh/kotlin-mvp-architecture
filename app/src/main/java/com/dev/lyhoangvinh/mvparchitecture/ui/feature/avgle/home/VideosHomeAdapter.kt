@@ -49,6 +49,7 @@ class VideosHomeAdapter :
         vh.tvTotalViews.text = String.format("Like: %s", dto.likes)
         vh.tvVideoCount.text = String.format("Views: %s", dto.viewNumber)
         vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.videoUrl!!) }
+        vh.tvPreview.setOnClickListener {  onItemClickListener?.invoke(dto.previewVideoUrl!!) }
     }
 
     class VideoViewHoler(itemView: View) : BaseViewHolder(itemView) {
@@ -58,6 +59,7 @@ class VideosHomeAdapter :
         val tvTotalViews: TextView = itemView.tvTotalViews
         val tvVideoCount: TextView = itemView.tvVideoCount
         val lnMain: LinearLayout = itemView.lnlMain
+        val tvPreview : TextView = itemView.tvPreview
     }
 
     fun updateCollection(newList: List<Video>) {

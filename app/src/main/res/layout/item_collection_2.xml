@@ -40,8 +40,23 @@
             android:maxLines="1"
             tools:text="三上悠亜"
             android:textSize="@dimen/ts_12_sp"
-            android:layout_marginLeft="@dimen/padding_10dp"/>
+            android:layout_marginStart="@dimen/padding_10dp"/>
 
+
+    <TextView
+            android:id="@+id/tvPreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_6dp"
+            android:background="@drawable/bg_red_status"
+            android:paddingBottom="@dimen/padding_6dp"
+            android:paddingLeft="@dimen/padding_8dp"
+            android:paddingRight="@dimen/padding_8dp"
+            android:paddingTop="@dimen/padding_6dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/ts_11_sp"
+            android:layout_marginStart="@dimen/padding_10dp"
+            android:text="@string/preview"/>
 
     <RelativeLayout
             android:layout_width="match_parent"

@@ -34,7 +34,7 @@ class MyApplication : Application() {
     }
 
     // component
-    fun setupAppComponent() {
+    private fun setupAppComponent() {
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .dataModule(DataModule(this))
