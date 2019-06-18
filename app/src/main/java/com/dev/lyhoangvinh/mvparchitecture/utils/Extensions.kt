@@ -82,6 +82,16 @@ fun ViewGroup.inflate(@LayoutRes layout: Int, attachToRoot: Boolean = false): Vi
 fun ImageView.loadImage(url: String) {
     Picasso.get()
         .load(url)
+        .placeholder(R.drawable.imv_place_holder_default)
+        .error(R.drawable.imv_place_holder_default)
+        .centerCrop()
+        .fit()
+        .into(this)
+}
+
+fun ImageView.loadImageIssues(url: String) {
+    Picasso.get()
+        .load(url)
         .placeholder(R.drawable.ic_placeholder_rectangle_200px)
         .error(R.drawable.ic_placeholder_rectangle_200px)
         .centerCrop()

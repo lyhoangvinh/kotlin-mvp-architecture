@@ -9,7 +9,7 @@ class ImageBannerAdapter(fm: FragmentManager, private var mBannerList: List<Coll
     FragmentStatePagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment? {
-        return BannerImagesFragment.getInstance(mBannerList[position].coverUrl.toString())
+        return BannerImagesFragment.getInstance(mBannerList[position])
     }
 
     override fun getCount(): Int {

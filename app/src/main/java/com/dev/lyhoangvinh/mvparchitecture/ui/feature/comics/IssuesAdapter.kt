@@ -7,7 +7,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseAdapter
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseViewHolder
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.comic.Issues
 import com.dev.lyhoangvinh.mvparchitecture.utils.getAppDateFormatter
-import com.dev.lyhoangvinh.mvparchitecture.utils.loadImage
+import com.dev.lyhoangvinh.mvparchitecture.utils.loadImageIssues
 import kotlinx.android.synthetic.main.item_comics.view.*
 
 class IssuesAdapter(mData: ArrayList<Issues>) : BaseAdapter<Issues, IssuesAdapter.MainViewHolder>(mData) {
@@ -20,7 +20,7 @@ class IssuesAdapter(mData: ArrayList<Issues>) : BaseAdapter<Issues, IssuesAdapte
         vh.tvTitle.text = dto.volume.name
         vh.tvTime.text = String.format("Added: %s", getAppDateFormatter(dto.dateAdded!!))
         vh.tvDateLastUpdated.text = String.format("Last updated: %s", getAppDateFormatter(dto.dateLastUpdated!!))
-        vh.imv.loadImage(dto.images.medium_url!!)
+        vh.imv.loadImageIssues(dto.images.medium_url!!)
     }
 
     class MainViewHolder(itemView: View) : BaseViewHolder(itemView) {
