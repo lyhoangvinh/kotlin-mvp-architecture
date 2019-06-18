@@ -3,14 +3,18 @@ package com.dev.lyhoangvinh.mvparchitecture.utils
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.support.annotation.LayoutRes
 import android.support.annotation.NonNull
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat.startActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -518,6 +522,7 @@ fun TextView.formatDate(time: Long) {
     }
 }
 
+@Suppress("UNCHECKED_CAST")
 inline fun <reified T, Y> MutableList<T>.listOfField(property: KMutableProperty1<T, Y?>): MutableList<Y> {
     val yy = ArrayList<Y>()
     this.forEach { t: T ->
@@ -525,3 +530,16 @@ inline fun <reified T, Y> MutableList<T>.listOfField(property: KMutableProperty1
     }
     return yy
 }
+
+fun Activity.openApp() {
+    try {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.vinh.hextotext")));
+    } catch (ex : ActivityNotFoundException) {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=com.vinh.hextotext")
+            )
+        )
+    }
+ }

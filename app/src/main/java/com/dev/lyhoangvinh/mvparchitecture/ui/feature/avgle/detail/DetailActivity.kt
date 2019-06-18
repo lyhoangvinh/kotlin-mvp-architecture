@@ -16,6 +16,7 @@ import android.net.Uri
 import android.text.TextUtils
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.utils.WebAppInterface
+import com.dev.lyhoangvinh.mvparchitecture.utils.openApp
 import kotlinx.android.synthetic.main.toolbar_back.*
 import lyhoangvinh.com.myutil.androidutils.AlertUtils
 
@@ -84,11 +85,12 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
             val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
 
             imvCopy.setOnClickListener {
-                if (!TextUtils.isEmpty(url)) {
-                    val clipData = ClipData.newPlainText("Source Text", url)
-                    clipboardManager?.primaryClip = clipData
-                    AlertUtils.showSnackBarShortMessage(it, "Copy text success.")
-                }
+//                if (!TextUtils.isEmpty(url)) {
+//                    val clipData = ClipData.newPlainText("Source Text", url)
+//                    clipboardManager?.primaryClip = clipData
+//                    AlertUtils.showSnackBarShortMessage(it, "Copy text success.")
+//                }
+                openApp()
             }
         }
     }

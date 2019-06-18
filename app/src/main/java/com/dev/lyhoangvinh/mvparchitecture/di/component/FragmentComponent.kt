@@ -5,6 +5,7 @@ import com.dev.lyhoangvinh.mvparchitecture.di.module.FragmentModule
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.category.CategoriesFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionFragment
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.home.BannerImagesFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.home.HomeFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos.VideosFragment
 import dagger.Component
@@ -21,4 +22,6 @@ interface FragmentComponent {
     fun inject(fragment: VideosFragment)
 
     fun inject(fragment: HomeFragment)
+
+    fun inject(fragment: BannerImagesFragment)
 }
