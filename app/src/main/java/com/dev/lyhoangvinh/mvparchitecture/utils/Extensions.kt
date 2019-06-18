@@ -14,7 +14,7 @@ import android.support.annotation.LayoutRes
 import android.support.annotation.NonNull
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.startActivity
+import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,6 +37,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipBiConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipThreeConsumer
 import com.google.gson.*
+import com.jakewharton.rxbinding2.widget.RxTextView
 import com.squareup.picasso.Picasso
 import io.reactivex.CompletableObserver
 import io.reactivex.Single
@@ -46,6 +47,7 @@ import io.reactivex.functions.Action
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_search.view.*
 import lyhoangvinh.com.myutil.network.Tls12SocketFactory
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
@@ -544,7 +546,7 @@ inline fun <reified T, Y> MutableList<T>.listOfField(property: KMutableProperty1
 fun Activity.openApp() {
     try {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.vinh.hextotext")));
-    } catch (ex : ActivityNotFoundException) {
+    } catch (ex: ActivityNotFoundException) {
         startActivity(
             Intent(
                 Intent.ACTION_VIEW,
@@ -552,4 +554,21 @@ fun Activity.openApp() {
             )
         )
     }
- }
+}
+
+@SuppressLint("CheckResult")
+fun EditText.textChanges(onTextChangeListener: (String) -> Unit) {
+    RxTextView.textChanges(edtSearch).debounce(1000, TimeUnit.MILLISECONDS)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .skip(1)
+        .subscribe { charSequence -> onTextChangeListener.invoke(charSequence.toString()) }
+}
+
+fun RecyclerView.hideKeyPost(activity: Activity) {
+    setOnTouchListener { _, _ ->
+        activity.hideKeyboard()
+        false
+    }
+
+}

@@ -20,6 +20,6 @@ class SplashActivity : BasePresenterActivity<SplashView, SplashPresenter>(), Spl
     override fun getLayoutResource() = R.layout.activity_splash
 
     override fun swapDataSuccess() {
-        navigatorHelper.navigateAvgleActivity()
+        navigatorHelper.navigateAvgleActivity(this)
     }
 }

@@ -46,7 +46,8 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
             ) / 2
         val mHeight = mWidth * 5 / 7
         categoriesAdapter = Categories2Adapter().setOnClickItemListener { navigatorHelper.navigateVideosFragment(it) }
-        collectionAdapter = VideosHomeAdapter().setLayoutParams(mWidth, mHeight).setOnItemClickListener { navigatorHelper.navigateDetailActivity(it) }
+        collectionAdapter = VideosHomeAdapter().setLayoutParams(mWidth, mHeight)
+            .setOnItemClickListener { navigatorHelper.navigateDetailActivity(it) }
 
         val pixel = (ctx as AppCompatActivity).windowManager.defaultDisplay.width / 2
         viewPage.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, pixel)
@@ -83,7 +84,8 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
 
         tvSeeAll.text = getString(R.string.see_all)
         tvCollection.text = getString(R.string.videos)
-        tvSeeAll.setOnClickListener {  navigatorHelper.navigateVideosFragment(null)  }
+        tvSeeAll.setOnClickListener { navigatorHelper.navigateVideosFragment(null) }
+        lnlSearch.setOnClickListener { navigatorHelper.navigateSearchActivity(ctx) }
         presenter.getData()
     }
 

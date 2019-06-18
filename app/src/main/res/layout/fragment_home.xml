@@ -24,7 +24,7 @@
 
 
                 <LinearLayout
-                        android:id="@+id/lnl_search"
+                        android:id="@+id/lnlSearch"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="@dimen/padding_12dp"

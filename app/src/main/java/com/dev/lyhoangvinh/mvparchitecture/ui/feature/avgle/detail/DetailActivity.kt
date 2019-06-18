@@ -8,15 +8,12 @@ import android.os.Bundle
 import android.webkit.*
 import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.activity.BasePresenterActivity
-import com.dev.lyhoangvinh.mvparchitecture.utils.NetworkUtils
-import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.activity_detail.*
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
 import com.dev.lyhoangvinh.mvparchitecture.R
-import com.dev.lyhoangvinh.mvparchitecture.utils.WebAppInterface
-import com.dev.lyhoangvinh.mvparchitecture.utils.openApp
+import com.dev.lyhoangvinh.mvparchitecture.utils.*
 import kotlinx.android.synthetic.main.toolbar_back.*
 import lyhoangvinh.com.myutil.androidutils.AlertUtils
 
@@ -81,11 +78,11 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
             }
             presenter.observeConnection(url)
             webViewDetail.loadUrl(url)
-            tvTitleToolBar.text = url
-            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            tvTitleToolBar.startCollapsingAnimation(url, 500L)
+//            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
 
             imvCopy.setOnClickListener {
-//                if (!TextUtils.isEmpty(url)) {
+                //                if (!TextUtils.isEmpty(url)) {
 //                    val clipData = ClipData.newPlainText("Source Text", url)
 //                    clipboardManager?.primaryClip = clipData
 //                    AlertUtils.showSnackBarShortMessage(it, "Copy text success.")

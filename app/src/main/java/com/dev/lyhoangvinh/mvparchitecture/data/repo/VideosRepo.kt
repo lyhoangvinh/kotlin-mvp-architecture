@@ -33,23 +33,14 @@ class VideosRepo @Inject constructor(
         return createResource(isRefresh, avgleService.getVideosFromKeyword(page, chId),
             onSave = object : OnSaveResultListener<BaseResponseAvgle<VideosResponseAvgle>> {
                 override fun onSave(data: BaseResponseAvgle<VideosResponseAvgle>, isRefresh: Boolean) {
-                    if (data.success && data.response.hasMore) {
+                    if (data.success) {
                         if (isRefresh) {
-//                            execute(
-//                                videosDao.deleteAll()
-//                                videosDao.insertIgnore(data.response.videos)
-//                                videosDao.updateIgnore(data.response.videos)
-//                            )
                             BackgroundThreadExecutor.getInstance().runOnBackground {
                                 videosDao.deleteAll()
                                 videosDao.insertIgnore(data.response.videos)
                                 videosDao.updateIgnore(data.response.videos)
                             }
                         } else {
-//                            execute({
-//                                videosDao.insertIgnore(data.response.videos)
-//                                videosDao.updateIgnore(data.response.videos)
-//                            }, { currentPage += 1 })
                             BackgroundThreadExecutor.getInstance().runOnBackground {
                                 videosDao.insertIgnore(data.response.videos)
                                 videosDao.updateIgnore(data.response.videos)
@@ -72,29 +63,29 @@ class VideosRepo @Inject constructor(
                     data: ResponseBiZip<BaseResponseAvgle<VideosResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>,
                     isRefresh: Boolean
                 ) {
-//                    if (data.t1!!.success && data.response.hasMore) {
-//                        if (isRefresh) {
-////                            execute(
-////                                videosDao.deleteAll()
-////                                videosDao.insertIgnore(data.response.videos)
-////                                videosDao.updateIgnore(data.response.videos)
-////                            )
-//                            BackgroundThreadExecutor.getInstance().runOnBackground {
-//                                videosDao.deleteAll()
-//                                videosDao.insertIgnore(data.response.videos)
-//                                videosDao.updateIgnore(data.response.videos)
-//                            }
-//                        } else {
-////                            execute({
-////                                videosDao.insertIgnore(data.response.videos)
-////                                videosDao.updateIgnore(data.response.videos)
-////                            }, { currentPage += 1 })
-//                            BackgroundThreadExecutor.getInstance().runOnBackground {
-//                                videosDao.insertIgnore(data.response.videos)
-//                                videosDao.updateIgnore(data.response.videos)
-//                            }
-//                        }
-//                    }
+
+                    val data1 = data.t1
+                    val data2 = data.t1
+                    val newList: ArrayList<Video> = ArrayList()
+                    if (data1 != null && data1.success && data1.response.videos.isNotEmpty()) {
+                        newList.addAll(data1.response.videos)
+                    }
+                    if (data2 != null && data2.success && data2.response.videos.isNotEmpty()) {
+                        newList.addAll(data2.response.videos)
+                    }
+                    if (isRefresh) {
+                        BackgroundThreadExecutor.getInstance().runOnBackground {
+                            videosDao.deleteAll()
+                            videosDao.insertIgnore(newList)
+                            videosDao.updateIgnore(newList)
+                        }
+                    } else {
+                        BackgroundThreadExecutor.getInstance().runOnBackground {
+                            videosDao.insertIgnore(newList)
+                            videosDao.updateIgnore(newList)
+                        }
+                    }
+
                 }
             })
     }

@@ -6,6 +6,7 @@ import com.dev.lyhoangvinh.mvparchitecture.di.module.ActivityModule
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityFragmentManager
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.detail.DetailActivity
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.search.SearchActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.comics.IssuesActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.splash.SplashActivity
 import dagger.Component
@@ -22,6 +23,8 @@ interface ActivityComponent {
     fun inject(activity: IssuesActivity)
 
     fun inject(activity: DetailActivity)
+
+    fun inject(activity: SearchActivity)
 
     fun inject(activity: SplashActivity)
 }

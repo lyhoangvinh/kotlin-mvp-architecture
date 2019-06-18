@@ -54,7 +54,6 @@ class VideosPresenter @Inject constructor(
     fun observe() {
         videosRepo.liveData().observe(getLifeCircleOwner(), Observer {
             adapter?.updateVideos(it!!)
-//            getView()?.showMessage("SIZE : " + it!!.size)
         })
 
         connectionLiveData.observe(getLifeCircleOwner(), Observer {
