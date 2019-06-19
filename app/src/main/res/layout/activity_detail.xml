@@ -15,7 +15,7 @@
                     android:layout_height="match_parent"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <WebView
+        <com.dev.lyhoangvinh.mvparchitecture.utils.videoview.VideoEnabledWebView
                 android:id="@+id/webViewDetail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

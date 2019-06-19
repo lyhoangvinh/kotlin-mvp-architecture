@@ -13,6 +13,8 @@ import com.dev.lyhoangvinh.mvparchitecture.di.module.NetworkModule
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ApplicationContext
 import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
 import dagger.Component
+import lyhoangvinh.com.myutil.thread.BackgroundThreadExecutor
+import lyhoangvinh.com.myutil.thread.UIThreadExecutor
 import javax.inject.Singleton
 
 /**
@@ -32,6 +34,10 @@ interface AppComponent {
     fun getAvgleService(): AvgleService
 
     fun getSharedPrefs(): SharedPrefs
+
+    fun getBackgroundThreadExecutor(): BackgroundThreadExecutor
+
+    fun getUIThreadExecutor(): UIThreadExecutor
 
     fun getConnectionLiveData(): ConnectionLiveData
 

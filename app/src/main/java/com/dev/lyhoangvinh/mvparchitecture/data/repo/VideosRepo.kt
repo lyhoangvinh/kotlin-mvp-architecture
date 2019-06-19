@@ -10,11 +10,13 @@ import com.dev.lyhoangvinh.mvparchitecture.data.response.VideosResponseAvgle
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
 import io.reactivex.Flowable
 import lyhoangvinh.com.myutil.thread.BackgroundThreadExecutor
+import lyhoangvinh.com.myutil.thread.UIThreadExecutor
 import javax.inject.Inject
 
 class VideosRepo @Inject constructor(
     private val videosDao: VideosDao,
-    private val avgleService: AvgleService
+    private val avgleService: AvgleService,
+    private val backgroundThreadExecutor: BackgroundThreadExecutor
 ) : BaseRepo() {
 
     fun liveData(): LiveData<List<Video>> = videosDao.liveData()
@@ -35,13 +37,13 @@ class VideosRepo @Inject constructor(
                 override fun onSave(data: BaseResponseAvgle<VideosResponseAvgle>, isRefresh: Boolean) {
                     if (data.success) {
                         if (isRefresh) {
-                            BackgroundThreadExecutor.getInstance().runOnBackground {
+                            backgroundThreadExecutor.runOnBackground {
                                 videosDao.deleteAll()
                                 videosDao.insertIgnore(data.response.videos)
                                 videosDao.updateIgnore(data.response.videos)
                             }
                         } else {
-                            BackgroundThreadExecutor.getInstance().runOnBackground {
+                            backgroundThreadExecutor.runOnBackground {
                                 videosDao.insertIgnore(data.response.videos)
                                 videosDao.updateIgnore(data.response.videos)
                             }
@@ -74,13 +76,13 @@ class VideosRepo @Inject constructor(
                         newList.addAll(data2.response.videos)
                     }
                     if (isRefresh) {
-                        BackgroundThreadExecutor.getInstance().runOnBackground {
+                        backgroundThreadExecutor.runOnBackground {
                             videosDao.deleteAll()
                             videosDao.insertIgnore(newList)
                             videosDao.updateIgnore(newList)
                         }
                     } else {
-                        BackgroundThreadExecutor.getInstance().runOnBackground {
+                        backgroundThreadExecutor.runOnBackground {
                             videosDao.insertIgnore(newList)
                             videosDao.updateIgnore(newList)
                         }

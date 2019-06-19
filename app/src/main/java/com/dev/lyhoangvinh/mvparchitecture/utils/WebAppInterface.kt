@@ -6,7 +6,7 @@ import org.json.JSONObject
 class WebAppInterface {
     @JavascriptInterface
     fun handleMyEvent(jsonString: String) {
-        val data: JSONObject = JSONObject(jsonString)
+//        val data: JSONObject = JSONObject(jsonString)
         // Do stuff with event data
     }
 }

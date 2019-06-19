@@ -26,7 +26,7 @@ class HomeRepo @Inject constructor(
     fun getRepoHome(): Flowable<Resource<ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>>> {
         return createResource(
             avgleService.getCategories(),
-            avgleService.getCollections((0..10).random(), 3),
+            avgleService.getCollections((0..10).random(), (3..5).random()),
             avgleService.getAllVideos((0..10).random()),
             object :
                 PlainResponseZipThreeConsumer<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>> {

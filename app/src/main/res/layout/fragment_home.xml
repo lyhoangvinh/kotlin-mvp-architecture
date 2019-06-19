@@ -135,7 +135,48 @@
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
                         tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_collection_2"
+                        tools:listitem="@layout/item_collection_home"
+                        tools:orientation="horizontal"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:id="@+id/tvVideo"
+                            style="@style/TextCategoryHeaderHome"
+                            tools:text="@string/collection"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textSize="@dimen/ts_21_sp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"/>
+
+                    <LinearLayout
+                            android:id="@+id/lnl_see_all_Video"
+                            style="@style/LinearSeeAll"
+                            android:visibility="visible">
+
+                        <TextView
+                                android:id="@+id/tvSeeAllVideo"
+                                tools:text="@string/see_all"
+                                style="@style/TextViewSeeAllHeader"/>
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_trending_flat_black_24dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rcvVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_video_home"
                         tools:orientation="horizontal"/>
 
                 <View

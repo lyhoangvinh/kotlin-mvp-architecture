@@ -1,5 +1,6 @@
 package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.detail
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -14,6 +15,7 @@ import android.net.Uri
 import android.text.TextUtils
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.utils.*
+import com.dev.lyhoangvinh.mvparchitecture.utils.videoview.VideoEnabledWebChromeClient
 import kotlinx.android.synthetic.main.toolbar_back.*
 import lyhoangvinh.com.myutil.androidutils.AlertUtils
 
@@ -22,6 +24,7 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
 
     override fun getLayoutResource() = R.layout.activity_detail
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         activityComponent()?.inject(this)
         super.onCreate(savedInstanceState)
@@ -33,26 +36,27 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
                 allowFileAccess = true
                 loadWithOverviewMode = true
                 useWideViewPort = true
+                setSupportZoom(true)
                 displayZoomControls = false
                 builtInZoomControls = false
                 domStorageEnabled = true
                 cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             }
             webViewDetail.addJavascriptInterface(WebAppInterface(), "MyJSInterface")
-            webViewDetail.webChromeClient = WebChromeClient()
-            webViewDetail.webViewClient = object : WebViewClient() {
-
-                override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                    super.onPageStarted(view, url, favicon)
-                    if (NetworkUtils.netWorkCheck(this@DetailActivity)) {
-                        viewLoading.setVisible(true)
+            webViewDetail.webChromeClient = object : VideoEnabledWebChromeClient(){
+                override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                    super.onProgressChanged(view, newProgress)
+                    if(newProgress < 100){
+                        if (NetworkUtils.netWorkCheck(this@DetailActivity)) {
+                            viewLoading.setVisible(true)
+                        }
+                    }
+                    if (newProgress == 100){
+                        viewLoading.setVisible(false)
                     }
                 }
-
-                override fun onPageCommitVisible(view: WebView?, url: String?) {
-                    super.onPageCommitVisible(view, url)
-                    viewLoading.setVisible(false)
-                }
+            }
+            webViewDetail.webViewClient = object : WebViewClient() {
 
                 override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                     super.onReceivedError(view, request, error)
@@ -79,15 +83,14 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
             presenter.observeConnection(url)
             webViewDetail.loadUrl(url)
             tvTitleToolBar.startCollapsingAnimation(url, 500L)
-//            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-
+            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
             imvCopy.setOnClickListener {
-                //                if (!TextUtils.isEmpty(url)) {
-//                    val clipData = ClipData.newPlainText("Source Text", url)
-//                    clipboardManager?.primaryClip = clipData
-//                    AlertUtils.showSnackBarShortMessage(it, "Copy text success.")
-//                }
-                openApp()
+                                if (!TextUtils.isEmpty(url)) {
+                    val clipData = ClipData.newPlainText("Source Text", url)
+                    clipboardManager?.primaryClip = clipData
+                    AlertUtils.showSnackBarShortMessage(it, "Copy text success.")
+                }
+//                openApp()
             }
         }
     }

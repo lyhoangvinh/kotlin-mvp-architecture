@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityOptionsCompat
 import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.AvgleActivity
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection.CollectionFragment
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.detail.DetailActivity
@@ -61,6 +62,22 @@ class NavigatorHelper(private var mNavigator: Navigator) {
         } else {
             mNavigator.replaceFragmentAndAddToBackStack(R.id.container, collectionFragment, null, null)
         }
+    }
+
+    fun navigateVideosFragment(collection: Collection?) {
+        val collectionFragment = VideosFragment()
+        if (collection != null) {
+            val bundle = Bundle()
+            bundle.putParcelable(Constants.EXTRA_DATA, collection)
+            collectionFragment.arguments = bundle
+            mNavigator.replaceFragmentAndAddToBackStack(R.id.container, collectionFragment, bundle, null)
+        } else {
+            mNavigator.replaceFragmentAndAddToBackStack(R.id.container, collectionFragment, null, null)
+        }
+    }
+
+    fun navigateVideosFragment() {
+        mNavigator.replaceFragmentAndAddToBackStack(R.id.container, VideosFragment(), null, null)
     }
 
     fun navigateAvgleActivity(activity: Activity) {

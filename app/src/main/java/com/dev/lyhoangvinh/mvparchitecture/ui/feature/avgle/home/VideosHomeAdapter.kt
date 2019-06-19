@@ -11,7 +11,7 @@ import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseAdapter
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.adapter.BaseViewHolder
 import com.dev.lyhoangvinh.mvparchitecture.utils.loadImage
-import kotlinx.android.synthetic.main.item_collection_2.view.*
+import kotlinx.android.synthetic.main.item_video_home.view.*
 
 class VideosHomeAdapter :
     BaseAdapter<Video, VideosHomeAdapter.VideoViewHoler>(ArrayList()) {
@@ -33,7 +33,7 @@ class VideosHomeAdapter :
         return this
     }
 
-    override fun itemLayoutResource() = R.layout.item_collection_2
+    override fun itemLayoutResource() = R.layout.item_video_home
 
     override fun createViewHolder(itemView: View) = VideoViewHoler(itemView)
 

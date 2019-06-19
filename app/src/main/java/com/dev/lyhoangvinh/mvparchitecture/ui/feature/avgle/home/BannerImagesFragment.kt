@@ -39,10 +39,10 @@ class BannerImagesFragment : BaseFragment() {
         if (arguments != null) {
             val collection: Collection = arguments?.getParcelable(Constants.EXTRA_DATA)!!
             val coverUrl: String = collection.coverUrl.toString()
-            val url :String = collection.collectionUrl.toString()
+//            val url :String = collection.collectionUrl.toString()
             imv.loadImage(coverUrl)
             imv.setOnClickListener {
-                navigatorHelper.navigateDetailActivity(url)
+                navigatorHelper.navigateVideosFragment(collection)
             }
         }
     }

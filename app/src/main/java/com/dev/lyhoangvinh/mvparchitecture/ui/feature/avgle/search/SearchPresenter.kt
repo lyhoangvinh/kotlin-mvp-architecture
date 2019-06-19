@@ -48,7 +48,7 @@ class SearchPresenter @Inject constructor(
             object :
                 PlainConsumer<ResponseBiZip<BaseResponseAvgle<VideosResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>> {
                 override fun accept(t: ResponseBiZip<BaseResponseAvgle<VideosResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>) {
-                    canLoadMore = (t.t1!= null && t.t1?.response?.hasMore!!) || (t.t2 != null && t.t2?.response?.hasMore!!)
+                    canLoadMore = true
                     isRefreshed = false
                 }
             })

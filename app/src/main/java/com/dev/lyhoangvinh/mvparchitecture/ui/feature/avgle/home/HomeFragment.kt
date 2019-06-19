@@ -49,7 +49,7 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
         collectionAdapter = VideosHomeAdapter().setLayoutParams(mWidth, mHeight)
             .setOnItemClickListener { navigatorHelper.navigateDetailActivity(it) }
 
-        val pixel = (ctx as AppCompatActivity).windowManager.defaultDisplay.width / 2
+        @Suppress("DEPRECATION") val pixel = (ctx as AppCompatActivity).windowManager.defaultDisplay.width / 2
         viewPage.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, pixel)
         viewPage.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL)
         viewPage.initIndicator()
@@ -84,7 +84,7 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
 
         tvSeeAll.text = getString(R.string.see_all)
         tvCollection.text = getString(R.string.videos)
-        tvSeeAll.setOnClickListener { navigatorHelper.navigateVideosFragment(null) }
+        tvSeeAll.setOnClickListener { navigatorHelper.navigateVideosFragment() }
         lnlSearch.setOnClickListener { navigatorHelper.navigateSearchActivity(ctx) }
         presenter.getData()
     }

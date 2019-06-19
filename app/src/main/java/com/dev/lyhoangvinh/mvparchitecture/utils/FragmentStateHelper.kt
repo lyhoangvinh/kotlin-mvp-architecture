@@ -40,7 +40,7 @@ class FragmentStateHelper(private val fragmentManager: FragmentManager) {
      */
     fun saveState(fragment: Fragment, key: Int) {
         // We can't save the state of a Fragment that isn't added to a FragmentManager.
-        if (fragment.isAdded ?: false) {
+        if (fragment.isAdded) {
             fragmentSavedStates[key] = fragmentManager.saveFragmentInstanceState(fragment)
         }
     }
