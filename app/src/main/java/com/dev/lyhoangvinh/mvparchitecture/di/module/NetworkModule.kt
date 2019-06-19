@@ -21,25 +21,19 @@ class NetworkModule(@ApplicationContext private var context: Application) {
     @Provides
     @OkHttpNoAuth
     @Singleton
-    internal fun provideOkHttpClientNoAuth(): OkHttpClient {
-        return makeOkHttpClientBuilder(context).build()
-    }
+    internal fun provideOkHttpClientNoAuth(): OkHttpClient = makeOkHttpClientBuilder(context).build()
 
     @Provides
     @Singleton
-    internal fun provideComicVineService(gson: Gson, @OkHttpNoAuth okHttpClient: OkHttpClient): ComicVineService {
-        return makeService(ComicVineService::class.java, gson, okHttpClient, Constants.COMIC_ENDPOINT)
-    }
+    internal fun provideComicVineService(gson: Gson, @OkHttpNoAuth okHttpClient: OkHttpClient): ComicVineService =
+        makeService(ComicVineService::class.java, gson, okHttpClient, Constants.COMIC_ENDPOINT)
 
     @Provides
     @Singleton
-    internal fun provideAvgleService(gson: Gson, @OkHttpNoAuth okHttpClient: OkHttpClient): AvgleService {
-        return makeService(AvgleService::class.java, gson, okHttpClient, Constants.AVGLE_ENDPOINT)
-    }
+    internal fun provideAvgleService(gson: Gson, @OkHttpNoAuth okHttpClient: OkHttpClient): AvgleService =
+        makeService(AvgleService::class.java, gson, okHttpClient, Constants.AVGLE_ENDPOINT)
 
     @Singleton
     @Provides
-    internal fun providesConnectionLiveData(): ConnectionLiveData {
-        return ConnectionLiveData(context)
-    }
+    internal fun providesConnectionLiveData(): ConnectionLiveData = ConnectionLiveData(context)
 }

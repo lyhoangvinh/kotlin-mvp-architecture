@@ -24,38 +24,26 @@ class DataModule(@ApplicationContext private var context: Application) {
 
     @Singleton
     @Provides
-    internal fun providesSharePeres(): SharedPrefs {
-        return SharedPrefs.getInstance(context)
-    }
+    internal fun providesSharePeres(): SharedPrefs = SharedPrefs.getInstance(context)
 
     @Provides
     @Singleton
-    fun provideComicsDao(databaseManager: DatabaseManager): ComicsDao {
-        return databaseManager.comicsDao()
-    }
+    fun provideComicsDao(databaseManager: DatabaseManager): ComicsDao = databaseManager.comicsDao()
 
     @Provides
     @Singleton
-    fun provideIssuesDao(databaseManager: DatabaseManager): IssuesDao {
-        return databaseManager.issuesDao()
-    }
+    fun provideIssuesDao(databaseManager: DatabaseManager): IssuesDao = databaseManager.issuesDao()
 
     @Provides
     @Singleton
-    fun provideCategoriesDao(databaseManager: DatabaseManager): CategoriesDao {
-        return databaseManager.categoriesDao()
-    }
+    fun provideCategoriesDao(databaseManager: DatabaseManager): CategoriesDao = databaseManager.categoriesDao()
 
     @Provides
     @Singleton
-    fun provideCollectionDao(databaseManager: DatabaseManager): CollectionDao {
-        return databaseManager.collectionDao()
-    }
+    fun provideCollectionDao(databaseManager: DatabaseManager): CollectionDao = databaseManager.collectionDao()
 
     @Provides
     @Singleton
-    fun provideVideosDao(databaseManager: DatabaseManager): VideosDao {
-        return databaseManager.videosDao()
-    }
+    fun provideVideosDao(databaseManager: DatabaseManager): VideosDao = databaseManager.videosDao()
 
 }

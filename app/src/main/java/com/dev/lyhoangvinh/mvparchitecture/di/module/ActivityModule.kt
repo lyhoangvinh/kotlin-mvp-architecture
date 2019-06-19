@@ -1,6 +1,6 @@
 package com.dev.lyhoangvinh.mvparchitecture.di.module
 
-import android.arch.lifecycle.LifecycleOwner
+import  android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
@@ -18,33 +18,21 @@ class ActivityModule(private var activity: BaseActivity) {
 
     @Provides
     @ActivityContext
-    fun provideContext(): Context {
-        return activity
-    }
+    fun provideContext(): Context = activity
 
     @Provides
-    fun provideActivity(): FragmentActivity {
-        return activity
-    }
+    fun provideActivity(): FragmentActivity = activity
 
     @Provides
     @ActivityFragmentManager
-    fun provideFragmentManager(): FragmentManager {
-        return activity.supportFragmentManager
-    }
+    fun provideFragmentManager(): FragmentManager = activity.supportFragmentManager
 
     @Provides
-    fun provideNavigator(): Navigator {
-        return ActivityNavigator(activity)
-    }
+    fun provideNavigator(): Navigator = ActivityNavigator(activity)
 
     @Provides
-    fun provideNavigatorHelper(navigator: Navigator): NavigatorHelper {
-        return NavigatorHelper(navigator)
-    }
+    fun provideNavigatorHelper(navigator: Navigator): NavigatorHelper = NavigatorHelper(navigator)
 
     @Provides
-    fun provideLifeCycleOwner(): LifecycleOwner {
-        return activity
-    }
+    fun provideLifeCycleOwner(): LifecycleOwner = activity
 }

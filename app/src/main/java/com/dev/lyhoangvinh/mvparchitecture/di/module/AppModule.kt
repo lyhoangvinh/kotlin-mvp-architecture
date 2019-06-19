@@ -21,21 +21,17 @@ class AppModule(private var application: Application) {
     @Singleton
     @Provides
     @ApplicationContext
-    fun provideContext(): Context {
-        return application
-    }
+    fun provideContext(): Context = application
 
     @Provides
     @Singleton
-    fun provideGSon(): Gson {
-        return GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
-            .disableHtmlEscaping()
-            .setPrettyPrinting()
-            .registerTypeAdapter(Date::class.java, DateDeserializer())
-            .create()
-    }
+    fun provideGSon(): Gson = GsonBuilder()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
+        .disableHtmlEscaping()
+        .setPrettyPrinting()
+        .registerTypeAdapter(Date::class.java, DateDeserializer())
+        .create()
 
     @Provides
     @Singleton

@@ -23,53 +23,35 @@ class FragmentModule(private val mFragment: BaseFragment) {
 
     @Provides
     @PerFragment
-    internal fun provideFragment(): Fragment {
-        return mFragment
-    }
+    internal fun provideFragment(): Fragment = mFragment
 
     @Provides
     @PerFragment
     @ChildFragmentManager
-    internal fun provideChildFragmentManager(): FragmentManager {
-        return mFragment.childFragmentManager
-    }
+    internal fun provideChildFragmentManager(): FragmentManager = mFragment.childFragmentManager
 
     @Provides
-    internal fun provideActivity(): FragmentActivity? {
-        return mFragment.activity
-    }
+    internal fun provideActivity(): FragmentActivity? = mFragment.activity
 
     @Provides
     @ActivityFragmentManager
-    internal fun provideFragmentManager(): FragmentManager? {
-        return mFragment.activity?.supportFragmentManager
-    }
+    internal fun provideFragmentManager(): FragmentManager? = mFragment.activity?.supportFragmentManager
 
     @Provides
     @ActivityContext
-    internal fun provideContext(): Context {
-        return mFragment.context!!
-    }
+    internal fun provideContext(): Context = mFragment.context!!
 
     @Provides
     @PerFragment
-    internal fun provideFragmentNavigator(): FragmentNavigator {
-        return ChildFragmentNavigator(mFragment)
-    }
+    internal fun provideFragmentNavigator(): FragmentNavigator = ChildFragmentNavigator(mFragment)
 
     @Provides
     @PerFragment
-    internal fun provideNavigatorHelper(navigator: FragmentNavigator): NavigatorHelper {
-        return NavigatorHelper(navigator)
-    }
+    internal fun provideNavigatorHelper(navigator: FragmentNavigator): NavigatorHelper = NavigatorHelper(navigator)
 
     @Provides
-    internal fun provideNavigator(): Navigator {
-        return ActivityNavigator(mFragment.activity)
-    }
+    internal fun provideNavigator(): Navigator = ActivityNavigator(mFragment.activity)
 
     @Provides
-    internal fun provideLifeCycleOwner(): LifecycleOwner {
-        return mFragment
-    }
+    internal fun provideLifeCycleOwner(): LifecycleOwner = mFragment
 }
