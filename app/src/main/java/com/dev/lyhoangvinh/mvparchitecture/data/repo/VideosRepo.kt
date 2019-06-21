@@ -21,7 +21,7 @@ class VideosRepo @Inject constructor(
 
     fun liveData(): LiveData<List<Video>> = videosDao.liveData()
 
-    fun liveDataVideoAll(): LiveData<List<Video>> = videosDao.liveDataFromType(Constants.TYPE_VIDEO)
+    fun liveDataVideoAll(): LiveData<List<Video>> = videosDao.liveDataFromType(Constants.TYPE_ALL)
 
     fun liveDataSearch(): LiveData<List<Video>> = videosDao.liveDataFromType(Constants.TYPE_SEARCH)
 
@@ -42,11 +42,11 @@ class VideosRepo @Inject constructor(
                     if (data.success) {
                         val videos = data.response.videos
                         for (x in 0 until videos.size) {
-                            videos[x].type = Constants.TYPE_VIDEO
+                            videos[x].type = Constants.TYPE_ALL
                         }
                         if (isRefresh) {
                             backgroundThreadExecutor.runOnBackground {
-                                videosDao.deleteType(Constants.TYPE_VIDEO)
+                                videosDao.deleteType(Constants.TYPE_ALL)
                                 videosDao.insertIgnore(videos)
                                 videosDao.updateIgnore(videos)
                             }

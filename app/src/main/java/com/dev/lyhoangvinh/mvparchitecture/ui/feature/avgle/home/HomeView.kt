@@ -7,6 +7,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.BaseView
 
 interface HomeView : BaseView {
     fun swapCategoriesSuccess(categories: List<Category>)
-    fun swapCollectionsSuccess(collections: List<Collection>)
+    fun swapCollectionsBannerSuccess(collections: List<Collection>)
+    fun swapCollectionsBottomSuccess(collections: List<Collection>)
     fun swapVideos(videos: List<Video>)
 }

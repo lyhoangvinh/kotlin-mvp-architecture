@@ -18,4 +18,10 @@ interface CollectionDao : BaseDao<Collection> {
 
     @Query("SELECT * FROM COLLECTION")
     fun liveData(): LiveData<List<Collection>>
+
+    @Query("SELECT * FROM COLLECTION WHERE type=:type")
+    fun liveDataFromType(type: Int): LiveData<List<Collection>>
+
+    @Query("DELETE FROM COLLECTION WHERE type=:value")
+    fun deleteType(value: Int)
 }

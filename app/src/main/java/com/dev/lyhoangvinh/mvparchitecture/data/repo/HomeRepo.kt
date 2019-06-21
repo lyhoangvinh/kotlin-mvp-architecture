@@ -9,7 +9,7 @@ import com.dev.lyhoangvinh.mvparchitecture.data.dao.VideosDao
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
 import com.dev.lyhoangvinh.mvparchitecture.data.response.*
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
-import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipThreeConsumer
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipFourConsumer
 import io.reactivex.Flowable
 import javax.inject.Inject
 
@@ -22,18 +22,23 @@ class HomeRepo @Inject constructor(
 
     fun liveCategories() = categoriesDao.liveData()
 
-    fun liveCollection() = collectionDao.liveData()
+    fun liveCollectionBanner() = collectionDao.liveDataFromType(Constants.TYPE_HOME_BANNER)
+
+    fun liveCollectionBottom() = collectionDao.liveDataFromType(Constants.TYPE_HOME_BOTTOM)
+
+    fun liveCollectionAll() = collectionDao.liveDataFromType(Constants.TYPE_ALL)
 
     fun liveVideosHome(): LiveData<List<Video>> = videosDao.liveDataFromType(Constants.TYPE_HOME)
 
-    fun getRepoHome(): Flowable<Resource<ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>>> {
+    fun getRepoHome(): Flowable<Resource<ResponseFourZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>>> {
         return createResource(
             avgleService.getCategories(),
-            avgleService.getCollections((0..10).random(), (3..5).random()),
+            avgleService.getCollections((1..10).random(), (3..5).random()),
+            avgleService.getCollections(0, 20),
             avgleService.getAllVideos((0..10).random()),
             object :
-                PlainResponseZipThreeConsumer<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>> {
-                override fun accept(dto: ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>) {
+                PlainResponseZipFourConsumer<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>> {
+                override fun accept(dto: ResponseFourZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>) {
                     execute {
                         categoriesDao.deleteAll()
                         collectionDao.deleteAll()
@@ -42,10 +47,21 @@ class HomeRepo @Inject constructor(
                         categoriesDao.insertIgnore(dto.t1?.response?.categories!!)
                         categoriesDao.updateIgnore(dto.t1?.response?.categories!!)
 
-                        collectionDao.insertIgnore(dto.t2?.response?.collections!!)
-                        collectionDao.updateIgnore(dto.t2?.response?.collections!!)
+                        val collectionsHome = dto.t2?.response?.collections!!
+                        for (x in 0 until collectionsHome.size) {
+                            collectionsHome[x].type = Constants.TYPE_HOME_BANNER
+                        }
+                        collectionDao.insertIgnore(collectionsHome)
+                        collectionDao.updateIgnore(collectionsHome)
 
-                        val videos = dto.t3?.response?.videos!!
+                        val collectionsHomeBottom = dto.t3?.response?.collections!!
+                        for (x in 0 until collectionsHome.size) {
+                            collectionsHomeBottom[x].type = Constants.TYPE_HOME_BOTTOM
+                        }
+                        collectionDao.insertIgnore(collectionsHomeBottom)
+                        collectionDao.updateIgnore(collectionsHomeBottom)
+
+                        val videos = dto.t4?.response?.videos!!
                         for (x in 0 until videos.size) {
                             videos[x].type = Constants.TYPE_HOME
                         }

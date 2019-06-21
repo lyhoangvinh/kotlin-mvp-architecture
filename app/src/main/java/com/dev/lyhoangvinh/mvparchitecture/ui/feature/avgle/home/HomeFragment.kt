@@ -28,8 +28,9 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
     lateinit var navigatorHelper: NavigatorHelper
 
     private var categoriesAdapter: Categories2Adapter? = null
-    private var collectionAdapter: VideosHomeAdapter? = null
+    private var collectionAdapter: CollectionHomeAdapter? = null
     private var imageBannerAdapter: ImageBannerAdapter? = null
+    private var videoHomeAdapter: VideosHomeAdapter? = null
 
     override fun getLayoutResource() = R.layout.fragment_home
 
@@ -46,9 +47,10 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
             ) / 2
         val mHeight = mWidth * 5 / 7
         categoriesAdapter = Categories2Adapter().setOnClickItemListener { navigatorHelper.navigateVideosFragment(it) }
-        collectionAdapter = VideosHomeAdapter().setLayoutParams(mWidth, mHeight)
+        collectionAdapter = CollectionHomeAdapter().setLayoutParams(mWidth, mHeight)
+            .setOnItemClickListener { navigatorHelper.navigateVideosFragment(it) }
+        videoHomeAdapter = VideosHomeAdapter().setLayoutParams(mWidth, mHeight)
             .setOnItemClickListener { navigatorHelper.navigateDetailActivity(it) }
-
         @Suppress("DEPRECATION") val pixel = (ctx as AppCompatActivity).windowManager.defaultDisplay.width / 2
         viewPage.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, pixel)
         viewPage.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL)
@@ -75,6 +77,11 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
 
         rcvCollection.layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
         rcvCollection.addItemDecoration(HorizontalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.padding_16dp)))
+
+        rcvVideo.layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
+        rcvVideo.addItemDecoration(HorizontalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.padding_16dp)))
+
+        rcvVideo.adapter = videoHomeAdapter
         rcvCategory.adapter = categoriesAdapter
         rcvCollection.adapter = collectionAdapter
 
@@ -82,9 +89,10 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
         GravitySnapHelper(Gravity.START).attachToRecyclerView(rcvCategory)
         GravitySnapHelper(Gravity.START).attachToRecyclerView(rcvCollection)
 
-        tvSeeAll.text = getString(R.string.see_all)
-        tvCollection.text = getString(R.string.videos)
-        tvSeeAll.setOnClickListener { navigatorHelper.navigateVideosFragment() }
+        tvVideo.text = getString(R.string.videos)
+        tvCollection.text = getString(R.string.collection)
+        lnSeeAllCollection.setOnClickListener { }
+        lnSeeAllVideo.setOnClickListener { navigatorHelper.navigateVideosFragment() }
         lnlSearch.setOnClickListener { navigatorHelper.navigateSearchActivity(ctx) }
         presenter.getData()
     }
@@ -93,12 +101,16 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
         categoriesAdapter?.updateCategories(categories)
     }
 
-    override fun swapCollectionsSuccess(collections: List<Collection>) {
+    override fun swapCollectionsBannerSuccess(collections: List<Collection>) {
         imageBannerAdapter = ImageBannerAdapter(fragmentManager!!, collections)
         viewPage.adapter = imageBannerAdapter
     }
 
+    override fun swapCollectionsBottomSuccess(collections: List<Collection>) {
+        collectionAdapter?.updateCollection(collections)
+    }
+
     override fun swapVideos(videos: List<Video>) {
-        collectionAdapter?.updateCollection(videos)
+        videoHomeAdapter?.updateVideos(videos)
     }
 }

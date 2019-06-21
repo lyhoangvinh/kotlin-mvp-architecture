@@ -18,12 +18,16 @@ class HomePresenter @Inject constructor(
         homeRepo.liveCategories().observe(getLifeCircleOwner(), Observer {
             getView()?.swapCategoriesSuccess(it!!)
         })
-        homeRepo.liveCollection().observe(getLifeCircleOwner(), Observer {
-            getView()?.swapCollectionsSuccess(it!!)
+        homeRepo.liveCollectionBanner().observe(getLifeCircleOwner(), Observer {
+            getView()?.swapCollectionsBannerSuccess(it!!)
         })
 
         homeRepo.liveVideosHome().observe(getLifeCircleOwner(), Observer {
             getView()?.swapVideos(it!!)
+        })
+
+        homeRepo.liveCollectionBottom().observe(getLifeCircleOwner(), Observer {
+            getView()?.swapCollectionsBottomSuccess(it!!)
         })
     }
 }

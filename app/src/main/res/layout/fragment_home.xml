@@ -113,13 +113,13 @@
                             android:layout_weight="1"/>
 
                     <LinearLayout
-                            android:id="@+id/lnl_see_all"
+                            android:id="@+id/lnSeeAllCollection"
                             style="@style/LinearSeeAll"
                             android:visibility="visible">
 
                         <TextView
-                                android:id="@+id/tvSeeAll"
-                                tools:text="@string/see_all"
+                                android:id="@+id/tvSeeAllCollection"
+                                android:text="@string/see_all"
                                 style="@style/TextViewSeeAllHeader"/>
 
                         <ImageView
@@ -146,7 +146,7 @@
                     <TextView
                             android:id="@+id/tvVideo"
                             style="@style/TextCategoryHeaderHome"
-                            tools:text="@string/collection"
+                            tools:text="@string/videos"
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:textSize="@dimen/ts_21_sp"
@@ -154,13 +154,13 @@
                             android:layout_weight="1"/>
 
                     <LinearLayout
-                            android:id="@+id/lnl_see_all_Video"
+                            android:id="@+id/lnSeeAllVideo"
                             style="@style/LinearSeeAll"
                             android:visibility="visible">
 
                         <TextView
                                 android:id="@+id/tvSeeAllVideo"
-                                tools:text="@string/see_all"
+                                android:text="@string/see_all"
                                 style="@style/TextViewSeeAllHeader"/>
 
                         <ImageView

@@ -36,7 +36,9 @@ data class Collection(
     var videoCount: Int? = 0,
     @SerializedName("collection_url")
     @Expose
-    var collectionUrl: String? = ""
+    var collectionUrl: String? = "",
+
+    var type: Int? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -46,7 +48,8 @@ data class Collection(
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readString()
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -58,6 +61,7 @@ data class Collection(
         parcel.writeValue(totalViews)
         parcel.writeValue(videoCount)
         parcel.writeString(collectionUrl)
+        parcel.writeValue(type)
     }
 
     override fun describeContents(): Int {

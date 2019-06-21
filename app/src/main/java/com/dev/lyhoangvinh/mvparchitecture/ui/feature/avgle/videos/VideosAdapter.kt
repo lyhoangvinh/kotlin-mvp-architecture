@@ -32,7 +32,7 @@ class VideosAdapter :
         vh.tvDate.formatDate(dto.addTime!!)
         vh.tvViews.text = String.format("Views: %s", dto.viewNumber)
         vh.imv.loadImage(dto.previewUrl.toString())
-        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.videoUrl!!) }
+        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.embeddedUrl!!) }
         vh.tvPreview.setOnClickListener { onItemClickListener?.invoke(dto.previewVideoUrl!!) }
     }
 

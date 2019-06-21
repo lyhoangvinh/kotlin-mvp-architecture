@@ -7,8 +7,13 @@ class Constants {
         const val KEY = BuildConfig.API_KEY
         const val EXTRA_DATA = "EXTRA_DATA"
 
-        const val TYPE_VIDEO = 0
+        //video
+        const val TYPE_ALL = 0
         const val TYPE_HOME = 1
         const val TYPE_SEARCH = 2
+
+        //collection
+        const val TYPE_HOME_BANNER = 1
+        const val TYPE_HOME_BOTTOM = 2
     }
 }

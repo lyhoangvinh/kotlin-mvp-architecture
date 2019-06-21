@@ -1,13 +1,12 @@
 package com.dev.lyhoangvinh.mvparchitecture.data.repo
 
-import com.dev.lyhoangvinh.mvparchitecture.data.Resource
-import com.dev.lyhoangvinh.mvparchitecture.data.SimpleNetworkBoundSource
-import com.dev.lyhoangvinh.mvparchitecture.data.SimpleNetworkBoundSourceBiRemote
-import com.dev.lyhoangvinh.mvparchitecture.data.SimpleNetworkBoundSourceThreeRemote
+import com.dev.lyhoangvinh.mvparchitecture.data.*
 import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseBiZip
+import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseFourZip
 import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseThreeZip
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipBiConsumer
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipFourConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipThreeConsumer
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -129,6 +128,39 @@ abstract class BaseRepo {
             }
         }, BackpressureStrategy.BUFFER)
     }
+
+    /**
+     * For 4 single data
+     * @param remote1
+     * @param remote2
+     * @param remote3
+     * @param remote4
+     * @param onSave
+     * @param <T>
+     * @return
+    </T> */
+
+    fun <T1, T2, T3, T4> createResource(
+        remote1: Single<Response<T1>>,
+        remote2: Single<Response<T2>>,
+        remote3: Single<Response<T3>>,
+        remote4: Single<Response<T4>>,
+        onSave: PlainResponseZipFourConsumer<T1, T2, T3, T4>
+    ): Flowable<Resource<ResponseFourZip<T1, T2, T3, T4>>> {
+        return Flowable.create({
+            object : SimpleNetworkBoundSourceFourRemote<T1, T2, T3, T4>(it, true) {
+                override fun getRemote1() = remote1
+                override fun getRemote2() = remote2
+                override fun getRemote3() = remote3
+                override fun getRemote4() = remote4
+                override fun saveCallResult(data: ResponseFourZip<T1, T2, T3, T4>, isRefresh: Boolean) {
+                    onSave.accept(data)
+                }
+
+            }
+        }, BackpressureStrategy.BUFFER)
+    }
+
 
     /**
      * Excute room
