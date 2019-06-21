@@ -91,7 +91,7 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
 
         tvVideo.text = getString(R.string.videos)
         tvCollection.text = getString(R.string.collection)
-        lnSeeAllCollection.setOnClickListener { }
+        lnSeeAllCollection.setOnClickListener { navigatorHelper.navigateCollectionFragment() }
         lnSeeAllVideo.setOnClickListener { navigatorHelper.navigateVideosFragment() }
         lnlSearch.setOnClickListener { navigatorHelper.navigateSearchActivity(ctx) }
         presenter.getData()

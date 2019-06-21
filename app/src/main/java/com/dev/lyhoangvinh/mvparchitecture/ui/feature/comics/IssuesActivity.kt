@@ -7,7 +7,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.activity.BaseSwipeRecyclerVie
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.SwipeToDeleteCallback
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_all.*
 import kotlinx.android.synthetic.main.view_error_connection.*
 import kotlinx.android.synthetic.main.view_recyclerview.*
 import lyhoangvinh.com.myutil.androidutils.AlertUtils
@@ -15,7 +15,7 @@ import lyhoangvinh.com.myutil.androidutils.AlertUtils
 class IssuesActivity : BaseSwipeRecyclerViewActivity<IssuesAdapter, IssuesView, IssuesPresenter>(),
     IssuesView {
 
-    override fun getLayoutResource() = R.layout.activity_main
+    override fun getLayoutResource() = R.layout.fragment_all
 
     override fun createAdapter(): IssuesAdapter = presenter.getMainAdapter()!!
 

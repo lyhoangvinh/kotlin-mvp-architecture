@@ -44,12 +44,8 @@ class NavigatorHelper(private var mNavigator: Navigator) {
         mNavigator.startActivity(DetailActivity::class.java) { intent -> intent.putExtra(Constants.EXTRA_DATA, url) }
     }
 
-    fun navigateCollectionFragment(category: Category) {
-        val collectionFragment = CollectionFragment()
-        val bundle = Bundle()
-        bundle.putParcelable(Constants.EXTRA_DATA, category)
-        collectionFragment.arguments = bundle
-        mNavigator.replaceFragmentAndAddToBackStack(R.id.container, collectionFragment, bundle, null)
+    fun navigateCollectionFragment() {
+        mNavigator.replaceFragmentAndAddToBackStack(R.id.container, CollectionFragment(), null, null)
     }
 
     fun navigateVideosFragment(category: Category?) {

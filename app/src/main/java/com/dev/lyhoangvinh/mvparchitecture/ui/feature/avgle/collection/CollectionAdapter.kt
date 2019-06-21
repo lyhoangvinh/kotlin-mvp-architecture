@@ -15,9 +15,9 @@ import kotlinx.android.synthetic.main.item_collection.view.*
 class CollectionAdapter :
     BaseAdapter<Collection, CollectionAdapter.CollectionViewHoler>(ArrayList()) {
 
-    private var onItemClickListener: ((String) -> Unit)? = null
+    private var onItemClickListener: ((Collection) -> Unit)? = null
 
-    fun setOnItemClickListener(onItemClickListener: (String) -> Unit) {
+    fun setOnItemClickListener(onItemClickListener: (Collection) -> Unit) {
         this.onItemClickListener = onItemClickListener
     }
 
@@ -28,7 +28,7 @@ class CollectionAdapter :
     override fun onBindViewHolder(vh: CollectionViewHoler, dto: Collection, position: Int) {
         vh.tvName.text = dto.title
         vh.imv.loadImage(dto.coverUrl.toString())
-        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.collectionUrl!!) }
+        vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto) }
     }
 
     class CollectionViewHoler(itemView: View) : BaseViewHolder(itemView) {

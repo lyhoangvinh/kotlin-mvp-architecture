@@ -1,13 +1,15 @@
 package com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.collection
 
-import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.content.Context
 import com.dev.lyhoangvinh.mvparchitecture.data.repo.CollectionRepo
+import com.dev.lyhoangvinh.mvparchitecture.data.response.BaseResponseAvgle
+import com.dev.lyhoangvinh.mvparchitecture.data.response.CollectionsResponseAvgle
+import com.dev.lyhoangvinh.mvparchitecture.data.response.VideosResponseAvgle
 import com.dev.lyhoangvinh.mvparchitecture.di.qualifier.ActivityContext
 import com.dev.lyhoangvinh.mvparchitecture.di.scopes.PerFragment
+import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainConsumer
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.presenter.BaseListPresenter
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.category.CategoriesAdapter
 import com.dev.lyhoangvinh.mvparchitecture.utils.ConnectionLiveData
 import javax.inject.Inject
 
@@ -18,17 +20,23 @@ class CollectionPresenter @Inject constructor(
 ) :
     BaseListPresenter<CollectionView>(context) {
 
-    private var keyword = ""
-
     private var currentConnected = true
+
+    private var currentPage: Int = 0
+
+    private var canLoadMore = false
 
     private var adapter: CollectionAdapter? = null
 
-    override fun canLoadMore() = false
+    override fun canLoadMore() = canLoadMore
 
     override fun fetchData() {
-        execute(keyword)
-        observe(keyword, getLifeCircleOwner())
+        if (isRefreshed) {
+            currentPage = 0
+        } else {
+            currentPage += 1
+        }
+        execute(currentPage)
     }
 
     fun getAdapter(): CollectionAdapter? {
@@ -37,29 +45,31 @@ class CollectionPresenter @Inject constructor(
         return adapter
     }
 
-    fun setKeyword(keyword: String) {
-        this.keyword = keyword
-        adapter?.setOnItemClickListener { getView()?.openDetail(it) }
-    }
-
-    private fun observe(keyword: String, owner: LifecycleOwner) {
-        collectionRepo.liveData().observe(owner, Observer {
+    fun observe() {
+        adapter?.setOnItemClickListener {getView()?.openDetail(it)}
+        collectionRepo.liveData().observe(getLifeCircleOwner(), Observer {
             adapter?.updateCollection(it!!)
-            getView()?.showMessage("SIZE : " + it!!.size)
         })
 
-        connectionLiveData.observe(owner, Observer {
+        connectionLiveData.observe(getLifeCircleOwner(), Observer {
             getView()?.connection(it!!.isConnected)
             if (currentConnected && !it!!.isConnected) {
                 currentConnected = it.isConnected
             } else if (!currentConnected && it!!.isConnected) {
                 isRefreshed = true
-                execute(keyword)
+                fetchData()
             }
         })
     }
 
-    private fun execute(keyword: String) {
-        execute(collectionRepo.getRepoCollections(keyword))
+    private fun execute(page: Int) {
+        execute(collectionRepo.getRepoCollections(isRefreshed, page),
+            object : PlainConsumer<BaseResponseAvgle<CollectionsResponseAvgle>>{
+                override fun accept(t: BaseResponseAvgle<CollectionsResponseAvgle>) {
+                    canLoadMore = t.response.hasMore
+                    isRefreshed = false
+                }
+            }
+        )
     }
 }

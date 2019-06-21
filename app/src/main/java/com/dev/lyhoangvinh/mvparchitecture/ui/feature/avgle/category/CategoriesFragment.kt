@@ -19,7 +19,7 @@ class CategoriesFragment : BaseSwipeRecyclerViewFragment<CategoriesAdapter, Cate
     @Inject
     lateinit var navigatorHelper: NavigatorHelper
 
-    override fun getLayoutResource() = R.layout.activity_main
+    override fun getLayoutResource() = R.layout.fragment_all
 
     override fun createAdapter() = presenter.getAdapter()!!
 
