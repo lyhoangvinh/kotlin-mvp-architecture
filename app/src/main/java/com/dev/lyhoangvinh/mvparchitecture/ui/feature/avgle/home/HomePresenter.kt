@@ -22,7 +22,7 @@ class HomePresenter @Inject constructor(
             getView()?.swapCollectionsSuccess(it!!)
         })
 
-        homeRepo.liveVideos().observe(getLifeCircleOwner(), Observer {
+        homeRepo.liveVideosHome().observe(getLifeCircleOwner(), Observer {
             getView()?.swapVideos(it!!)
         })
     }

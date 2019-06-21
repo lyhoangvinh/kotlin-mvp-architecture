@@ -47,7 +47,6 @@ import io.reactivex.functions.Action
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_search.view.*
 import lyhoangvinh.com.myutil.network.Tls12SocketFactory
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
@@ -558,7 +557,7 @@ fun Activity.openApp() {
 
 @SuppressLint("CheckResult")
 fun EditText.textChanges(onTextChangeListener: (String) -> Unit) {
-    RxTextView.textChanges(edtSearch).debounce(1000, TimeUnit.MILLISECONDS)
+    RxTextView.textChanges(this).debounce(1000, TimeUnit.MILLISECONDS)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io())
         .skip(1)

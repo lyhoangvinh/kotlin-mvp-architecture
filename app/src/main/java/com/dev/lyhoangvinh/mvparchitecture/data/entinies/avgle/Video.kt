@@ -73,5 +73,7 @@ data class Video(
 
     @SerializedName("preview_video_url")
     @Expose
-    var previewVideoUrl: String? = ""
+    var previewVideoUrl: String? = "",
+
+    var type: Int? = null
 )

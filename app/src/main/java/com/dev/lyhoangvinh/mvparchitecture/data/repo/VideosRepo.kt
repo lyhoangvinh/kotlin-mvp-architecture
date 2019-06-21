@@ -1,6 +1,7 @@
 package com.dev.lyhoangvinh.mvparchitecture.data.repo
 
 import android.arch.lifecycle.LiveData
+import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.data.Resource
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.VideosDao
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
@@ -10,7 +11,6 @@ import com.dev.lyhoangvinh.mvparchitecture.data.response.VideosResponseAvgle
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
 import io.reactivex.Flowable
 import lyhoangvinh.com.myutil.thread.BackgroundThreadExecutor
-import lyhoangvinh.com.myutil.thread.UIThreadExecutor
 import javax.inject.Inject
 
 class VideosRepo @Inject constructor(
@@ -20,6 +20,10 @@ class VideosRepo @Inject constructor(
 ) : BaseRepo() {
 
     fun liveData(): LiveData<List<Video>> = videosDao.liveData()
+
+    fun liveDataVideoAll(): LiveData<List<Video>> = videosDao.liveDataFromType(Constants.TYPE_VIDEO)
+
+    fun liveDataSearch(): LiveData<List<Video>> = videosDao.liveDataFromType(Constants.TYPE_SEARCH)
 
     fun deleteAll() {
         BackgroundThreadExecutor.getInstance().runOnBackground {
@@ -36,16 +40,20 @@ class VideosRepo @Inject constructor(
             onSave = object : OnSaveResultListener<BaseResponseAvgle<VideosResponseAvgle>> {
                 override fun onSave(data: BaseResponseAvgle<VideosResponseAvgle>, isRefresh: Boolean) {
                     if (data.success) {
+                        val videos = data.response.videos
+                        for (x in 0 until videos.size) {
+                            videos[x].type = Constants.TYPE_VIDEO
+                        }
                         if (isRefresh) {
                             backgroundThreadExecutor.runOnBackground {
-                                videosDao.deleteAll()
-                                videosDao.insertIgnore(data.response.videos)
-                                videosDao.updateIgnore(data.response.videos)
+                                videosDao.deleteType(Constants.TYPE_VIDEO)
+                                videosDao.insertIgnore(videos)
+                                videosDao.updateIgnore(videos)
                             }
                         } else {
                             backgroundThreadExecutor.runOnBackground {
-                                videosDao.insertIgnore(data.response.videos)
-                                videosDao.updateIgnore(data.response.videos)
+                                videosDao.insertIgnore(videos)
+                                videosDao.updateIgnore(videos)
                             }
                         }
                     }
@@ -75,9 +83,13 @@ class VideosRepo @Inject constructor(
                     if (data2 != null && data2.success && data2.response.videos.isNotEmpty()) {
                         newList.addAll(data2.response.videos)
                     }
+
+                    for (x in 0 until newList.size) {
+                        newList[x].type = Constants.TYPE_SEARCH
+                    }
                     if (isRefresh) {
                         backgroundThreadExecutor.runOnBackground {
-                            videosDao.deleteAll()
+                            videosDao.deleteType(Constants.TYPE_SEARCH)
                             videosDao.insertIgnore(newList)
                             videosDao.updateIgnore(newList)
                         }

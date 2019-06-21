@@ -56,7 +56,7 @@ class SearchPresenter @Inject constructor(
 
     fun observe() {
         adapter?.setOnItemClickListener { getView()?.openDetail(it) }
-        videosRepo.liveData().observe(getLifeCircleOwner(), Observer {
+        videosRepo.liveDataSearch().observe(getLifeCircleOwner(), Observer {
             adapter?.updateVideos(it!!)
         })
 

@@ -1,9 +1,12 @@
 package com.dev.lyhoangvinh.mvparchitecture.data.repo
 
+import android.arch.lifecycle.LiveData
+import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.data.Resource
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.CategoriesDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.CollectionDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.VideosDao
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
 import com.dev.lyhoangvinh.mvparchitecture.data.response.*
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipThreeConsumer
@@ -21,7 +24,7 @@ class HomeRepo @Inject constructor(
 
     fun liveCollection() = collectionDao.liveData()
 
-    fun liveVideos() = videosDao.liveData()
+    fun liveVideosHome(): LiveData<List<Video>> = videosDao.liveDataFromType(Constants.TYPE_HOME)
 
     fun getRepoHome(): Flowable<Resource<ResponseThreeZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>>> {
         return createResource(
@@ -34,7 +37,7 @@ class HomeRepo @Inject constructor(
                     execute {
                         categoriesDao.deleteAll()
                         collectionDao.deleteAll()
-                        videosDao.deleteAll()
+                        videosDao.deleteType(Constants.TYPE_HOME)
 
                         categoriesDao.insertIgnore(dto.t1?.response?.categories!!)
                         categoriesDao.updateIgnore(dto.t1?.response?.categories!!)
@@ -42,8 +45,12 @@ class HomeRepo @Inject constructor(
                         collectionDao.insertIgnore(dto.t2?.response?.collections!!)
                         collectionDao.updateIgnore(dto.t2?.response?.collections!!)
 
-                        videosDao.insertIgnore(dto.t3?.response?.videos!!)
-                        videosDao.updateIgnore(dto.t3?.response?.videos!!)
+                        val videos = dto.t3?.response?.videos!!
+                        for (x in 0 until videos.size) {
+                            videos[x].type = Constants.TYPE_HOME
+                        }
+                        videosDao.insertIgnore(videos)
+                        videosDao.updateIgnore(videos)
                     }
                 }
             })

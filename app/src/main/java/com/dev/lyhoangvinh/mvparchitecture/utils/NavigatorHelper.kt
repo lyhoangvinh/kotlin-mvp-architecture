@@ -37,7 +37,7 @@ class NavigatorHelper(private var mNavigator: Navigator) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(ctx, *pairs)
         ctx.startActivity(intent, options.toBundle())
         if (finishAct)
-            mNavigator.finishActivity()
+            ctx.finish()
     }
 
     fun navigateDetailActivity(url: String) {
@@ -80,8 +80,9 @@ class NavigatorHelper(private var mNavigator: Navigator) {
         mNavigator.replaceFragmentAndAddToBackStack(R.id.container, VideosFragment(), null, null)
     }
 
-    fun navigateAvgleActivity(activity: Activity) {
-        navigateTransitionActivity(activity, AvgleActivity::class.java, true)
+    fun navigateAvgleActivity() {
+        mNavigator.startActivity(AvgleActivity::class.java)
+        mNavigator.finishActivity()
     }
 
     fun navigateSearchActivity(activity: Activity) {
