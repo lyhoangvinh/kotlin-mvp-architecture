@@ -1,13 +1,18 @@
 package com.dev.lyhoangvinh.mvparchitecture.utils
 
-import android.animation.ValueAnimator
+import android.animation.*
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Point
+import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
@@ -25,6 +30,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -42,6 +48,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.*
 import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos.VideosFragment
 import com.google.gson.*
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.CompletableObserver
 import io.reactivex.Single
@@ -103,6 +110,32 @@ fun ImageView.loadImageIssues(url: String) {
         .centerCrop()
         .fit()
         .into(this)
+}
+
+fun ImageView.loadImage(imageUrl: String, width: Int, height: Int) {
+    Picasso.get()
+        .load(File(imageUrl))
+        .placeholder(R.drawable.ic_placeholder_rectangle_200px)
+        .error(R.drawable.ic_placeholder_rectangle_200px)
+        .resize(width, height)
+        .into(this)
+}
+
+fun loadImageWithListener(url: String, imageView: ImageView?, loadedListener: (ImageView, Drawable) -> Unit) {
+    if (TextUtils.isEmpty(url) || null == imageView) return
+    Picasso.get()
+        .load(File(url))
+        .placeholder(R.drawable.ic_placeholder_rectangle_200px)
+        .into(imageView, object : Callback {
+            override fun onSuccess() {
+                loadedListener.invoke(imageView, imageView.drawable)
+            }
+
+            override fun onError(e: Exception) {
+
+            }
+
+        })
 }
 
 fun Activity.showToastMessage(message: String) {
@@ -656,6 +689,6 @@ fun Activity.startActivityTransition(cls: Class<*>, finishAct: Boolean) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it, *pairs)
         it.startActivity(intent, options.toBundle())
         if (finishAct)
-            Handler().postDelayed({it.finish()},300L)
+            Handler().postDelayed({ it.finish() }, 300L)
     }
 }

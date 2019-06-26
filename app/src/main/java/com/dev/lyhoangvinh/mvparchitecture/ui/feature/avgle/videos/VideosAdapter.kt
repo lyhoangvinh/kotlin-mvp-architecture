@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_video.view.*
 
 
 class VideosAdapter :
-    BaseAdapter<Video, VideosAdapter.VideoViewHoler>(ArrayList()) {
+    BaseAdapter<Video, VideosAdapter.VideoViewHolder>(ArrayList()) {
 
     private var onItemClickListener: ((String) -> Unit)? = null
 
@@ -24,9 +24,9 @@ class VideosAdapter :
 
     override fun itemLayoutResource() = R.layout.item_video
 
-    override fun createViewHolder(itemView: View) = VideoViewHoler(itemView)
+    override fun createViewHolder(itemView: View) = VideoViewHolder(itemView)
 
-    override fun onBindViewHolder(vh: VideoViewHoler, dto: Video, position: Int) {
+    override fun onBindViewHolder(vh: VideoViewHolder, dto: Video, position: Int) {
         vh.tvTitle.text = dto.title
         vh.tvKeyword.text = dto.keyword
         vh.tvDate.formatDate(dto.addTime!!)
@@ -34,9 +34,10 @@ class VideosAdapter :
         vh.imv.loadImage(dto.previewUrl.toString())
         vh.itemView.setOnClickListener { onItemClickListener?.invoke(dto.embeddedUrl!!) }
         vh.tvPreview.setOnClickListener { onItemClickListener?.invoke(dto.previewVideoUrl!!) }
+        vh.imv.setOnClickListener { onItemClickListener?.invoke(dto.previewUrl.toString()) }
     }
 
-    class VideoViewHoler(itemView: View) : BaseViewHolder(itemView) {
+    class VideoViewHolder(itemView: View) : BaseViewHolder(itemView) {
         val tvTitle: TextView = itemView.tvTitle
         val tvKeyword: TextView = itemView.tvKeyword
         val tvPreview: TextView = itemView.tvPreview

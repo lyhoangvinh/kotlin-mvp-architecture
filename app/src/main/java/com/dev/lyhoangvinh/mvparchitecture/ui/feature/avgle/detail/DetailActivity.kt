@@ -37,8 +37,8 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
                 loadWithOverviewMode = true
                 useWideViewPort = true
                 setSupportZoom(true)
-                displayZoomControls = false
-                builtInZoomControls = false
+                displayZoomControls = true
+                builtInZoomControls = true
                 domStorageEnabled = true
                 cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             }
@@ -74,6 +74,11 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
                         intent.setDataAndType(Uri.parse(url), "video/*")
                         startActivity(intent)
                         true
+//                    }
+//                    else if (url.endsWith(".jpg") || url.endsWith(".png")) {
+//                        view?.loadDataWithBaseURL(null,
+//                            "<html><head></head><body><table style=\"width:100%; height:100%;\"><tr><td style=\"vertical-align:middle;\"><img src=\"$url\"></td></tr></table></body></html>", "html/css", "utf-8", null)
+//                        true
                     } else {
                         super.shouldOverrideUrlLoading(view, url)
                     }

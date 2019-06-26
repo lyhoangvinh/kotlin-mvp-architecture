@@ -27,6 +27,7 @@ class SplashActivity : BasePresenterActivity<SplashView, SplashPresenter>(), Spl
             buttonTextRes = R.string.loading
             progressColor = Color.WHITE
         }
+
     }
 
     override fun getLayoutResource() = R.layout.activity_splash
