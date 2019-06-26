@@ -42,16 +42,15 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
                 domStorageEnabled = true
                 cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             }
-            webViewDetail.addJavascriptInterface(WebAppInterface(), "MyJSInterface")
-            webViewDetail.webChromeClient = object : VideoEnabledWebChromeClient(){
+            webViewDetail.webChromeClient = object : VideoEnabledWebChromeClient() {
                 override fun onProgressChanged(view: WebView?, newProgress: Int) {
                     super.onProgressChanged(view, newProgress)
-                    if(newProgress < 100){
+                    if (newProgress < 100) {
                         if (NetworkUtils.netWorkCheck(this@DetailActivity)) {
                             viewLoading.setVisible(true)
                         }
                     }
-                    if (newProgress == 100){
+                    if (newProgress == 100) {
                         viewLoading.setVisible(false)
                     }
                 }
@@ -85,7 +84,7 @@ class DetailActivity : BasePresenterActivity<DetailView, DetailPresenter>(), Det
             tvTitleToolBar.startCollapsingAnimation(url, 500L)
             val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
             imvCopy.setOnClickListener {
-                                if (!TextUtils.isEmpty(url)) {
+                if (!TextUtils.isEmpty(url)) {
                     val clipData = ClipData.newPlainText("Source Text", url)
                     clipboardManager?.primaryClip = clipData
                     AlertUtils.showSnackBarShortMessage(it, "Copy text success.")

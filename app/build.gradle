@@ -50,6 +50,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.supportConstraintVersion"
     implementation "com.android.support:multidex:$rootProject.ext.multidexVersion"
+    //noinspection GradleCompatible
     implementation "com.android.support:design:$rootProject.ext.supportVersion"
     implementation "com.android.support:support-v4:$rootProject.ext.supportVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"

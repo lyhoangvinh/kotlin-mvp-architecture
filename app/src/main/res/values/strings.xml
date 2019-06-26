@@ -7,4 +7,6 @@
     <string name="all">All</string>
     <string name="preview">Preview</string>
     <string name="search">Search</string>
+    <string name="success">Success</string>
+    <string name="loading">Loading</string>
 </resources>

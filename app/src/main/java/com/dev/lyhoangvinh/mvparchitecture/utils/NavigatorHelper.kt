@@ -75,7 +75,7 @@ class NavigatorHelper(private var mNavigator: Navigator) {
     }
 
     fun navigateAvgleActivity(activity: Activity) {
-        activity.startActivityTransition(AvgleActivity::class.java, false)
+        activity.startActivityTransition(AvgleActivity::class.java, true)
     }
 
     fun navigateSearchActivity(activity: Activity) {

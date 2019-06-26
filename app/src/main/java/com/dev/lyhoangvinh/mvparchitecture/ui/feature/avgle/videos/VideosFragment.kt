@@ -10,7 +10,7 @@ import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseSwipeRecyclerViewFragment
 import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
-import kotlinx.android.synthetic.main.toolbar_default.*
+import kotlinx.android.synthetic.main.toolbar_back.*
 import kotlinx.android.synthetic.main.view_error_connection.*
 import javax.inject.Inject
 
@@ -35,18 +35,19 @@ class VideosFragment : BaseSwipeRecyclerViewFragment<VideosAdapter, VideosView, 
             if (arguments!!.getParcelable<Category>(Constants.EXTRA_DATA) is Category) {
                 val category: Category = arguments!!.getParcelable(Constants.EXTRA_DATA)!!
                 presenter.setKeyword(category.CHID!!)
-                tvText.text = category.name
-            } else if(arguments!!.getParcelable<Collection>(Constants.EXTRA_DATA) is Collection){
+                tvTitleToolBar.text = category.name
+            } else if (arguments!!.getParcelable<Collection>(Constants.EXTRA_DATA) is Collection) {
                 val collection: Collection = arguments!!.getParcelable(Constants.EXTRA_DATA)!!
                 presenter.setKeyword(collection.keyword!!)
-                tvText.text = collection.title
+                tvTitleToolBar.text = collection.title
             }
-        }else{
+        } else {
             presenter.setKeyword("")
-            tvText.text = getString(R.string.all)
+            tvTitleToolBar.text = getString(R.string.all)
         }
         presenter.observe()
         refreshWithUi(300L)
+        imvBack.setOnClickListener { onBackPressed() }
     }
 
     override fun connection(isConnected: Boolean) {

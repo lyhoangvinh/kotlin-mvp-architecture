@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
 import android.support.annotation.LayoutRes
 import android.support.annotation.NonNull
 import android.support.annotation.Nullable
@@ -655,6 +656,6 @@ fun Activity.startActivityTransition(cls: Class<*>, finishAct: Boolean) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it, *pairs)
         it.startActivity(intent, options.toBundle())
         if (finishAct)
-            it.finish()
+            Handler().postDelayed({it.finish()},300L)
     }
 }
