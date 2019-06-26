@@ -182,11 +182,12 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
      * must be call inside or after [.doneRefresh]
      */
     private fun updateNoDataState() {
-        if (isDataEmpty()) {
-            noDataView.visibility = View.VISIBLE
-        } else {
-            noDataView.visibility = View.GONE
-        }
+        if (noDataView != null)
+            if (isDataEmpty()) {
+                noDataView.visibility = View.VISIBLE
+            } else {
+                noDataView.visibility = View.GONE
+            }
     }
 
     /**
