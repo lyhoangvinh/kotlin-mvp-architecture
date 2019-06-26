@@ -30,12 +30,6 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
 
     private var mVisibleThreshold: Int = 5
 
-//    var recyclerView: RecyclerView? = null
-//
-//    private var noDataView: View? = null
-//
-//    private var scrollTopView: View? = null
-
     private lateinit var adapter: A
 
     private var scrollTopPosition = DEFAULT_SCROLL_TOP_POSITION
@@ -47,7 +41,7 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
     /**
      * @return true if our adapter has no data
      */
-    fun isDataEmpty(): Boolean {
+    private fun isDataEmpty(): Boolean {
         return adapter is ListData && (adapter as ListData).isDataEmpty()
     }
 
@@ -89,9 +83,6 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
 
     @CallSuper
     protected fun initRecyclerView() {
-//        if (recyclerView == null) {
-//            recyclerView = view.findViewById(R.id.rcv)
-//        }
         layoutManager = createLayoutManager()
         rcv?.layoutManager = layoutManager
         rcv?.itemAnimator = DefaultItemAnimator()

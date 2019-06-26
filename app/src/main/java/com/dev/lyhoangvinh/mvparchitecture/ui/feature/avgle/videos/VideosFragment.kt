@@ -45,8 +45,8 @@ class VideosFragment : BaseSwipeRecyclerViewFragment<VideosAdapter, VideosView, 
             presenter.setKeyword("")
             tvText.text = getString(R.string.all)
         }
-        refreshWithUi(300L)
         presenter.observe()
+        refreshWithUi(300L)
     }
 
     override fun connection(isConnected: Boolean) {

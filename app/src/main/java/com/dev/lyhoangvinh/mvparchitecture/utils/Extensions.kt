@@ -13,10 +13,14 @@ import android.os.Build
 import android.support.annotation.LayoutRes
 import android.support.annotation.NonNull
 import android.support.annotation.Nullable
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.transition.ChangeBounds
+import android.transition.Slide
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +38,7 @@ import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseFourZip
 import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseThreeZip
 import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.*
+import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos.VideosFragment
 import com.google.gson.*
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.squareup.picasso.Picasso
@@ -628,5 +633,28 @@ fun RecyclerView.hideKeyPost(activity: Activity) {
         activity.hideKeyboard()
         false
     }
+}
 
+fun Fragment.addAnimations(): Fragment {
+    return this.apply {
+        val slideTransition = Slide(Gravity.END)
+        slideTransition.duration = 500L
+        val changeBoundsTransition = ChangeBounds()
+        changeBoundsTransition.duration = 500L
+        enterTransition = slideTransition
+        allowEnterTransitionOverlap = false
+        allowReturnTransitionOverlap = false
+        sharedElementEnterTransition = changeBoundsTransition
+    }
+}
+
+fun Activity.startActivityTransition(cls: Class<*>, finishAct: Boolean) {
+    this.let {
+        val pairs = TransitionUtil.createSafeTransitionParticipants(it, true)
+        val intent = Intent(it, cls)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it, *pairs)
+        it.startActivity(intent, options.toBundle())
+        if (finishAct)
+            it.finish()
+    }
 }

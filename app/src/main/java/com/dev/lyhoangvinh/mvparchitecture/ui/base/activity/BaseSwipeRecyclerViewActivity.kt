@@ -65,8 +65,8 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initRecyclerView()
-        scrollTop!!.visibility = View.GONE
-        scrollTop!!.setOnClickListener { rcv.scrollToPosition(0) }
+        scrollTop.visibility = View.GONE
+        scrollTop.setOnClickListener { rcv.scrollToPosition(0) }
         if (noDataView != null) {
             noDataView!!.visibility = View.GONE
         }
@@ -183,13 +183,11 @@ abstract class BaseSwipeRecyclerViewActivity<A : RecyclerView.Adapter<*>, V : Ba
      * Show no data view if current adapter data is empty
      * must be call inside or after [.doneRefresh]
      */
-    private fun updateNoDataState() {
-        if (noDataView != null) {
-            if (isDataEmpty()) {
-                noDataView?.visibility = View.VISIBLE
-            } else {
-                noDataView?.visibility = View.GONE
-            }
+     fun updateNoDataState() {
+        if (isDataEmpty()) {
+            noDataView?.visibility = View.VISIBLE
+        } else {
+            noDataView?.visibility = View.GONE
         }
     }
 

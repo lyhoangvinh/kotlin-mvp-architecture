@@ -54,6 +54,7 @@ class VideosPresenter @Inject constructor(
     fun observe() {
         videosRepo.liveDataVideoAll().observe(getLifeCircleOwner(), Observer {
             adapter?.updateVideos(it!!)
+            getView()?.hideProgress()
         })
 
         connectionLiveData.observe(getLifeCircleOwner(), Observer {

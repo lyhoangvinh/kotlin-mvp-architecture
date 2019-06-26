@@ -58,6 +58,7 @@ class SearchPresenter @Inject constructor(
         adapter?.setOnItemClickListener { getView()?.openDetail(it) }
         videosRepo.liveDataSearch().observe(getLifeCircleOwner(), Observer {
             adapter?.updateVideos(it!!)
+            getView()?.hideProgress()
         })
 
         connectionLiveData.observe(getLifeCircleOwner(), Observer {

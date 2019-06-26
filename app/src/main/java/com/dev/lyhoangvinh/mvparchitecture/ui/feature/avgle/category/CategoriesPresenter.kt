@@ -53,6 +53,7 @@ class CategoriesPresenter @Inject constructor(
                 isRefreshed = true
                 execute()
             }
+            getView()?.hideProgress()
         })
     }
 

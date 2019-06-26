@@ -1,9 +1,15 @@
 package com.dev.lyhoangvinh.mvparchitecture.utils
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.transition.ChangeBounds
+import android.transition.Slide
+import android.view.Gravity
 import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
@@ -16,6 +22,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos.VideosFragmen
 import lyhoangvinh.com.myutil.navigation.ActivityNavigator
 import lyhoangvinh.com.myutil.navigation.FragmentNavigator
 import lyhoangvinh.com.myutil.navigation.Navigator
+import org.greenrobot.eventbus.util.ErrorDialogManager
 
 class NavigatorHelper(private var mNavigator: Navigator) {
 
@@ -31,25 +38,16 @@ class NavigatorHelper(private var mNavigator: Navigator) {
         this.mNavigator = mNavigator
     }
 
-    private fun navigateTransitionActivity(ctx: Activity, cls: Class<*>, finishAct: Boolean) {
-        val pairs = TransitionUtil.createSafeTransitionParticipants(ctx, true)
-        val intent = Intent(ctx, cls)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(ctx, *pairs)
-        ctx.startActivity(intent, options.toBundle())
-        if (finishAct)
-            ctx.finish()
-    }
-
     fun navigateDetailActivity(url: String) {
         mNavigator.startActivity(DetailActivity::class.java) { intent -> intent.putExtra(Constants.EXTRA_DATA, url) }
     }
 
     fun navigateCollectionFragment() {
-        mNavigator.replaceFragmentAndAddToBackStack(R.id.container, CollectionFragment(), null, null)
+        mNavigator.replaceFragmentAndAddToBackStack(R.id.container, CollectionFragment().addAnimations(), null, null)
     }
 
     fun navigateVideosFragment(category: Category?) {
-        val collectionFragment = VideosFragment()
+        val collectionFragment = VideosFragment().addAnimations()
         if (category != null) {
             val bundle = Bundle()
             bundle.putParcelable(Constants.EXTRA_DATA, category)
@@ -61,7 +59,7 @@ class NavigatorHelper(private var mNavigator: Navigator) {
     }
 
     fun navigateVideosFragment(collection: Collection?) {
-        val collectionFragment = VideosFragment()
+        val collectionFragment = VideosFragment().addAnimations()
         if (collection != null) {
             val bundle = Bundle()
             bundle.putParcelable(Constants.EXTRA_DATA, collection)
@@ -73,15 +71,14 @@ class NavigatorHelper(private var mNavigator: Navigator) {
     }
 
     fun navigateVideosFragment() {
-        mNavigator.replaceFragmentAndAddToBackStack(R.id.container, VideosFragment(), null, null)
+        mNavigator.replaceFragmentAndAddToBackStack(R.id.container, VideosFragment().addAnimations(), null, null)
     }
 
-    fun navigateAvgleActivity() {
-        mNavigator.startActivity(AvgleActivity::class.java)
-        mNavigator.finishActivity()
+    fun navigateAvgleActivity(activity: Activity) {
+        activity.startActivityTransition(AvgleActivity::class.java, false)
     }
 
     fun navigateSearchActivity(activity: Activity) {
-        navigateTransitionActivity(activity, SearchActivity::class.java, false)
+        activity.startActivityTransition(SearchActivity::class.java, false)
     }
 }

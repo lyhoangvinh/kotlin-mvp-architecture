@@ -72,5 +72,7 @@
     <dimen name="text_content_margin">16dp</dimen>
     <dimen name="search_view_corner_radius">3dp</dimen>
 
+    <integer name="anim_duration_very_long">1500</integer>
     <integer name="anim_duration_long">500</integer>
+    <integer name="anim_duration_medium">300</integer>
 </resources>

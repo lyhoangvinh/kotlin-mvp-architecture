@@ -21,9 +21,8 @@ class SplashPresenter @Inject constructor(
     fun getData() {
         connectionLiveData.observe(getLifeCircleOwner(), Observer {
             if (it!!.isConnected) {
-                execute(
-                    homeRepo.getRepoHome(),
-                    object :
+                execute(false,
+                    homeRepo.getRepoHome(), object :
                         PlainConsumer<ResponseFourZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>> {
                         override fun accept(t: ResponseFourZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>) {
                             getView()?.swapDataSuccess()

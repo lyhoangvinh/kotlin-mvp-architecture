@@ -1,6 +1,7 @@
 package com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment
 
 import android.content.Context
+import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewPager
@@ -23,17 +24,13 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
 
     override fun initialize(view: View, ctx: Context?) {
         super.initialize(view, ctx)
-        initSwipeToRefresh()
-    }
-
-    private fun initSwipeToRefresh() {
-        srl!!.setColorSchemeResources(
+        srl.setColorSchemeResources(
             android.R.color.holo_blue_bright,
             android.R.color.holo_green_light,
             android.R.color.holo_orange_light,
             android.R.color.holo_red_light
         )
-        srl!!.setOnRefreshListener(this)
+        srl.setOnRefreshListener(this)
     }
 
     override fun onStop() {
@@ -42,7 +39,7 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
     }
 
     override fun setRefreshEnabled(enabled: Boolean) {
-        srl!!.isEnabled = enabled
+        srl.isEnabled = enabled
     }
 
     override fun showProgress() {
@@ -54,7 +51,7 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
         isRefresh = false
         shouldRefreshUi = false
         if (srl != null) {
-            srl!!.isRefreshing = false
+            srl.isRefreshing = false
         }
     }
 
@@ -69,7 +66,7 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
 
     override fun refreshWithUi(delay: Long) {
         if (srl != null) {
-            srl!!.postDelayed({
+            srl.postDelayed({
                 refreshWithUi()
                 onRefresh()
             }, delay)
@@ -80,7 +77,7 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
         shouldRefreshUi = true
         android.os.Handler().postDelayed({
             if (shouldRefreshUi && srl != null) {
-                srl!!.isRefreshing = true
+                srl.isRefreshing = true
             }
         }, 100L)
     }
@@ -97,12 +94,12 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
                 if (state == AppBarStateChangeListener.State.EXPANDED) {
                     if (srl != null) {
                         Log.d("refresh_layout", "enabled")
-                        srl!!.isEnabled = true
+                        srl.isEnabled = true
                     }
                 } else {
                     if (srl != null && !isRefresh) {
                         Log.d("refresh_layout", "disabled")
-                        srl!!.isEnabled = false
+                        srl.isEnabled = false
                     }
                 }
             }
@@ -128,11 +125,11 @@ abstract class BaseSwipeToRefreshFragment<V : BaseView, P : BasePresenter<V>> : 
                 // All of this is to inhibit any scrollable container from consuming our touch events as the user is changing pages
                 if (mPreviousState == ViewPager.SCROLL_STATE_IDLE) {
                     if (state == ViewPager.SCROLL_STATE_DRAGGING) {
-                        srl!!.isEnabled = false
+                        srl.isEnabled = false
                     }
                 } else {
                     if (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING) {
-                        srl!!.isEnabled = true
+                        srl.isEnabled = true
                     }
                 }
                 mPreviousState = state

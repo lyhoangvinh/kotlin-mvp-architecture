@@ -49,6 +49,7 @@ class CollectionPresenter @Inject constructor(
         adapter?.setOnItemClickListener {getView()?.openDetail(it)}
         collectionRepo.liveData().observe(getLifeCircleOwner(), Observer {
             adapter?.updateCollection(it!!)
+            getView()?.hideProgress()
         })
 
         connectionLiveData.observe(getLifeCircleOwner(), Observer {

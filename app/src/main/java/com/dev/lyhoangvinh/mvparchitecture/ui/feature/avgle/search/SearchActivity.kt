@@ -36,6 +36,7 @@ class SearchActivity : BaseSwipeRecyclerViewActivity<VideosAdapter, SearchView, 
             }
         }
         rcv.hideKeyPost(this)
+        refreshWithUi(300L)
     }
 
     override fun createAdapter() = presenter.getAdapter()!!
