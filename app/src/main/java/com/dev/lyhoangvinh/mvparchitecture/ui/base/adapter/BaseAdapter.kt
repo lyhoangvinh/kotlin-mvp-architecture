@@ -23,7 +23,7 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val data: Ar
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item = this.getItem(position)
         if (item != null) {
-            this.onBindViewHolder(holder, this.getItem(position)!!, position)
+            this.onBindViewHolder(holder, item, position)
         }
     }
 

@@ -21,6 +21,7 @@ import android.support.annotation.NonNull
 import android.support.annotation.Nullable
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.transition.ChangeBounds
@@ -672,9 +673,9 @@ fun RecyclerView.hideKeyPost(activity: Activity) {
 fun Fragment.addAnimations(): Fragment {
     return this.apply {
         val slideTransition = Slide(Gravity.END)
-        slideTransition.duration = 500L
+        slideTransition.duration = 300L
         val changeBoundsTransition = ChangeBounds()
-        changeBoundsTransition.duration = 500L
+        changeBoundsTransition.duration = 300L
         enterTransition = slideTransition
         allowEnterTransitionOverlap = false
         allowReturnTransitionOverlap = false
@@ -690,5 +691,11 @@ fun Activity.startActivityTransition(cls: Class<*>, finishAct: Boolean) {
         it.startActivity(intent, options.toBundle())
         if (finishAct)
             Handler().postDelayed({ it.finish() }, 300L)
+    }
+}
+
+fun RecyclerView.setUp(ctx: Context, orientation: Int) {
+    this.apply {
+        layoutManager = LinearLayoutManager(ctx, orientation, false)
     }
 }

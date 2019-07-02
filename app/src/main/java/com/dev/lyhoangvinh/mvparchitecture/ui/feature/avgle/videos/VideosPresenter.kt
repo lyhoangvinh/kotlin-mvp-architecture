@@ -27,7 +27,7 @@ class VideosPresenter @Inject constructor(
 
     private var canLoadMore = false
 
-    private var adapter: VideosAdapter? = null
+    private var adapter: VideosFooterAdapter? = null
 
     override fun canLoadMore() = canLoadMore
 
@@ -40,9 +40,9 @@ class VideosPresenter @Inject constructor(
         execute(chId, currentPage)
     }
 
-    fun getAdapter(): VideosAdapter? {
+    fun getAdapter(): VideosFooterAdapter? {
         if (adapter == null)
-            adapter = VideosAdapter()
+            adapter = VideosFooterAdapter(getLifeCircleOwner())
         return adapter
     }
 

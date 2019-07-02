@@ -11,7 +11,7 @@ import java.util.*
 
 class AllCapsSpannedTransformationMethod(context: Context) : TransformationMethod {
 
-
+    @Suppress("DEPRECATION")
     private val locale: Locale? = context.resources.configuration.locale
 
     override fun getTransformation(source: CharSequence?, view: View): CharSequence? {

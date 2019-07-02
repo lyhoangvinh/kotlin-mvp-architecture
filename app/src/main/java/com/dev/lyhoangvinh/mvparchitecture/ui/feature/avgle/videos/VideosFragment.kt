@@ -12,9 +12,10 @@ import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.toolbar_back.*
 import kotlinx.android.synthetic.main.view_error_connection.*
+import kotlinx.android.synthetic.main.view_recyclerview.*
 import javax.inject.Inject
 
-class VideosFragment : BaseSwipeRecyclerViewFragment<VideosAdapter, VideosView, VideosPresenter>(),
+class VideosFragment : BaseSwipeRecyclerViewFragment<VideosFooterAdapter, VideosView, VideosPresenter>(),
     VideosView {
 
     @Inject
@@ -45,9 +46,9 @@ class VideosFragment : BaseSwipeRecyclerViewFragment<VideosAdapter, VideosView, 
             presenter.setKeyword("")
             tvTitleToolBar.text = getString(R.string.all)
         }
-        presenter.observe()
         refreshWithUi(300L)
         imvBack.setOnClickListener { onBackPressed() }
+        presenter.observe()
     }
 
     override fun connection(isConnected: Boolean) {
