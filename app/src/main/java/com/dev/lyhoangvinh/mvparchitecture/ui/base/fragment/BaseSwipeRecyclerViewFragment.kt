@@ -95,7 +95,7 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
+                updateScrollTop()
                 // dy < 0 mean scrolling up
                 if (dy < 0) return
 
@@ -216,6 +216,6 @@ abstract class BaseSwipeRecyclerViewFragment<A : RecyclerView.Adapter<*>, V : Ba
     }
 
     companion object {
-        private val DEFAULT_SCROLL_TOP_POSITION = 10
+        private const val DEFAULT_SCROLL_TOP_POSITION = 10
     }
 }
