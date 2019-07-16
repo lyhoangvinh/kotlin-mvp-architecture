@@ -21,8 +21,7 @@ abstract class BaseSingleFragmentActivity<T : BaseFragment> : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val fragment = getFragment()
-        fragment?.onActivityResult(requestCode, resultCode, data)
+        getFragment()?.onActivityResult(requestCode, resultCode, data)
     }
 
     @IdRes

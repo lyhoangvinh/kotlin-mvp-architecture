@@ -7,12 +7,8 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Point
-import android.graphics.Rect
-import android.graphics.RectF
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
@@ -31,7 +27,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -46,7 +41,6 @@ import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseFourZip
 import com.dev.lyhoangvinh.mvparchitecture.data.response.ResponseThreeZip
 import com.dev.lyhoangvinh.mvparchitecture.di.component.AppComponent
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.*
-import com.dev.lyhoangvinh.mvparchitecture.ui.feature.avgle.videos.VideosFragment
 import com.google.gson.*
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.squareup.picasso.Callback
@@ -546,12 +540,12 @@ class DateDeserializer : JsonDeserializer<Date> {
 
 fun getAppDateFormatter(createdDate: String): String? {
     var out: String? = null
-    var date_formatter: Date? = null
+    var dateFormatter: Date? = null
     if (!TextUtils.isEmpty(createdDate)) {
-        date_formatter = parseToDate(createdDate)
+        dateFormatter = parseToDate(createdDate)
     }
-    if (date_formatter != null) {
-        out = formatToDate(date_formatter)
+    if (dateFormatter != null) {
+        out = formatToDate(dateFormatter)
     }
     if (TextUtils.isEmpty(out)) {
         out = createdDate
