@@ -1,12 +1,12 @@
 package com.dev.lyhoangvinh.mvparchitecture.data.repo
 
-import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MediatorLiveData
 import com.dev.lyhoangvinh.mvparchitecture.Constants
 import com.dev.lyhoangvinh.mvparchitecture.data.Resource
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.CategoriesDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.CollectionDao
 import com.dev.lyhoangvinh.mvparchitecture.data.dao.VideosDao
-import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Video
+import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.*
 import com.dev.lyhoangvinh.mvparchitecture.data.response.*
 import com.dev.lyhoangvinh.mvparchitecture.data.services.AvgleService
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.interfaces.PlainResponseZipFourConsumer
@@ -20,15 +20,27 @@ class HomeRepo @Inject constructor(
     private val avgleService: AvgleService
 ) : BaseRepo() {
 
-    fun liveCategories() = categoriesDao.liveData()
+    /**
+     * Use MediatorLiveData To Query And Merge Multiple Data Source Type Into Single LiveData
+     * link "https://code.luasoftware.com/tutorials/android/use-mediatorlivedata-to-query-and-merge-different-data-type/"
+     */
 
-    fun liveCollectionBanner() = collectionDao.liveDataFromType(Constants.TYPE_HOME_BANNER)
-
-    fun liveCollectionBottom() = collectionDao.liveDataFromType(Constants.TYPE_HOME_BOTTOM)
-
-    fun liveCollectionAll() = collectionDao.liveDataFromType(Constants.TYPE_ALL)
-
-    fun liveVideosHome(): LiveData<List<Video>> = videosDao.liveDataFromType(Constants.TYPE_HOME)
+    fun fetchData(): MediatorLiveData<MergedData> {
+        val liveDataMerger = MediatorLiveData<MergedData>()
+        liveDataMerger.addSource(categoriesDao.liveData()) {
+            liveDataMerger.value = CategoryData(it!!)
+        }
+        liveDataMerger.addSource(collectionDao.liveDataFromType(Constants.TYPE_HOME_BANNER)) {
+            liveDataMerger.value = CollectionBannerData(it!!)
+        }
+        liveDataMerger.addSource(collectionDao.liveDataFromType(Constants.TYPE_HOME_BOTTOM)) {
+            liveDataMerger.value = CollectionBottomData(it!!)
+        }
+        liveDataMerger.addSource(videosDao.liveDataFromType(Constants.TYPE_HOME)) {
+            liveDataMerger.value = VideoData(it!!)
+        }
+        return liveDataMerger
+    }
 
     fun getRepoHome(): Flowable<Resource<ResponseFourZip<BaseResponseAvgle<CategoriesResponse>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<CollectionsResponseAvgle>, BaseResponseAvgle<VideosResponseAvgle>>>> {
         return createResource(
