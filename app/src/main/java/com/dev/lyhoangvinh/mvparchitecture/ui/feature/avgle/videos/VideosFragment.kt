@@ -9,10 +9,10 @@ import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Category
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseSwipeRecyclerViewFragment
 import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
+import com.dev.lyhoangvinh.mvparchitecture.utils.setStatusBarGradient
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.toolbar_back.*
 import kotlinx.android.synthetic.main.view_error_connection.*
-import kotlinx.android.synthetic.main.view_recyclerview.*
 import javax.inject.Inject
 
 class VideosFragment : BaseSwipeRecyclerViewFragment<VideosFooterAdapter, VideosView, VideosPresenter>(),
@@ -32,6 +32,7 @@ class VideosFragment : BaseSwipeRecyclerViewFragment<VideosFooterAdapter, Videos
 
     override fun initialize(view: View, ctx: Context?) {
         super.initialize(view, ctx)
+        setStatusBarGradient()
         if (arguments != null) {
             if (arguments!!.getParcelable<Category>(Constants.EXTRA_DATA) is Category) {
                 val category: Category = arguments!!.getParcelable(Constants.EXTRA_DATA)!!
