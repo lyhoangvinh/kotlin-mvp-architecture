@@ -7,6 +7,7 @@ import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.data.entinies.avgle.Collection
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BaseSwipeRecyclerViewFragment
 import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
+import com.dev.lyhoangvinh.mvparchitecture.utils.setStatusBarGradient
 import com.dev.lyhoangvinh.mvparchitecture.utils.setVisible
 import kotlinx.android.synthetic.main.toolbar_back.*
 import kotlinx.android.synthetic.main.view_error_connection.*
@@ -29,6 +30,7 @@ class CollectionFragment : BaseSwipeRecyclerViewFragment<CollectionAdapter, Coll
 
     override fun initialize(view: View, ctx: Context?) {
         super.initialize(view, ctx)
+        setStatusBarGradient()
         refreshWithUi(300L)
         presenter.observe()
         tvTitleToolBar.text = getString(R.string.collection)

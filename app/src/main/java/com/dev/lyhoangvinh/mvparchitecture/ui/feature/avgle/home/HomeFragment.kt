@@ -18,6 +18,7 @@ import com.dev.lyhoangvinh.mvparchitecture.ui.base.fragment.BasePresenterFragmen
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.recycleview.GravitySnapHelper
 import com.dev.lyhoangvinh.mvparchitecture.ui.widget.recycleview.HorizontalSpaceItemDecoration
 import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
+import com.dev.lyhoangvinh.mvparchitecture.utils.setStatusBarColor
 import com.tmall.ultraviewpager.UltraViewPager
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -41,6 +42,7 @@ class HomeFragment : BasePresenterFragment<HomeView, HomePresenter>(), HomeView 
 
     override fun initialize(view: View, ctx: Context?) {
         super.initialize(view, ctx)
+        setStatusBarColor(R.color.colorWhite)
         val mWidth =
             (MyApplication.getInstance().getDeviceWidth() - 2 * resources.getDimensionPixelSize(R.dimen.padding_16dp)) / 4 * 3 - resources.getDimensionPixelSize(
                 R.dimen.padding_16dp

@@ -1,7 +1,8 @@
 package com.dev.lyhoangvinh.mvparchitecture.utils
 
-import android.animation.*
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -12,21 +13,20 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
+import android.support.annotation.ColorRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.NonNull
 import android.support.annotation.Nullable
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.transition.ChangeBounds
 import android.transition.Slide
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -693,4 +693,36 @@ fun RecyclerView.setUp(ctx: Context, orientation: Int) {
     this.apply {
         layoutManager = LinearLayoutManager(ctx, orientation, false)
     }
+}
+
+@Suppress("DEPRECATION")
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun Activity.setStatusBarGradients() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        val background = resources.getDrawable(R.drawable.bg_gradient_evening_sunshine)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = resources.getColor(android.R.color.transparent)
+        window.navigationBarColor = resources.getColor(android.R.color.transparent)
+        window.setBackgroundDrawable(background)
+    }
+}
+
+fun Fragment.setStatusBarGradient() {
+    activity?.setStatusBarGradients()
+}
+
+fun Activity.setStatusBarColor(@ColorRes id: Int) {
+    window.statusBarColor = ContextCompat.getColor(this, id)
+}
+
+fun Fragment.setStatusBarColor(@ColorRes id: Int) {
+    activity?.setStatusBarColor(id)
+}
+
+fun Activity.removeStatusBar(){
+    window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+}
+
+fun Fragment.removeStatusBar(){
+    activity?.removeStatusBar()
 }

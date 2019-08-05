@@ -4,11 +4,14 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
-import android.widget.Button
 import com.dev.lyhoangvinh.mvparchitecture.R
 import com.dev.lyhoangvinh.mvparchitecture.ui.base.activity.BasePresenterActivity
 import com.dev.lyhoangvinh.mvparchitecture.utils.NavigatorHelper
-import com.dev.lyhoangvinh.mvparchitecture.utils.progressbutton.*
+import com.dev.lyhoangvinh.mvparchitecture.utils.progressbutton.attachTextChangeAnimator
+import com.dev.lyhoangvinh.mvparchitecture.utils.progressbutton.bindProgressButton
+import com.dev.lyhoangvinh.mvparchitecture.utils.progressbutton.showDrawable
+import com.dev.lyhoangvinh.mvparchitecture.utils.progressbutton.showProgress
+import com.dev.lyhoangvinh.mvparchitecture.utils.removeStatusBar
 import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 
@@ -20,6 +23,7 @@ class SplashActivity : BasePresenterActivity<SplashView, SplashPresenter>(), Spl
     override fun onCreate(savedInstanceState: Bundle?) {
         activityComponent()?.inject(this)
         super.onCreate(savedInstanceState)
+        removeStatusBar()
         presenter.getData()
         tvLoading.attachTextChangeAnimator()
         bindProgressButton(tvLoading)
