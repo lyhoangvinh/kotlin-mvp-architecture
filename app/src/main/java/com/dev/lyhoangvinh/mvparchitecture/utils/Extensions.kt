@@ -478,14 +478,15 @@ fun <T1, T2, T3, T4> makeRequest(
         single4 = single4.observeOn(AndroidSchedulers.mainThread())
     }
     return Single.zip(single1, single2, single3, single4,
-        Function4<Response<T1>, Response<T2>, Response<T3>, Response<T4>, ResponseFourZip<T1, T2, T3, T4>> { t1, t2, t3, t4 ->
+        Function4<Response<T1>, Response<T2>, Response<T3>, Response<T4>, ResponseFourZip<T1, T2, T3, T4>>
+        {
+                t1, t2, t3, t4 ->
             ResponseFourZip(
                 t1.body(),
                 t2.body(),
                 t3.body(),
                 t4.body()
-            )
-        })
+            ) })
         .subscribeOn(Schedulers.io())
         .unsubscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
